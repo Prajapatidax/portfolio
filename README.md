@@ -11,7 +11,7 @@
 
 ## 🖼️ Preview
 
-![Portfolio Screenshot](https://via.placeholder.com/1400x800?text=Upload+Your+Screenshot+Here)
+![Portfolio Screenshot](https://drive.google.com/file/d/1N73FvmEQl7T3VKt7Qz_GfJSrJFaOkGOp/view?usp=sharing)
 ## 💡 About The Project
 
 This is a responsive personal portfolio designed to act as my digital resume. The goal was to build a fast, accessible, and visually appealing site that highlights my work as a **[Your Role, e.g., Frontend Developer]**.
@@ -47,3 +47,4 @@ Built with the following technologies:
 * **LinkedIn:** [linkedin.com/in/dax-prajapati1707](https://www.linkedin.com/in/dax-prajapati1707)
 
 * **Email:** [daxp1707@gmail.com](mailto:daxp17047@gmail.com)
+
