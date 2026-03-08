@@ -4,7 +4,7 @@
 
 > The source code for my personal portfolio website, showcasing my projects and technical skills.
 >
-> **🔴 Live Demo:** [https://daxprajapati.free.nf/](https://daxprajapati.free.nf/)
+> **🔴 Live Demo:** [https://prajapatidax.co.in/](https://prajapatidax.co.in)
 <img src="portfolio.png" />
 
 ---
@@ -45,6 +45,7 @@ Built with the following technologies:
 * **LinkedIn:** [linkedin.com/in/dax-prajapati1707](https://www.linkedin.com/in/dax-prajapati1707)
 
 * **Email:** [daxp1707@gmail.com](mailto:daxp17047@gmail.com)
+
 
 
 
