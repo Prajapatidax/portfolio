@@ -22,7 +22,7 @@
                             purple: '#9333ea', // purple-600
                             dark: '#0a0a0a',
                             light: '#f0f0f0',
-                            security: '#10b981', // emerald-500 for security vibes
+                            security: '#10b981', 
                         }
                     },
                     animation: {
@@ -48,137 +48,64 @@
     </script>
 
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800;900&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
-    
     <script src="https://unpkg.com/lucide@latest"></script>
 
     <style>
         /* Custom Utilities */
-        body {
-            cursor: none; /* Hide default cursor for custom one */
-        }
-        
+        body { cursor: none; }
         @media (max-width: 768px) {
-            body { cursor: auto; } /* Revert on mobile */
+            body { cursor: auto; } 
             .custom-cursor { display: none; }
         }
 
         /* Grain Effect */
         .grain-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            pointer-events: none;
-            z-index: 9999;
-            opacity: 0.04;
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 9999; opacity: 0.04;
             background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
         }
 
         /* Custom Cursor */
         .custom-cursor {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 20px;
-            height: 20px;
-            background-color: white;
-            border-radius: 50%;
-            pointer-events: none;
-            z-index: 10000;
-            mix-blend-mode: difference;
-            transition: transform 0.1s ease, width 0.3s ease, height 0.3s ease;
-            transform: translate(-50%, -50%);
+            position: fixed; top: 0; left: 0; width: 20px; height: 20px; background-color: white; border-radius: 50%;
+            pointer-events: none; z-index: 10000; mix-blend-mode: difference;
+            transition: transform 0.1s ease, width 0.3s ease, height 0.3s ease; transform: translate(-50%, -50%);
         }
-
-        .custom-cursor.hovered {
-            width: 50px;
-            height: 50px;
-            background-color: transparent;
-            border: 2px solid white;
-        }
+        .custom-cursor.hovered { width: 50px; height: 50px; background-color: transparent; border: 2px solid white; }
 
         /* Scroll Reveal Class */
-        .reveal {
-            opacity: 0;
-            transform: translateY(30px);
-            transition: all 0.8s cubic-bezier(0.5, 0, 0, 1);
-        }
-        .reveal.active {
-            opacity: 1;
-            transform: translateY(0);
-        }
+        .reveal { opacity: 0; transform: translateY(30px); transition: all 0.8s cubic-bezier(0.5, 0, 0, 1); }
+        .reveal.active { opacity: 1; transform: translateY(0); }
 
         /* Glitch Effect on Hover */
-        .glitch-wrapper {
-            position: relative;
-            display: inline-block;
+        .glitch-wrapper { position: relative; display: inline-block; }
+        .glitch-wrapper:hover::before, .glitch-wrapper:hover::after {
+            content: attr(data-text); position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: #0a0a0a;
         }
-        .glitch-wrapper:hover::before,
-        .glitch-wrapper:hover::after {
-            content: attr(data-text);
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: #0a0a0a; /* Dark mode background match */
-        }
-        html:not(.dark) .glitch-wrapper:hover::before,
-        html:not(.dark) .glitch-wrapper:hover::after {
-            background: #ffffff; /* Light mode background match */
-        }
+        html:not(.dark) .glitch-wrapper:hover::before, html:not(.dark) .glitch-wrapper:hover::after { background: #ffffff; }
 
         .glitch-wrapper:hover::before {
-            left: 2px;
-            text-shadow: -1px 0 #00ff00;
-            clip: rect(44px, 450px, 56px, 0);
-            animation: glitch-anim-1 5s infinite linear alternate-reverse;
+            left: 2px; text-shadow: -1px 0 #00ff00; clip: rect(44px, 450px, 56px, 0); animation: glitch-anim-1 5s infinite linear alternate-reverse;
         }
         .glitch-wrapper:hover::after {
-            left: -2px;
-            text-shadow: -1px 0 #ff00ff;
-            clip: rect(44px, 450px, 56px, 0);
-            animation: glitch-anim-2 5s infinite linear alternate-reverse;
+            left: -2px; text-shadow: -1px 0 #ff00ff; clip: rect(44px, 450px, 56px, 0); animation: glitch-anim-2 5s infinite linear alternate-reverse;
         }
 
         @keyframes glitch-anim-1 {
-            0% { clip: rect(32px, 9999px, 18px, 0); }
-            20% { clip: rect(6px, 9999px, 88px, 0); }
-            40% { clip: rect(62px, 9999px, 49px, 0); }
-            60% { clip: rect(12px, 9999px, 66px, 0); }
-            80% { clip: rect(78px, 9999px, 91px, 0); }
-            100% { clip: rect(45px, 9999px, 20px, 0); }
+            0% { clip: rect(32px, 9999px, 18px, 0); } 20% { clip: rect(6px, 9999px, 88px, 0); }
+            40% { clip: rect(62px, 9999px, 49px, 0); } 60% { clip: rect(12px, 9999px, 66px, 0); }
+            80% { clip: rect(78px, 9999px, 91px, 0); } 100% { clip: rect(45px, 9999px, 20px, 0); }
         }
         @keyframes glitch-anim-2 {
-            0% { clip: rect(12px, 9999px, 58px, 0); }
-            20% { clip: rect(56px, 9999px, 13px, 0); }
-            40% { clip: rect(32px, 9999px, 29px, 0); }
-            60% { clip: rect(82px, 9999px, 66px, 0); }
-            80% { clip: rect(18px, 9999px, 91px, 0); }
-            100% { clip: rect(65px, 9999px, 20px, 0); }
-        }
-
-        /* Stroke Text for Marquee */
-        .stroke-text {
-            -webkit-text-stroke: 2px rgba(128, 128, 128, 0.2);
-            color: transparent;
+            0% { clip: rect(12px, 9999px, 58px, 0); } 20% { clip: rect(56px, 9999px, 13px, 0); }
+            40% { clip: rect(32px, 9999px, 29px, 0); } 60% { clip: rect(82px, 9999px, 66px, 0); }
+            80% { clip: rect(18px, 9999px, 91px, 0); } 100% { clip: rect(65px, 9999px, 20px, 0); }
         }
 
         /* Preloader */
         #preloader {
-            position: fixed;
-            inset: 0;
-            background: #0a0a0a;
-            z-index: 10001;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: opacity 0.5s ease;
+            position: fixed; inset: 0; background: #0a0a0a; z-index: 10001; display: flex; align-items: center; justify-content: center; transition: opacity 0.5s ease;
         }
-        html:not(.dark) #preloader {
-            background: #f0f0f0;
-        }
+        html:not(.dark) #preloader { background: #f0f0f0; }
     </style>
 </head>
 <body class="bg-brand-light text-neutral-900 dark:bg-brand-dark dark:text-white transition-colors duration-500 overflow-x-hidden selection:bg-brand-lime selection:text-black">
@@ -188,16 +115,22 @@
     </div>
 
     <div class="grain-overlay"></div>
-
     <div class="custom-cursor" id="cursor"></div>
 
+    <!-- Unified Navigation -->
     <nav class="fixed left-0 right-0 top-0 z-40 mx-auto max-w-7xl px-6 py-6">
         <div class="flex items-center justify-between rounded-full border border-white/20 bg-white/10 px-6 py-3 backdrop-blur-md dark:border-neutral-800/50 dark:bg-neutral-900/60 shadow-lg reveal">
-            <a href="index.html" class="flex items-center gap-2 cursor-hover">
+            <a href="index.html" class="flex items-center gap-2 cursor-hover group/home">
                 <div class="h-3 w-3 animate-pulse rounded-full bg-purple-600 dark:bg-green-500 transition-colors"></div>
                 <span class="font-mono text-sm font-bold tracking-tight">DAX.DEV</span>
             </a>
             
+            <div class="hidden md:flex items-center gap-6 font-mono text-sm font-bold text-neutral-600 dark:text-neutral-400">
+                <a href="index.html" class="cursor-hover transition-colors text-purple-600 dark:text-brand-lime">Home</a>
+                <a href="about.html" class="cursor-hover transition-colors hover:text-purple-600 dark:hover:text-brand-lime">About</a>
+                <a href="projects.html" class="cursor-hover transition-colors hover:text-purple-600 dark:hover:text-brand-lime">Projects</a>
+            </div>
+
             <button id="theme-toggle" class="cursor-hover rounded-full p-2 transition-transform hover:rotate-12 hover:bg-white/20 active:scale-95 group">
                 <i data-lucide="sun" class="h-5 w-5 text-brand-lime hidden dark:block"></i>
                 <i data-lucide="moon" class="h-5 w-5 text-purple-600 block dark:hidden"></i>
@@ -226,10 +159,16 @@
                     </p>
                 </div>
                 
-                <div class="mt-8 flex gap-4 z-10">
+                <div class="mt-8 flex flex-wrap gap-4 z-10">
                     <a href="mailto:daxp1707@gmail.com" class="cursor-hover group/btn flex items-center gap-2 rounded-full px-6 py-3 font-bold text-white dark:text-black transition-all hover:pr-8 bg-purple-600 hover:bg-purple-500 dark:bg-brand-lime dark:hover:bg-lime-300">
                         Let's Talk 
                         <i data-lucide="arrow-up-right" class="h-4 w-4 transition-transform group-hover/btn:-translate-y-1 group-hover/btn:translate-x-1"></i>
+                    </a>
+                    
+                    <!-- Added About Me Button Here -->
+                    <a href="about.html" class="cursor-hover group/btn flex items-center gap-2 rounded-full px-6 py-3 font-bold text-neutral-800 dark:text-white transition-all bg-neutral-100 hover:bg-neutral-200 dark:bg-neutral-800 dark:hover:bg-neutral-700 border border-neutral-200 dark:border-neutral-700">
+                        <i data-lucide="user" class="h-4 w-4 transition-transform group-hover/btn:scale-110"></i>
+                        About Me
                     </a>
                 </div>
 
@@ -461,7 +400,7 @@
                 </div>
             </div>
 
-            <!-- View More Projects Button Added Here -->
+            <!-- View More Projects Button -->
             <div class="mt-12 flex justify-center reveal">
                 <a href="projects.html" class="cursor-hover group flex items-center gap-3 rounded-full border border-neutral-200 bg-white/50 px-8 py-4 font-sans font-bold text-neutral-800 transition-all hover:border-purple-600 hover:text-purple-600 dark:border-neutral-800 dark:bg-neutral-900/50 dark:text-white dark:hover:border-brand-lime dark:hover:text-brand-lime hover:shadow-lg dark:hover:shadow-lime-900/20 backdrop-blur-md">
                     View All Projects
