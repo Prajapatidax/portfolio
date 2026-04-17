@@ -5,7 +5,7 @@
 > The source code for my personal portfolio website, showcasing my projects and technical skills.
 >
 > **🔴 Live Demo:** [https://prajapatidax.co.in/](https://prajapatidax.co.in)
-<img src="portfolio.png" />
+<img src="photo.png" />
 
 ---
 
