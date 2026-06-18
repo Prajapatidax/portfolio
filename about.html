@@ -1,10 +1,19 @@
 <!DOCTYPE html>
-<html lang="en" class="dark">
+<html lang="en" class="light">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>About Me | Dax Prajapati</title>
     <link rel="website icon" href="logo.png">
+    
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-DZ5K1ZTY4K"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+        gtag('config', 'G-DZ5K1ZTY4K');
+    </script>
     
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
@@ -13,87 +22,103 @@
             theme: {
                 extend: {
                     fontFamily: {
-                        sans: ['Inter', 'sans-serif'],
-                        mono: ['JetBrains Mono', 'monospace'],
+                        sans: ['Plus Jakarta Sans', 'Inter', 'sans-serif'],
+                        serif: ['Lora', 'serif'],
                     },
                     colors: {
                         brand: {
-                            lime: '#a3e635', 
-                            purple: '#9333ea',
-                            dark: '#0a0a0a',
-                            light: '#f0f0f0',
-                            security: '#10b981', 
+                            blue: '#2563EB',
+                            darkBlue: '#1D4ED8',
+                            lightBlueBg: '#F0F5FA',
+                            lightCreamBg: '#FAF8F3',
+                            accentYellow: '#FBBF24',
+                            textDark: '#0F172A',
+                            coralRed: '#FF5A65',
                         }
                     }
                 }
             }
         }
     </script>
-
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800;900&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
-    <script src="https://unpkg.com/lucide@latest"></script>
-
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Lora:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet">
     <style>
-        /* Custom Utilities */
-        body { cursor: none; }
-        @media (max-width: 768px) {
-            body { cursor: auto; } 
-            .custom-cursor { display: none; }
+        .material-symbols-outlined {
+            vertical-align: middle;
+            line-height: 1;
         }
-
-        /* Grain Effect */
-        .grain-overlay {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 9999; opacity: 0.04;
-            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+        body { 
+            background-color: #FFFFFF;
+            color: #1E293B;
         }
-
-        /* Custom Cursor */
-        .custom-cursor {
-            position: fixed; top: 0; left: 0; width: 20px; height: 20px; background-color: white; border-radius: 50%;
-            pointer-events: none; z-index: 10000; mix-blend-mode: difference;
-            transition: transform 0.1s ease, width 0.3s ease, height 0.3s ease; transform: translate(-50%, -50%);
-        }
-        .custom-cursor.hovered { width: 50px; height: 50px; background-color: transparent; border: 2px solid white; }
-
-        /* Scroll Reveal Class */
-        .reveal { opacity: 0; transform: translateY(30px); transition: all 0.8s cubic-bezier(0.5, 0, 0, 1); }
+        .reveal { opacity: 0; transform: translateY(20px); transition: all 0.8s cubic-bezier(0.5, 0, 0, 1); }
         .reveal.active { opacity: 1; transform: translateY(0); }
-
-        /* Preloader */
-        #preloader {
-            position: fixed; inset: 0; background: #0a0a0a; z-index: 10001; display: flex; align-items: center; justify-content: center; transition: opacity 0.5s ease;
+        
+        .progress-bar-fill {
+            transition: width 1.5s cubic-bezier(0.1, 1, 0.1, 1);
+            width: 0;
         }
-        html:not(.dark) #preloader { background: #f0f0f0; }
+
+        #preloader {
+            position: fixed; inset: 0; background: #FFFFFF; color: #1E293B; z-index: 10001; display: flex; align-items: center; justify-content: center; transition: opacity 0.5s ease;
+        }
     </style>
 </head>
-<body class="bg-brand-light text-neutral-900 dark:bg-brand-dark dark:text-white transition-colors duration-500 overflow-x-hidden selection:bg-brand-lime selection:text-black">
-
+<body class="font-sans antialiased overflow-x-hidden selection:bg-brand-blue selection:text-white">
+    <!-- Preloader -->
     <div id="preloader">
-        <h1 class="font-mono text-4xl font-bold tracking-tighter" id="loader-text">INITIALIZING...</h1>
+        <h1 class="font-serif text-4xl font-bold tracking-tight" id="loader-text">INITIALIZING...</h1>
     </div>
 
-    <div class="grain-overlay"></div>
-    <div class="custom-cursor" id="cursor"></div>
+
+    
+
+    
+    
 
     <!-- Unified Navigation -->
-    <nav class="fixed left-0 right-0 top-0 z-40 mx-auto max-w-7xl px-6 py-6">
-        <div class="flex items-center justify-between rounded-full border border-white/20 bg-white/10 px-6 py-3 backdrop-blur-md dark:border-neutral-800/50 dark:bg-neutral-900/60 shadow-lg reveal">
-            <a href="index.html" class="flex items-center gap-2 cursor-hover group/home">
-                <div class="h-3 w-3 animate-pulse rounded-full bg-purple-600 dark:bg-green-500 transition-colors"></div>
-                <span class="font-mono text-sm font-bold tracking-tight">DAX.DEV</span>
+                <nav class="fixed left-0 right-0 top-0 z-50 mx-auto w-full px-6 py-4 bg-white/95 backdrop-blur-md border-b border-gray-200/50 transition-colors">
+        <div class="max-w-7xl mx-auto flex items-center justify-between">
+            <a href="index.html">
+                <div class="flex items-center gap-2">
+                <svg class="w-8 h-8 text-blue-600" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <circle cx="50" cy="50" r="40" stroke="currentColor" stroke-width="8" />
+                    <path d="M38 30 H58 C66 30 70 34 70 40 C70 46 66 50 58 50 H38 V70" stroke="currentColor" stroke-width="8" stroke-linecap="round" stroke-linejoin="round" />
+                </svg>
+                <span class="font-sans font-extrabold text-lg tracking-tight text-gray-900">DAX <span class="font-normal text-gray-500">PRAJAPATI</span></span>
+            </div>
             </a>
             
-            <div class="hidden md:flex items-center gap-6 font-mono text-sm font-bold text-neutral-600 dark:text-neutral-400">
-                <a href="index.html" class="cursor-hover transition-colors hover:text-purple-600 dark:hover:text-brand-lime">Home</a>
-                <a href="about.html" class="cursor-hover transition-colors text-purple-600 dark:text-brand-lime">About</a>
-                <a href="projects.html" class="cursor-hover transition-colors hover:text-purple-600 dark:hover:text-brand-lime">Projects</a>
-                <a href="contact.html" class="cursor-hover transition-colors hover:text-purple-600 dark:hover:text-brand-lime">Contact</a>
+            <!-- Desktop Links -->
+            <div class="hidden md:flex items-center gap-8 font-sans text-sm font-semibold text-gray-600">
+                <a href="index.html" class="text-gray-600 hover:text-blue-600 transition-colors pb-1">Home</a>
+                <a href="about.html" class="text-blue-600 border-b-2 border-blue-600 pb-1">About</a>
+                <a href="projects.html" class="text-gray-600 hover:text-blue-600 transition-colors pb-1">Projects</a>
+                <a href="contact.html" class="text-gray-600 hover:text-blue-600 transition-colors pb-1">Contact</a>
             </div>
 
-            <button id="theme-toggle" class="cursor-hover rounded-full p-2 transition-transform hover:rotate-12 hover:bg-white/20 active:scale-95 group">
-                <i data-lucide="sun" class="h-5 w-5 text-brand-lime hidden dark:block"></i>
-                <i data-lucide="moon" class="h-5 w-5 text-purple-600 block dark:hidden"></i>
-            </button>
+            <div class="flex items-center gap-4">
+                <a href="contact.html" class="hidden sm:flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white font-semibold text-sm px-5 py-2.5 rounded-full shadow-md shadow-blue-500/10 transition-all">
+                    Let's Talk <span class="material-symbols-outlined !text-[16px]">send</span>
+                </a>
+                
+                <!-- Hamburger Button for Mobile -->
+                <button id="menu-toggle" class="p-2 rounded-full border border-gray-200 hover:bg-gray-100 transition-colors text-gray-800 focus:outline-none md:hidden">
+                    <span class="material-symbols-outlined !text-[20px] block" id="menu-icon">menu</span>
+                    <span class="material-symbols-outlined !text-[20px] hidden" id="close-icon">close</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- Mobile Links Drawer -->
+        <div id="mobile-menu" class="hidden md:hidden absolute left-0 top-full w-full bg-white border-b border-gray-200/80 px-6 py-4 flex flex-col gap-4 shadow-lg">
+            <a href="index.html" class="text-gray-600 hover:text-blue-600 font-medium py-1 border-b border-gray-100">Home</a>
+            <a href="about.html" class="text-blue-600 font-semibold py-1">About</a>
+            <a href="projects.html" class="text-gray-600 hover:text-blue-600 font-medium py-1 border-b border-gray-100">Projects</a>
+            <a href="contact.html" class="text-gray-600 hover:text-blue-600 font-medium py-1 border-b border-gray-100">Contact</a>
+            <a href="contact.html" class="mt-2 text-center bg-blue-600 hover:bg-blue-700 text-white font-semibold text-sm py-2.5 rounded-full transition-all">
+                Let's Talk
+            </a>
         </div>
     </nav>
 
@@ -101,10 +126,12 @@
     <main class="mx-auto max-w-7xl px-4 pt-32 pb-20">
         
         <div class="reveal mb-12 text-center">
-            <h1 class="font-sans text-5xl font-black leading-[0.9] tracking-tighter sm:text-7xl mb-4">
-                ABOUT <span class="text-transparent bg-clip-text bg-gradient-to-r from-purple-600 to-pink-500 dark:from-brand-lime dark:to-green-600">ME</span>
-            </h1>
-            <p class="mx-auto max-w-2xl font-mono text-sm text-neutral-500 dark:text-neutral-400">
+            <span class="text-xs font-bold text-brand-blue uppercase tracking-widest">About Me</span><div class="flex items-center gap-1 mt-1 mb-2">
+    <svg class="w-16 h-2 text-yellow-500" viewBox="0 0 100 10" fill="none" preserveAspectRatio="none">
+        <path d="M0,5 Q12.5,0 25,5 T50,5 T75,5 T100,5" stroke="currentColor" stroke-width="3" stroke-linecap="round"/>
+    </svg>
+</div><h1 class="text-4xl md:text-5xl font-sans font-extrabold text-brand-textDark mb-6 leading-tight">My Journey & Background</h1>
+            <p class="mx-auto max-w-2xl font-mono text-sm text-gray-500 dark:text-gray-400">
                 Discover my journey, education, and the tools I use to build secure and scalable digital experiences.
             </p>
         </div>
@@ -112,14 +139,14 @@
         <div class="grid grid-cols-1 gap-6 md:grid-cols-3">
             
             <!-- Journey Card -->
-            <div class="reveal cursor-hover group relative md:col-span-2 overflow-hidden rounded-[2rem] border border-neutral-200 bg-white p-8 transition-all hover:shadow-xl dark:border-neutral-800 dark:bg-neutral-900">
+            <div class="reveal cursor-hover group relative md:col-span-2 overflow-hidden rounded-[2rem] border border-gray-200 bg-white p-8 transition-all hover:shadow-xl dark:border-gray-800 dark:bg-gray-900">
                 <div class="z-10 relative">
-                    <div class="mb-6 flex items-center justify-between border-b border-neutral-200 dark:border-neutral-800 pb-4">
-                        <h2 class="text-2xl font-black uppercase tracking-tight group-hover:text-purple-600 dark:group-hover:text-brand-lime transition-colors flex items-center gap-2">
-                            <i data-lucide="route" class="h-6 w-6"></i> My Journey
+                    <div class="mb-6 flex items-center justify-between border-b border-gray-200 dark:border-gray-800 pb-4">
+                        <h2 class="text-2xl font-black uppercase tracking-tight group-hover:text-brand-blue dark:group-hover:text-brand-blue transition-colors flex items-center gap-2">
+                            <span class="material-symbols-outlined !text-[24px]">route</span> My Journey
                         </h2>
                     </div>
-                    <div class="space-y-4 font-mono text-sm text-neutral-600 dark:text-neutral-400 leading-relaxed">
+                    <div class="space-y-4 font-mono text-sm text-neutral-600 dark:text-gray-400 leading-relaxed">
                         <p>
                             Hey! I'm Dax Prajapati, a passionate <strong>Full Stack Developer</strong> and <strong>Cyber Security Learner</strong>. My tech journey is fueled by an insatiable curiosity for how systems are built—and exactly how they can be broken.
                         </p>
@@ -134,26 +161,26 @@
             </div>
 
             <!-- Education Card -->
-            <div class="reveal cursor-hover group relative md:col-span-1 flex flex-col items-center justify-center overflow-hidden rounded-[2rem] border border-neutral-200 bg-neutral-50 p-8 text-center transition-all hover:-translate-y-2 hover:shadow-xl dark:border-neutral-800 dark:bg-neutral-800/50">
+            <div class="reveal cursor-hover group relative md:col-span-1 flex flex-col items-center justify-center overflow-hidden rounded-[2rem] border border-gray-200 bg-gray-50 p-8 text-center transition-all hover:-translate-y-2 hover:shadow-xl dark:border-gray-800 dark:bg-gray-900/50">
                 <div class="absolute inset-0 z-0 opacity-[0.05]" style="background-image: radial-gradient(var(--tw-gradient-stops)); --tw-gradient-from: #a3e635; --tw-gradient-to: transparent; background-size: 16px 16px;"></div>
                 <div class="z-10 relative">
-                    <div class="mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-white dark:bg-neutral-900 border border-neutral-200 dark:border-neutral-700 mx-auto group-hover:scale-110 transition-transform">
-                        <i data-lucide="graduation-cap" class="h-8 w-8 text-purple-600 dark:text-brand-lime"></i>
+                    <div class="mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 mx-auto group-hover:scale-110 transition-transform">
+                        <span class="material-symbols-outlined !text-[32px] text-brand-blue">school</span>
                     </div>
                     <h3 class="text-xl font-black tracking-tight mb-2">Education</h3>
-                    <div class="inline-block rounded-full bg-purple-100 dark:bg-lime-900/30 px-3 py-1 text-xs font-bold text-purple-700 dark:text-brand-lime mb-2 border border-purple-200 dark:border-lime-800">
+                    <div class="inline-block rounded-full bg-blue-100 dark:bg-lime-900/30 px-3 py-1 text-xs font-bold text-brand-blue dark:text-brand-blue mb-2 border border-blue-200 dark:border-lime-800">
                         LDRP-ITR
                     </div>
-                    <p class="font-mono text-xs text-neutral-500 dark:text-neutral-400 mt-2 leading-relaxed">
+                    <p class="font-mono text-xs text-gray-500 dark:text-gray-400 mt-2 leading-relaxed">
                         LDRP Institute of Technology and Research
                     </p>
                 </div>
             </div>
 
             <!-- Skills / Languages Card -->
-            <div class="reveal cursor-hover group relative md:col-span-3 overflow-hidden rounded-[2rem] border border-neutral-200 bg-white p-8 transition-all hover:shadow-xl dark:border-neutral-800 dark:bg-neutral-900">
+            <div class="reveal cursor-hover group relative md:col-span-3 overflow-hidden rounded-[2rem] border border-gray-200 bg-white p-8 transition-all hover:shadow-xl dark:border-gray-800 dark:bg-gray-900">
                 <div class="z-10 relative">
-                    <h2 class="text-xl font-black uppercase tracking-tight mb-6 border-b border-neutral-200 dark:border-neutral-800 pb-4">
+                    <h2 class="text-xl font-black uppercase tracking-tight mb-6 border-b border-gray-200 dark:border-gray-800 pb-4">
                         Languages & Tech Arsenal
                     </h2>
                     
@@ -161,67 +188,67 @@
                         
                         <!-- Frontend -->
                         <div>
-                            <h4 class="flex items-center gap-2 font-bold mb-4 text-sm font-mono text-neutral-500">
-                                <i data-lucide="layout" class="h-4 w-4 text-pink-500 dark:text-lime-500"></i> Frontend UI
+                            <h4 class="flex items-center gap-2 font-bold mb-4 text-sm font-mono text-gray-500">
+                                <span class="material-symbols-outlined !text-[16px] text-pink-500">dashboard</span> Frontend UI
                             </h4>
                             <div class="flex flex-wrap gap-2">
-                                <span class="px-3 py-1.5 bg-neutral-100 dark:bg-neutral-800 rounded-md text-xs font-bold border border-neutral-200 dark:border-neutral-700 transition-colors hover:border-purple-500 dark:hover:border-lime-500">HTML</span>
-                                <span class="px-3 py-1.5 bg-neutral-100 dark:bg-neutral-800 rounded-md text-xs font-bold border border-neutral-200 dark:border-neutral-700 transition-colors hover:border-purple-500 dark:hover:border-lime-500">CSS</span>
-                                <span class="px-3 py-1.5 bg-neutral-100 dark:bg-neutral-800 rounded-md text-xs font-bold border border-neutral-200 dark:border-neutral-700 transition-colors hover:border-purple-500 dark:hover:border-lime-500">JS</span>
-                                <span class="px-3 py-1.5 bg-neutral-100 dark:bg-neutral-800 rounded-md text-xs font-bold border border-neutral-200 dark:border-neutral-700 transition-colors hover:border-purple-500 dark:hover:border-lime-500">Tailwind CSS</span>
-                                <span class="px-3 py-1.5 bg-neutral-100 dark:bg-neutral-800 rounded-md text-xs font-bold border border-neutral-200 dark:border-neutral-700 transition-colors hover:border-purple-500 dark:hover:border-lime-500">Bootstrap</span>
+                                <span class="px-3 py-1.5 bg-gray-100 dark:bg-gray-900 rounded-md text-xs font-bold border border-gray-200 dark:border-gray-800 transition-colors hover:border-purple-500 dark:hover:border-lime-500">HTML</span>
+                                <span class="px-3 py-1.5 bg-gray-100 dark:bg-gray-900 rounded-md text-xs font-bold border border-gray-200 dark:border-gray-800 transition-colors hover:border-purple-500 dark:hover:border-lime-500">CSS</span>
+                                <span class="px-3 py-1.5 bg-gray-100 dark:bg-gray-900 rounded-md text-xs font-bold border border-gray-200 dark:border-gray-800 transition-colors hover:border-purple-500 dark:hover:border-lime-500">JS</span>
+                                <span class="px-3 py-1.5 bg-gray-100 dark:bg-gray-900 rounded-md text-xs font-bold border border-gray-200 dark:border-gray-800 transition-colors hover:border-purple-500 dark:hover:border-lime-500">Tailwind CSS</span>
+                                <span class="px-3 py-1.5 bg-gray-100 dark:bg-gray-900 rounded-md text-xs font-bold border border-gray-200 dark:border-gray-800 transition-colors hover:border-purple-500 dark:hover:border-lime-500">Bootstrap</span>
                             </div>
                         </div>
 
                         <!-- Backend & Databases -->
                         <div>
-                            <h4 class="flex items-center gap-2 font-bold mb-4 text-sm font-mono text-neutral-500">
-                                <i data-lucide="database" class="h-4 w-4 text-blue-500 dark:text-cyan-500"></i> Backend & DB
+                            <h4 class="flex items-center gap-2 font-bold mb-4 text-sm font-mono text-gray-500">
+                                <span class="material-symbols-outlined !text-[16px] text-amber-600">database</span> Backend & DB
                             </h4>
                             <div class="flex flex-wrap gap-2">
-                                <span class="px-3 py-1.5 bg-neutral-100 dark:bg-neutral-800 rounded-md text-xs font-bold border border-neutral-200 dark:border-neutral-700 transition-colors hover:border-blue-500 dark:hover:border-cyan-500">Python</span>
-                                <span class="px-3 py-1.5 bg-neutral-100 dark:bg-neutral-800 rounded-md text-xs font-bold border border-neutral-200 dark:border-neutral-700 transition-colors hover:border-blue-500 dark:hover:border-cyan-500">Flask</span>
-                                <span class="px-3 py-1.5 bg-neutral-100 dark:bg-neutral-800 rounded-md text-xs font-bold border border-neutral-200 dark:border-neutral-700 transition-colors hover:border-blue-500 dark:hover:border-cyan-500">Django</span>
-                                <span class="px-3 py-1.5 bg-neutral-100 dark:bg-neutral-800 rounded-md text-xs font-bold border border-neutral-200 dark:border-neutral-700 transition-colors hover:border-blue-500 dark:hover:border-cyan-500">PHP</span>
-                                <span class="px-3 py-1.5 bg-neutral-100 dark:bg-neutral-800 rounded-md text-xs font-bold border border-neutral-200 dark:border-neutral-700 transition-colors hover:border-blue-500 dark:hover:border-cyan-500">MongoDB</span>
-                                <span class="px-3 py-1.5 bg-neutral-100 dark:bg-neutral-800 rounded-md text-xs font-bold border border-neutral-200 dark:border-neutral-700 transition-colors hover:border-blue-500 dark:hover:border-cyan-500">PostgreSQL</span>
-                                <span class="px-3 py-1.5 bg-neutral-100 dark:bg-neutral-800 rounded-md text-xs font-bold border border-neutral-200 dark:border-neutral-700 transition-colors hover:border-blue-500 dark:hover:border-cyan-500">MySQL</span>
+                                <span class="px-3 py-1.5 bg-gray-100 dark:bg-gray-900 rounded-md text-xs font-bold border border-gray-200 dark:border-gray-800 transition-colors hover:border-brand-blue dark:hover:border-brand-blue">Python</span>
+                                <span class="px-3 py-1.5 bg-gray-100 dark:bg-gray-900 rounded-md text-xs font-bold border border-gray-200 dark:border-gray-800 transition-colors hover:border-brand-blue dark:hover:border-brand-blue">Flask</span>
+                                <span class="px-3 py-1.5 bg-gray-100 dark:bg-gray-900 rounded-md text-xs font-bold border border-gray-200 dark:border-gray-800 transition-colors hover:border-brand-blue dark:hover:border-brand-blue">Django</span>
+                                <span class="px-3 py-1.5 bg-gray-100 dark:bg-gray-900 rounded-md text-xs font-bold border border-gray-200 dark:border-gray-800 transition-colors hover:border-brand-blue dark:hover:border-brand-blue">PHP</span>
+                                <span class="px-3 py-1.5 bg-gray-100 dark:bg-gray-900 rounded-md text-xs font-bold border border-gray-200 dark:border-gray-800 transition-colors hover:border-brand-blue dark:hover:border-brand-blue">MongoDB</span>
+                                <span class="px-3 py-1.5 bg-gray-100 dark:bg-gray-900 rounded-md text-xs font-bold border border-gray-200 dark:border-gray-800 transition-colors hover:border-brand-blue dark:hover:border-brand-blue">PostgreSQL</span>
+                                <span class="px-3 py-1.5 bg-gray-100 dark:bg-gray-900 rounded-md text-xs font-bold border border-gray-200 dark:border-gray-800 transition-colors hover:border-brand-blue dark:hover:border-brand-blue">MySQL</span>
                             </div>
                         </div>
                         <!-- Cyber Security (Learning) -->
                         <div>
-                            <h4 class="flex items-center gap-2 font-bold mb-4 text-sm font-mono text-neutral-500">
-                                <i data-lucide="lock" class="h-4 w-4 text-blue-500 dark:text-cyan-500"></i> Cyber Security (Learning)
+                            <h4 class="flex items-center gap-2 font-bold mb-4 text-sm font-mono text-gray-500">
+                                <span class="material-symbols-outlined !text-[16px] text-brand-blue">lock</span> Cyber Security (Learning)
                             </h4>
                             <div class="flex flex-wrap gap-2">
-                                <span class="px-3 py-1.5 bg-neutral-100 dark:bg-neutral-800 rounded-md text-xs font-bold border border-neutral-200 dark:border-neutral-700 transition-colors hover:border-blue-500 dark:hover:border-cyan-500">Web Security Basics</span>
-                                <span class="px-3 py-1.5 bg-neutral-100 dark:bg-neutral-800 rounded-md text-xs font-bold border border-neutral-200 dark:border-neutral-700 transition-colors hover:border-blue-500 dark:hover:border-cyan-500">Authentication & Authorization </span>
-                                <span class="px-3 py-1.5 bg-neutral-100 dark:bg-neutral-800 rounded-md text-xs font-bold border border-neutral-200 dark:border-neutral-700 transition-colors hover:border-blue-500 dark:hover:border-cyan-500">OWASP Top 10</span>
-                                <span class="px-3 py-1.5 bg-neutral-100 dark:bg-neutral-800 rounded-md text-xs font-bold border border-neutral-200 dark:border-neutral-700 transition-colors hover:border-blue-500 dark:hover:border-cyan-500">Secure APIs</span>
+                                <span class="px-3 py-1.5 bg-gray-100 dark:bg-gray-900 rounded-md text-xs font-bold border border-gray-200 dark:border-gray-800 transition-colors hover:border-brand-blue dark:hover:border-brand-blue">Web Security Basics</span>
+                                <span class="px-3 py-1.5 bg-gray-100 dark:bg-gray-900 rounded-md text-xs font-bold border border-gray-200 dark:border-gray-800 transition-colors hover:border-brand-blue dark:hover:border-brand-blue">Authentication & Authorization </span>
+                                <span class="px-3 py-1.5 bg-gray-100 dark:bg-gray-900 rounded-md text-xs font-bold border border-gray-200 dark:border-gray-800 transition-colors hover:border-brand-blue dark:hover:border-brand-blue">OWASP Top 10</span>
+                                <span class="px-3 py-1.5 bg-gray-100 dark:bg-gray-900 rounded-md text-xs font-bold border border-gray-200 dark:border-gray-800 transition-colors hover:border-brand-blue dark:hover:border-brand-blue">Secure APIs</span>
                                 
                             </div>
                         </div>
                         <!-- Tool &  Platform -->
                         <div>
-                            <h4 class="flex items-center gap-2 font-bold mb-4 text-sm font-mono text-neutral-500">
-                                <i data-lucide="toolbox" class="h-4 w-4 text-purple-600 dark:text-orange-500"></i> Tools & Platforms
+                            <h4 class="flex items-center gap-2 font-bold mb-4 text-sm font-mono text-gray-500">
+                                <span class="material-symbols-outlined !text-[16px] text-brand-blue">handyman</span> Tools & Platforms
                             </h4>
                             <div class="flex flex-wrap gap-2">
-                                <span class="px-3 py-1.5 bg-neutral-100 dark:bg-neutral-800 rounded-md text-xs font-bold border border-neutral-200 dark:border-neutral-700 transition-colors hover:border-purple-600 dark:hover:border-orange-500">Git</span>
-                                <span class="px-3 py-1.5 bg-neutral-100 dark:bg-neutral-800 rounded-md text-xs font-bold border border-neutral-200 dark:border-neutral-700 transition-colors hover:border-purple-600 dark:hover:border-orange-500">GitHub</span>
-                                <span class="px-3 py-1.5 bg-neutral-100 dark:bg-neutral-800 rounded-md text-xs font-bold border border-neutral-200 dark:border-neutral-700 transition-colors hover:border-purple-600 dark:hover:border-orange-500">Vs Code</span>
-                                <span class="px-3 py-1.5 bg-neutral-100 dark:bg-neutral-800 rounded-md text-xs font-bold border border-neutral-200 dark:border-neutral-700 transition-colors hover:border-purple-600 dark:hover:border-orange-500">Postman</span>
+                                <span class="px-3 py-1.5 bg-gray-100 dark:bg-gray-900 rounded-md text-xs font-bold border border-gray-200 dark:border-gray-800 transition-colors hover:border-purple-600 dark:hover:border-orange-500">Git</span>
+                                <span class="px-3 py-1.5 bg-gray-100 dark:bg-gray-900 rounded-md text-xs font-bold border border-gray-200 dark:border-gray-800 transition-colors hover:border-purple-600 dark:hover:border-orange-500">GitHub</span>
+                                <span class="px-3 py-1.5 bg-gray-100 dark:bg-gray-900 rounded-md text-xs font-bold border border-gray-200 dark:border-gray-800 transition-colors hover:border-purple-600 dark:hover:border-orange-500">Vs Code</span>
+                                <span class="px-3 py-1.5 bg-gray-100 dark:bg-gray-900 rounded-md text-xs font-bold border border-gray-200 dark:border-gray-800 transition-colors hover:border-purple-600 dark:hover:border-orange-500">Postman</span>
                             </div>
                         </div>
                         <!-- Core Languages -->
                         <div>
-                            <h4 class="flex items-center gap-2 font-bold mb-4 text-sm font-mono text-neutral-500">
-                                <i data-lucide="terminal" class="h-4 w-4 text-purple-600 dark:text-orange-500"></i> Core Programming
+                            <h4 class="flex items-center gap-2 font-bold mb-4 text-sm font-mono text-gray-500">
+                                <span class="material-symbols-outlined !text-[16px] text-brand-blue">terminal</span> Core Programming
                             </h4>
                             <div class="flex flex-wrap gap-2">
-                                <span class="px-3 py-1.5 bg-neutral-100 dark:bg-neutral-800 rounded-md text-xs font-bold border border-neutral-200 dark:border-neutral-700 transition-colors hover:border-purple-600 dark:hover:border-orange-500">C</span>
-                                <span class="px-3 py-1.5 bg-neutral-100 dark:bg-neutral-800 rounded-md text-xs font-bold border border-neutral-200 dark:border-neutral-700 transition-colors hover:border-purple-600 dark:hover:border-orange-500">C++</span>
-                                <span class="px-3 py-1.5 bg-neutral-100 dark:bg-neutral-800 rounded-md text-xs font-bold border border-neutral-200 dark:border-neutral-700 transition-colors hover:border-purple-600 dark:hover:border-orange-500">Java</span>
+                                <span class="px-3 py-1.5 bg-gray-100 dark:bg-gray-900 rounded-md text-xs font-bold border border-gray-200 dark:border-gray-800 transition-colors hover:border-purple-600 dark:hover:border-orange-500">C</span>
+                                <span class="px-3 py-1.5 bg-gray-100 dark:bg-gray-900 rounded-md text-xs font-bold border border-gray-200 dark:border-gray-800 transition-colors hover:border-purple-600 dark:hover:border-orange-500">C++</span>
+                                <span class="px-3 py-1.5 bg-gray-100 dark:bg-gray-900 rounded-md text-xs font-bold border border-gray-200 dark:border-gray-800 transition-colors hover:border-purple-600 dark:hover:border-orange-500">Java</span>
                             </div>
                         </div>
 
@@ -230,29 +257,54 @@
             </div>
 
         </div>
-
-       <footer class="reveal mt-20 flex flex-col items-center justify-between gap-4 border-t border-neutral-200 py-8 dark:border-neutral-800 md:flex-row">
-          <p class="font-mono text-sm text-neutral-500">
-            © <span id="year"></span> Dax Prajapati. All rights reserved.
-          </p>
-          <div class="flex items-center gap-2 text-sm text-neutral-500">
-            <span>Powered by</span> 
-            <span class="font-bold text-purple-600 dark:text-brand-lime transition-colors">Prajapati Dax</span>
-          </div>
-        </footer>
-
     </main>
 
-    <script>
-        // 1. Initialize Icons
-        lucide.createIcons();
-        document.getElementById('year').textContent = new Date().getFullYear();
+    <footer class="bg-white py-8 border-t border-gray-100 text-gray-500 text-sm font-medium">
+        <div class="max-w-7xl mx-auto px-6 flex flex-col md:flex-row justify-between items-center gap-4">
+            <div class="flex items-center gap-2">
+                <div class="flex items-center gap-2">
+                    <svg class="w-8 h-8 text-blue-600" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <circle cx="50" cy="50" r="40" stroke="currentColor" stroke-width="8" />
+                        <path d="M38 30 H58 C66 30 70 34 70 40 C70 46 66 50 58 50 H38 V70" stroke="currentColor" stroke-width="8" stroke-linecap="round" stroke-linejoin="round" />
+                    </svg>
+                    <span class="font-sans font-extrabold text-lg tracking-tight text-gray-900">DAX <span class="font-normal text-gray-500">PRAJAPATI</span></span>
+                </div>
+            </div>
+            <p>© <span id="year">2026</span> Dax Prajapati. All rights reserved.</p>
+            <p>Built with ❤️ and lots of ☕</p>
+        </div>
+    </footer>
 
-        // 2. Preloader Text Shuffle
+    <script>
+        const yearEl = document.getElementById('year');
+        if (yearEl) {
+            yearEl.textContent = new Date().getFullYear();
+        }
+
+        // Mobile Menu Toggle
+        const menuToggle = document.getElementById('menu-toggle');
+        const mobileMenu = document.getElementById('mobile-menu');
+        const menuIcon = document.getElementById('menu-icon');
+        const closeIcon = document.getElementById('close-icon');
+
+        menuToggle.addEventListener('click', () => {
+            const isHidden = mobileMenu.classList.contains('hidden');
+            if (isHidden) {
+                mobileMenu.classList.remove('hidden');
+                menuIcon.classList.add('hidden');
+                closeIcon.classList.remove('hidden');
+            } else {
+                mobileMenu.classList.add('hidden');
+                menuIcon.classList.remove('hidden');
+                closeIcon.classList.add('hidden');
+            }
+        });
+
+        // Preloader Logic
         const loaderText = document.getElementById('loader-text');
         const preloader = document.getElementById('preloader');
-        const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890!@#$%^&*()';
-        const targetText = 'ABOUT_DAX         ';
+        const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890';
+        const targetText = 'ABOUT_DAX       ';
         
         let interval = null;
         let iteration = 0;
@@ -276,62 +328,28 @@
                         setTimeout(() => preloader.style.display = 'none', 500);
                     }, 500);
                 }
-                
                 iteration += 1 / 3;
             }, 30);
         }
-
         window.onload = startLoader;
 
-        // 3. Theme Toggle
-        const toggleButton = document.getElementById('theme-toggle');
-        const html = document.documentElement;
-        
-        // Check Saved Theme
-        if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
-            html.classList.add('dark');
-        } else {
-            html.classList.remove('dark');
-        }
+        // Force Light Mode
+        document.documentElement.classList.remove('dark');
+        document.documentElement.classList.add('light');
+        localStorage.theme = 'light';
 
-        toggleButton.addEventListener('click', () => {
-            if (html.classList.contains('dark')) {
-                html.classList.remove('dark');
-                localStorage.theme = 'light';
-            } else {
-                html.classList.add('dark');
-                localStorage.theme = 'dark';
-            }
-        });
-
-        // 4. Custom Cursor
-        const cursor = document.getElementById('cursor');
-        const hoverElements = document.querySelectorAll('.cursor-hover');
-
-        document.addEventListener('mousemove', (e) => {
-            cursor.style.left = e.clientX + 'px';
-            cursor.style.top = e.clientY + 'px';
-        });
-
-        hoverElements.forEach(el => {
-            el.addEventListener('mouseenter', () => cursor.classList.add('hovered'));
-            el.addEventListener('mouseleave', () => cursor.classList.remove('hovered'));
-        });
-
-        // 5. Scroll Animations
-        const observerOptions = { threshold: 0.1 };
+        // Scroll Animations
+        const observerOptions = { threshold: 0.15 };
         const observer = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
                     entry.target.classList.add('active');
-                    observer.unobserve(entry.target); 
+                    observer.unobserve(entry.target);
                 }
             });
         }, observerOptions);
 
-        document.querySelectorAll('.reveal').forEach(el => {
-            observer.observe(el);
-        });
+        document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
     </script>
 </body>
 </html>

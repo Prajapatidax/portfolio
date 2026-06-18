@@ -1,10 +1,19 @@
 <!DOCTYPE html>
-<html lang="en" class="dark">
+<html lang="en" class="light">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Contact | Dax Prajapati</title>
     <link rel="website icon" href="logo.png">
+    
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-DZ5K1ZTY4K"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+        gtag('config', 'G-DZ5K1ZTY4K');
+    </script>
     
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
@@ -13,199 +22,236 @@
             theme: {
                 extend: {
                     fontFamily: {
-                        sans: ['Inter', 'sans-serif'],
-                        mono: ['JetBrains Mono', 'monospace'],
+                        sans: ['Plus Jakarta Sans', 'Inter', 'sans-serif'],
+                        serif: ['Lora', 'serif'],
                     },
                     colors: {
                         brand: {
-                            lime: '#a3e635', 
-                            purple: '#9333ea',
-                            dark: '#0a0a0a',
-                            light: '#f0f0f0',
-                            security: '#10b981', 
+                            blue: '#2563EB',
+                            darkBlue: '#1D4ED8',
+                            lightBlueBg: '#F0F5FA',
+                            lightCreamBg: '#FAF8F3',
+                            accentYellow: '#FBBF24',
+                            textDark: '#0F172A',
+                            coralRed: '#FF5A65',
                         }
                     }
                 }
             }
         }
     </script>
-
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800;900&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
-    <script src="https://unpkg.com/lucide@latest"></script>
-
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Lora:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet">
     <style>
-        /* Custom Utilities */
-        body { cursor: none; }
-        @media (max-width: 768px) {
-            body { cursor: auto; } 
-            .custom-cursor { display: none; }
+        .material-symbols-outlined {
+            vertical-align: middle;
+            line-height: 1;
         }
-
-        /* Grain Effect */
-        .grain-overlay {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 9999; opacity: 0.04;
-            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+        body { 
+            background-color: #FFFFFF;
+            color: #1E293B;
         }
-
-        /* Custom Cursor */
-        .custom-cursor {
-            position: fixed; top: 0; left: 0; width: 20px; height: 20px; background-color: white; border-radius: 50%;
-            pointer-events: none; z-index: 10000; mix-blend-mode: difference;
-            transition: transform 0.1s ease, width 0.3s ease, height 0.3s ease; transform: translate(-50%, -50%);
-        }
-        .custom-cursor.hovered { width: 50px; height: 50px; background-color: transparent; border: 2px solid white; }
-
-        /* Scroll Reveal Class */
-        .reveal { opacity: 0; transform: translateY(30px); transition: all 0.8s cubic-bezier(0.5, 0, 0, 1); }
+        .reveal { opacity: 0; transform: translateY(20px); transition: all 0.8s cubic-bezier(0.5, 0, 0, 1); }
         .reveal.active { opacity: 1; transform: translateY(0); }
-
-        /* Preloader */
-        #preloader {
-            position: fixed; inset: 0; background: #0a0a0a; z-index: 10001; display: flex; align-items: center; justify-content: center; transition: opacity 0.5s ease;
+        
+        .progress-bar-fill {
+            transition: width 1.5s cubic-bezier(0.1, 1, 0.1, 1);
+            width: 0;
         }
-        html:not(.dark) #preloader { background: #f0f0f0; }
+
+        #preloader {
+            position: fixed; inset: 0; background: #FFFFFF; color: #1E293B; z-index: 10001; display: flex; align-items: center; justify-content: center; transition: opacity 0.5s ease;
+        }
     </style>
 </head>
-<body class="bg-brand-light text-neutral-900 dark:bg-brand-dark dark:text-white transition-colors duration-500 overflow-x-hidden selection:bg-brand-lime selection:text-black">
-
+<body class="font-sans antialiased overflow-x-hidden selection:bg-brand-blue selection:text-white">
+    <!-- Preloader -->
     <div id="preloader">
-        <h1 class="font-mono text-4xl font-bold tracking-tighter" id="loader-text">INITIALIZING...</h1>
+        <h1 class="font-serif text-4xl font-bold tracking-tight" id="loader-text">INITIALIZING...</h1>
     </div>
 
-    <div class="grain-overlay"></div>
-    <div class="custom-cursor" id="cursor"></div>
-
     <!-- Unified Navigation -->
-    <nav class="fixed left-0 right-0 top-0 z-40 mx-auto max-w-7xl px-6 py-6">
-        <div class="flex items-center justify-between rounded-full border border-white/20 bg-white/10 px-6 py-3 backdrop-blur-md dark:border-neutral-800/50 dark:bg-neutral-900/60 shadow-lg reveal">
-            <a href="index.html" class="flex items-center gap-2 cursor-hover group/home">
-                <div class="h-3 w-3 animate-pulse rounded-full bg-purple-600 dark:bg-green-500 transition-colors"></div>
-                <span class="font-mono text-sm font-bold tracking-tight">DAX.DEV</span>
+    <nav class="fixed left-0 right-0 top-0 z-50 mx-auto w-full px-6 py-4 bg-white/95 backdrop-blur-md border-b border-gray-200/50 transition-colors">
+        <div class="max-w-7xl mx-auto flex items-center justify-between">
+            <a href="index.html">
+                <div class="flex items-center gap-2">
+                    <svg class="w-8 h-8 text-blue-600" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <circle cx="50" cy="50" r="40" stroke="currentColor" stroke-width="8" />
+                        <path d="M38 30 H58 C66 30 70 34 70 40 C70 46 66 50 58 50 H38 V70" stroke="currentColor" stroke-width="8" stroke-linecap="round" stroke-linejoin="round" />
+                    </svg>
+                    <span class="font-sans font-extrabold text-lg tracking-tight text-gray-900">DAX <span class="font-normal text-gray-500">PRAJAPATI</span></span>
+                </div>
             </a>
             
-            <div class="hidden md:flex items-center gap-6 font-mono text-sm font-bold text-neutral-600 dark:text-neutral-400">
-                <a href="index.html" class="cursor-hover transition-colors hover:text-purple-600 dark:hover:text-brand-lime">Home</a>
-                <a href="about.html" class="cursor-hover transition-colors hover:text-purple-600 dark:hover:text-brand-lime">About</a>
-                <a href="projects.html" class="cursor-hover transition-colors hover:text-purple-600 dark:hover:text-brand-lime">Projects</a>
-                <a href="contact.html" class="cursor-hover transition-colors text-purple-600 dark:text-brand-lime">Contact</a>
+            <!-- Desktop Links -->
+            <div class="hidden md:flex items-center gap-8 font-sans text-sm font-semibold text-gray-600">
+                <a href="index.html" class="text-gray-600 hover:text-blue-600 transition-colors pb-1">Home</a>
+                <a href="about.html" class="text-gray-600 hover:text-blue-600 transition-colors pb-1">About</a>
+                <a href="projects.html" class="text-gray-600 hover:text-blue-600 transition-colors pb-1">Projects</a>
+                <a href="contact.html" class="text-blue-600 border-b-2 border-blue-600 pb-1">Contact</a>
             </div>
 
-            <button id="theme-toggle" class="cursor-hover rounded-full p-2 transition-transform hover:rotate-12 hover:bg-white/20 active:scale-95 group">
-                <i data-lucide="sun" class="h-5 w-5 text-brand-lime hidden dark:block"></i>
-                <i data-lucide="moon" class="h-5 w-5 text-purple-600 block dark:hidden"></i>
-            </button>
+            <div class="flex items-center gap-4">
+                <a href="contact.html" class="hidden sm:flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white font-semibold text-sm px-5 py-2.5 rounded-full shadow-md shadow-blue-500/10 transition-all">
+                    Let's Talk <span class="material-symbols-outlined !text-[16px]">send</span>
+                </a>
+                
+                <!-- Hamburger Button for Mobile -->
+                <button id="menu-toggle" class="p-2 rounded-full border border-gray-200 hover:bg-gray-100 transition-colors text-gray-800 focus:outline-none md:hidden">
+                    <span class="material-symbols-outlined !text-[20px] block" id="menu-icon">menu</span>
+                    <span class="material-symbols-outlined !text-[20px] hidden" id="close-icon">close</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- Mobile Links Drawer -->
+        <div id="mobile-menu" class="hidden md:hidden absolute left-0 top-full w-full bg-white border-b border-gray-200/80 px-6 py-4 flex flex-col gap-4 shadow-lg">
+            <a href="index.html" class="text-gray-600 hover:text-blue-600 font-medium py-1 border-b border-gray-100">Home</a>
+            <a href="about.html" class="text-gray-600 hover:text-blue-600 font-medium py-1 border-b border-gray-100">About</a>
+            <a href="projects.html" class="text-gray-600 hover:text-blue-600 font-medium py-1 border-b border-gray-100">Projects</a>
+            <a href="contact.html" class="text-blue-600 font-semibold py-1">Contact</a>
+            <a href="contact.html" class="mt-2 text-center bg-blue-600 hover:bg-blue-700 text-white font-semibold text-sm py-2.5 rounded-full transition-all">
+                Let's Talk
+            </a>
         </div>
     </nav>
 
     <!-- Main Content -->
-    <main class="mx-auto max-w-7xl px-4 pt-32 pb-20 flex flex-col min-h-[90vh] justify-between">
-        
-        <div>
-            <div class="reveal mb-12 text-center">
-                <h1 class="font-sans text-5xl font-black leading-[0.9] tracking-tighter sm:text-7xl mb-4">
-                    GET IN <span class="text-transparent bg-clip-text bg-gradient-to-r from-purple-600 to-pink-500 dark:from-brand-lime dark:to-green-600">TOUCH</span>
-                </h1>
-                <p class="mx-auto max-w-2xl font-mono text-sm text-neutral-500 dark:text-neutral-400">
-                    Feel free to reach out for collaborations, opportunities, or just to connect!
-                </p>
+    <main class="mx-auto max-w-7xl px-4 pt-32 pb-20 min-h-[90vh]">
+        <div class="reveal mb-12 text-center">
+            <span class="text-xs font-bold text-brand-blue uppercase tracking-widest">Get In Touch</span>
+            <div class="flex justify-center mt-1 mb-2">
+                <svg class="w-16 h-2 text-yellow-500" viewBox="0 0 100 10" fill="none" preserveAspectRatio="none">
+                    <path d="M0,5 Q12.5,0 25,5 T50,5 T75,5 T100,5" stroke="currentColor" stroke-width="3" stroke-linecap="round"/>
+                </svg>
             </div>
-
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-4xl mx-auto">
-                
-                <!-- Email -->
-                <a href="mailto:daxp1707@gmail.com" target="_blank" class="reveal cursor-hover group relative flex items-center p-6 gap-6 overflow-hidden rounded-[2rem] border border-neutral-200 bg-white transition-all hover:-translate-y-1 hover:shadow-xl dark:border-neutral-800 dark:bg-neutral-900 dark:hover:border-neutral-700">
-                    <div class="flex h-16 w-16 flex-shrink-0 items-center justify-center rounded-full bg-neutral-100 dark:bg-neutral-800 group-hover:bg-purple-100 dark:group-hover:bg-lime-900/30 transition-colors group-hover:scale-110 duration-300">
-                        <i data-lucide="mail" class="h-8 w-8 text-neutral-600 dark:text-neutral-400 group-hover:text-purple-600 dark:group-hover:text-brand-lime transition-colors"></i>
-                    </div>
-                    <div>
-                        <h3 class="text-xl font-black tracking-tight mb-1 group-hover:text-purple-600 dark:group-hover:text-brand-lime transition-colors">Email</h3>
-                        <p class="font-mono text-sm text-neutral-500 dark:text-neutral-400 truncate">daxp1707@gmail.com</p>
-                    </div>
-                    <i data-lucide="arrow-up-right" class="absolute right-6 top-6 h-5 w-5 opacity-0 -translate-x-2 transition-all group-hover:translate-x-0 group-hover:opacity-100 text-purple-600 dark:text-brand-lime"></i>
-                </a>
-
-                <!-- GitHub -->
-                <a href="https://github.com/Prajapatidax" target="_blank" class="reveal cursor-hover group relative flex items-center p-6 gap-6 overflow-hidden rounded-[2rem] border border-neutral-200 bg-white transition-all hover:-translate-y-1 hover:shadow-xl dark:border-neutral-800 dark:bg-neutral-900 dark:hover:border-neutral-700">
-                    <div class="flex h-16 w-16 flex-shrink-0 items-center justify-center rounded-full bg-neutral-100 dark:bg-neutral-800 group-hover:bg-neutral-200 dark:group-hover:bg-white/10 transition-colors group-hover:scale-110 duration-300">
-                        <svg viewBox="0 0 24 24" aria-hidden="true" class="h-8 w-8 text-neutral-600 dark:text-neutral-400 group-hover:text-black dark:group-hover:text-white transition-colors" fill="currentColor">
-                            <path d="M12 .297a12 12 0 0 0-3.79 23.39c.6.111.82-.258.82-.577v-2.24c-3.34.726-4.04-1.416-4.04-1.416a3.18 3.18 0 0 0-1.34-1.756c-1.09-.744.084-.729.084-.729a2.52 2.52 0 0 1 1.84 1.24 2.56 2.56 0 0 0 3.5 1 2.56 2.56 0 0 1 .76-1.61c-2.67-.3-5.47-1.33-5.47-5.93a4.64 4.64 0 0 1 1.24-3.22 4.3 4.3 0 0 1 .12-3.18s1-.322 3.3 1.23a11.4 11.4 0 0 1 6 0c2.28-1.55 3.28-1.23 3.28-1.23a4.3 4.3 0 0 1 .12 3.18 4.63 4.63 0 0 1 1.23 3.22c0 4.61-2.8 5.62-5.48 5.92a2.87 2.87 0 0 1 .82 2.22v3.29c0 .32.22.69.83.57A12 12 0 0 0 12 .297"/>
-                        </svg>
-                    </div>
-                    <div>
-                        <h3 class="text-xl font-black tracking-tight mb-1 group-hover:text-neutral-900 dark:group-hover:text-white transition-colors">GitHub</h3>
-                        <p class="font-mono text-sm text-neutral-500 dark:text-neutral-400 truncate">github.com/Prajapatidax</p>
-                    </div>
-                    <i data-lucide="arrow-up-right" class="absolute right-6 top-6 h-5 w-5 opacity-0 -translate-x-2 transition-all group-hover:translate-x-0 group-hover:opacity-100 text-neutral-900 dark:text-white"></i>
-                </a>
-
-                <!-- LinkedIn -->
-                <a href="https://www.linkedin.com/in/dax-prajapati1707/" target="_blank" class="reveal cursor-hover group relative flex items-center p-6 gap-6 overflow-hidden rounded-[2rem] border border-neutral-200 bg-white transition-all hover:-translate-y-1 hover:shadow-xl dark:border-neutral-800 dark:bg-neutral-900 dark:hover:border-neutral-700">
-                    <div class="flex h-16 w-16 flex-shrink-0 items-center justify-center rounded-full bg-neutral-100 dark:bg-neutral-800 group-hover:bg-blue-50 dark:group-hover:bg-blue-900/20 transition-colors group-hover:scale-110 duration-300">
-                        <svg viewBox="0 0 24 24" aria-hidden="true" class="h-8 w-8 text-neutral-600 dark:text-neutral-400 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors" fill="currentColor">
-                            <path d="M20.45 20.45h-3.56v-5.57c0-1.33-.03-3.05-1.86-3.05-1.86 0-2.15 1.45-2.15 2.95v5.67H9.32V9h3.41v1.56h.05c.48-.9 1.63-1.86 3.36-1.86 3.59 0 4.25 2.36 4.25 5.43v6.32ZM5.34 7.43a2.07 2.07 0 1 1 0-4.14 2.07 2.07 0 0 1 0 4.14Zm1.78 13.02H3.56V9h3.56v11.45ZM22.23 0H1.77A1.77 1.77 0 0 0 0 1.77v20.46C0 23.2.8 24 1.77 24h20.46A1.77 1.77 0 0 0 24 22.23V1.77A1.77 1.77 0 0 0 22.23 0Z"/>
-                        </svg>
-                    </div>
-                    <div>
-                        <h3 class="text-xl font-black tracking-tight mb-1 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">LinkedIn</h3>
-                        <p class="font-mono text-sm text-neutral-500 dark:text-neutral-400 truncate">in/dax-prajapati1707</p>
-                    </div>
-                    <i data-lucide="arrow-up-right" class="absolute right-6 top-6 h-5 w-5 opacity-0 -translate-x-2 transition-all group-hover:translate-x-0 group-hover:opacity-100 text-blue-600 dark:text-blue-400"></i>
-                </a>
-
-                <!-- Instagram -->
-                <a href="https://www.instagram.com/i_am_dax7596" target="_blank" class="reveal cursor-hover group relative flex items-center p-6 gap-6 overflow-hidden rounded-[2rem] border border-neutral-200 bg-white transition-all hover:-translate-y-1 hover:shadow-xl dark:border-neutral-800 dark:bg-neutral-900 dark:hover:border-neutral-700">
-                    <div class="flex h-16 w-16 flex-shrink-0 items-center justify-center rounded-full bg-neutral-100 dark:bg-neutral-800 group-hover:bg-pink-50 dark:group-hover:bg-pink-900/20 transition-colors group-hover:scale-110 duration-300">
-                        <svg viewBox="0 0 24 24" aria-hidden="true" class="h-8 w-8 text-neutral-600 dark:text-neutral-400 group-hover:text-pink-600 dark:group-hover:text-pink-400 transition-colors" fill="currentColor">
-                            <path d="M7.75 2h8.5A5.75 5.75 0 0 1 22 7.75v8.5A5.75 5.75 0 0 1 16.25 22h-8.5A5.75 5.75 0 0 1 2 16.25v-8.5A5.75 5.75 0 0 1 7.75 2Zm-.2 1.9A3.65 3.65 0 0 0 3.9 7.55v8.9a3.65 3.65 0 0 0 3.65 3.65h8.9a3.65 3.65 0 0 0 3.65-3.65v-8.9a3.65 3.65 0 0 0-3.65-3.65h-8.9Zm9.75 1.45a1.2 1.2 0 1 1 0 2.4 1.2 1.2 0 0 1 0-2.4ZM12 7a5 5 0 1 1 0 10 5 5 0 0 1 0-10Zm0 1.9a3.1 3.1 0 1 0 0 6.2 3.1 3.1 0 0 0 0-6.2Z"/>
-                        </svg>
-                    </div>
-                    <div>
-                        <h3 class="text-xl font-black tracking-tight mb-1 group-hover:text-pink-600 dark:group-hover:text-pink-400 transition-colors">Instagram</h3>
-                        <p class="font-mono text-sm text-neutral-500 dark:text-neutral-400 truncate">@i_am_dax7596</p>
-                    </div>
-                    <i data-lucide="arrow-up-right" class="absolute right-6 top-6 h-5 w-5 opacity-0 -translate-x-2 transition-all group-hover:translate-x-0 group-hover:opacity-100 text-pink-600 dark:text-pink-400"></i>
-                </a>
-                <!-- leetcode -->
-                 <a href="https://leetcode.com/u/dax1707" target="_blank" class="reveal cursor-hover group relative flex items-center p-6 gap-6 overflow-hidden rounded-[2rem] border border-neutral-200 bg-white transition-all hover:-translate-y-1 hover:shadow-xl dark:border-neutral-800 dark:bg-neutral-900 dark:hover:border-neutral-700">
-                    <div class="flex h-16 w-16 flex-shrink-0 items-center justify-center rounded-full bg-neutral-100 dark:bg-neutral-800 group-hover:bg-pink-50 dark:group-hover:bg-pink-900/20 transition-colors group-hover:scale-110 duration-300">
-                        <svg viewBox="0 0 24 24" aria-hidden="true" 
-                            class="h-8 w-8 text-neutral-600 dark:text-neutral-400 group-hover:text-yellow-500 dark:group-hover:text-yellow-400 transition-colors" 
-                            fill="currentColor">
-                        <path d="M13.483 0a1.374 1.374 0 0 0-.977.403L1.403 11.506a1.374 1.374 0 0 0 0 1.944l11.103 11.103a1.374 1.374 0 0 0 1.944 0l2.122-2.122a1.374 1.374 0 0 0-1.944-1.944l-1.15 1.15-9.16-9.16 9.16-9.16 1.15 1.15a1.374 1.374 0 0 0 1.944-1.944L14.45.403A1.374 1.374 0 0 0 13.483 0ZM9.44 7.44a1.374 1.374 0 1 0-1.944 1.944L10.112 12l-2.616 2.616a1.374 1.374 0 1 0 1.944 1.944l3.588-3.588a1.374 1.374 0 0 0 0-1.944L9.44 7.44Z"/>
-                        </svg>
-                    </div>
-                    <div>
-                        <h3 class="text-xl font-black tracking-tight mb-1 group-hover:text-pink-600 dark:group-hover:text-pink-400 transition-colors">LeetCode</h3>
-                        <p class="font-mono text-sm text-neutral-500 dark:text-neutral-400 truncate">dax1707</p>
-                    </div>
-                    <i data-lucide="arrow-up-right" class="absolute right-6 top-6 h-5 w-5 opacity-0 -translate-x-2 transition-all group-hover:translate-x-0 group-hover:opacity-100 text-pink-600 dark:text-pink-400"></i>
-                </a>
-
-            </div>
+            <h1 class="text-4xl md:text-5xl font-sans font-extrabold text-brand-textDark mb-6 leading-tight">Let's Build Something Together</h1>
+            <p class="mx-auto max-w-2xl font-mono text-sm text-gray-500 dark:text-gray-400">
+                Feel free to reach out for collaborations, opportunities, or just to connect!
+            </p>
         </div>
 
-       <footer class="reveal mt-20 flex flex-col items-center justify-between gap-4 border-t border-neutral-200 py-8 dark:border-neutral-800 md:flex-row">
-          <p class="font-mono text-sm text-neutral-500">
-            © <span id="year"></span> Dax Prajapati. All rights reserved.
-          </p>
-          <div class="flex items-center gap-2 text-sm text-neutral-500">
-            <span>Powered by</span> 
-            <span class="font-bold text-purple-600 dark:text-brand-lime transition-colors">Prajapati Dax</span>
-          </div>
-        </footer>
+        <!-- Centered Profile Cards Grid -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-4xl mx-auto items-stretch">
+            
+            <!-- Email -->
+            <a href="mailto:daxprajapati1707@gmail.com" target="_blank" class="reveal cursor-hover group relative flex items-center p-6 gap-6 overflow-hidden rounded-[2rem] border border-gray-200 bg-white transition-all hover:-translate-y-1 hover:shadow-xl dark:border-gray-800 dark:bg-gray-900 dark:hover:border-gray-800">
+                <div class="flex h-16 w-16 flex-shrink-0 items-center justify-center rounded-full bg-gray-100 dark:bg-gray-900 group-hover:bg-gray-100 dark:group-hover:bg-gray-800 transition-colors group-hover:scale-110 duration-300">
+                    <span class="material-symbols-outlined !text-[32px] text-neutral-600 dark:text-gray-400 group-hover:text-brand-blue dark:group-hover:text-brand-blue transition-colors">mail</span>
+                </div>
+                <div>
+                    <h3 class="text-xl font-black tracking-tight mb-1 group-hover:text-brand-blue dark:group-hover:text-brand-blue transition-colors">Email</h3>
+                    <p class="font-mono text-sm text-gray-500 dark:text-gray-400 truncate">daxprajapati1707@gmail.com</p>
+                </div>
+                <span class="material-symbols-outlined !text-[20px] absolute right-6 top-6 opacity-0 -translate-x-2 transition-all group-hover:translate-x-0 group-hover:opacity-100 text-brand-blue dark:text-brand-blue">arrow_outward</span>
+            </a>
 
+            <!-- GitHub -->
+            <a href="https://github.com/Prajapatidax" target="_blank" class="reveal cursor-hover group relative flex items-center p-6 gap-6 overflow-hidden rounded-[2rem] border border-gray-200 bg-white transition-all hover:-translate-y-1 hover:shadow-xl dark:border-gray-800 dark:bg-gray-900 dark:hover:border-gray-800">
+                <div class="flex h-16 w-16 flex-shrink-0 items-center justify-center rounded-full bg-gray-100 dark:bg-gray-900 group-hover:bg-gray-200 dark:group-hover:bg-white/10 transition-colors group-hover:scale-110 duration-300">
+                    <svg viewBox="0 0 24 24" aria-hidden="true" class="h-8 w-8 text-neutral-600 dark:text-gray-400 group-hover:text-black dark:group-hover:text-white transition-colors" fill="currentColor">
+                        <path d="M12 .297a12 12 0 0 0-3.79 23.39c.6.111.82-.258.82-.577v-2.24c-3.34.726-4.04-1.416-4.04-1.416a3.18 3.18 0 0 0-1.34-1.756c-1.09-.744.084-.729.084-.729a2.52 2.52 0 0 1 1.84 1.24 2.56 2.56 0 0 0 3.5 1 2.56 2.56 0 0 1 .76-1.61c-2.67-.3-5.47-1.33-5.47-5.93a4.64 4.64 0 0 1 1.24-3.22 4.3 4.3 0 0 1 .12-3.18s1-.322 3.3 1.23a11.4 11.4 0 0 1 6 0c2.28-1.55 3.28-1.23 3.28-1.23a4.3 4.3 0 0 1 .12 3.18 4.63 4.63 0 0 1 1.23 3.22c0 4.61-2.8 5.62-5.48 5.92a2.87 2.87 0 0 1 .82 2.22v3.29c0 .32.22.69.83.57A12 12 0 0 0 12 .297"/>
+                    </svg>
+                </div>
+                <div>
+                    <h3 class="text-xl font-black tracking-tight mb-1 group-hover:text-neutral-900 dark:group-hover:text-white transition-colors">GitHub</h3>
+                    <p class="font-mono text-sm text-gray-500 dark:text-gray-400 truncate">github.com/Prajapatidax</p>
+                </div>
+                <span class="material-symbols-outlined !text-[20px] absolute right-6 top-6 opacity-0 -translate-x-2 transition-all group-hover:translate-x-0 group-hover:opacity-100 text-neutral-900 dark:text-white">arrow_outward</span>
+            </a>
+
+            <!-- LinkedIn -->
+            <a href="https://www.linkedin.com/in/dax-prajapati1707/" target="_blank" class="reveal cursor-hover group relative flex items-center p-6 gap-6 overflow-hidden rounded-[2rem] border border-gray-200 bg-white transition-all hover:-translate-y-1 hover:shadow-xl dark:border-gray-800 dark:bg-gray-900 dark:hover:border-gray-800">
+                <div class="flex h-16 w-16 flex-shrink-0 items-center justify-center rounded-full bg-gray-100 dark:bg-gray-900 group-hover:bg-gray-100 dark:group-hover:bg-gray-800/40 transition-colors group-hover:scale-110 duration-300">
+                    <svg viewBox="0 0 24 24" aria-hidden="true" class="h-8 w-8 text-neutral-600 dark:text-gray-400 group-hover:text-brand-blue dark:group-hover:text-brand-blue transition-colors" fill="currentColor">
+                        <path d="M20.45 20.45h-3.56v-5.57c0-1.33-.03-3.05-1.86-3.05-1.86 0-2.15 1.45-2.15 2.95v5.67H9.32V9h3.41v1.56h.05c.48-.9 1.63-1.86 3.36-1.86 3.59 0 4.25 2.36 4.25 5.43v6.32ZM5.34 7.43a2.07 2.07 0 1 1 0-4.14 2.07 2.07 0 0 1 0 4.14Zm1.78 13.02H3.56V9h3.56v11.45ZM22.23 0H1.77A1.77 1.77 0 0 0 0 1.77v20.46C0 23.2.8 24 1.77 24h20.46A1.77 1.77 0 0 0 24 22.23V1.77A1.77 1.77 0 0 0 22.23 0Z"/>
+                    </svg>
+                </div>
+                <div>
+                    <h3 class="text-xl font-black tracking-tight mb-1 group-hover:text-brand-blue dark:group-hover:text-brand-blue transition-colors">LinkedIn</h3>
+                    <p class="font-mono text-sm text-gray-500 dark:text-gray-400 truncate">in/dax-prajapati1707</p>
+                </div>
+                <span class="material-symbols-outlined !text-[20px] absolute right-6 top-6 opacity-0 -translate-x-2 transition-all group-hover:translate-x-0 group-hover:opacity-100 text-brand-blue dark:text-brand-blue">arrow_outward</span>
+            </a>
+
+            <!-- Leetcode -->
+            <a href="https://leetcode.com/u/dax1707" target="_blank" class="reveal cursor-hover group relative flex items-center p-6 gap-6 overflow-hidden rounded-[2rem] border border-gray-200 bg-white transition-all hover:-translate-y-1 hover:shadow-xl dark:border-gray-800 dark:bg-gray-900 dark:hover:border-gray-800">
+                <div class="flex h-16 w-16 flex-shrink-0 items-center justify-center rounded-full bg-gray-100 dark:bg-gray-900 group-hover:bg-pink-50 dark:group-hover:bg-pink-900/20 transition-colors group-hover:scale-110 duration-300">
+                    <svg viewBox="0 0 24 24" aria-hidden="true" 
+                        class="h-8 w-8 text-neutral-600 dark:text-gray-400 group-hover:text-yellow-500 dark:group-hover:text-yellow-400 transition-colors" 
+                        fill="currentColor">
+                        <path d="M13.483 0a1.374 1.374 0 0 0-.977.403L1.403 11.506a1.374 1.374 0 0 0 0 1.944l11.103 11.103a1.374 1.374 0 0 0 1.944 0l2.122-2.122a1.374 1.374 0 0 0-1.944-1.944l-1.15 1.15-9.16-9.16 9.16-9.16 1.15 1.15a1.374 1.374 0 0 0 1.944-1.944L14.45.403A1.374 1.374 0 0 0 13.483 0ZM9.44 7.44a1.374 1.374 0 1 0-1.944 1.944L10.112 12l-2.616 2.616a1.374 1.374 0 1 0 1.944 1.944l3.588-3.588a1.374 1.374 0 0 0 0-1.944L9.44 7.44Z"/>
+                    </svg>
+                </div>
+                <div>
+                    <h3 class="text-xl font-black tracking-tight mb-1 group-hover:text-neutral-900 dark:group-hover:text-white transition-colors">LeetCode</h3>
+                    <p class="font-mono text-sm text-gray-500 dark:text-gray-400 truncate">dax1707</p>
+                </div>
+                <span class="material-symbols-outlined !text-[20px] absolute right-6 top-6 opacity-0 -translate-x-2 transition-all group-hover:translate-x-0 group-hover:opacity-100 text-neutral-900 dark:text-white">arrow_outward</span>
+            </a>
+
+            <!-- Instagram -->
+            <a href="https://www.instagram.com/i_am_dax7596" target="_blank" class="reveal cursor-hover group relative flex items-center p-6 gap-6 overflow-hidden rounded-[2rem] border border-gray-200 bg-white transition-all hover:-translate-y-1 hover:shadow-xl dark:border-gray-800 dark:bg-gray-900 dark:hover:border-gray-800 md:col-span-2 md:max-w-md md:mx-auto w-full">
+                <div class="flex h-16 w-16 flex-shrink-0 items-center justify-center rounded-full bg-gray-100 dark:bg-gray-900 group-hover:bg-pink-50 dark:group-hover:bg-pink-900/20 transition-colors group-hover:scale-110 duration-300">
+                    <svg viewBox="0 0 24 24" aria-hidden="true" class="h-8 w-8 text-neutral-600 dark:text-gray-400 group-hover:text-pink-600 dark:group-hover:text-pink-400 transition-colors" fill="currentColor">
+                        <path d="M7.75 2h8.5A5.75 5.75 0 0 1 22 7.75v8.5A5.75 5.75 0 0 1 16.25 22h-8.5A5.75 5.75 0 0 1 2 16.25v-8.5A5.75 5.75 0 0 1 7.75 2Zm-.2 1.9A3.65 3.65 0 0 0 3.9 7.55v8.9a3.65 3.65 0 0 0 3.65 3.65h8.9a3.65 3.65 0 0 0 3.65-3.65v-8.9a3.65 3.65 0 0 0-3.65-3.65h-8.9Zm9.75 1.45a1.2 1.2 0 1 1 0 2.4 1.2 1.2 0 0 1 0-2.4ZM12 7a5 5 0 1 1 0 10 5 5 0 0 1 0-10Zm0 1.9a3.1 3.1 0 1 0 0 6.2 3.1 3.1 0 0 0 0-6.2Z"/>
+                    </svg>
+                </div>
+                <div>
+                    <h3 class="text-xl font-black tracking-tight mb-1 group-hover:text-pink-600 dark:group-hover:text-pink-400 transition-colors">Instagram</h3>
+                    <p class="font-mono text-sm text-gray-500 dark:text-gray-400 truncate">@i_am_dax7596</p>
+                </div>
+                <span class="material-symbols-outlined !text-[20px] absolute right-6 top-6 opacity-0 -translate-x-2 transition-all group-hover:translate-x-0 group-hover:opacity-100 text-pink-600 dark:text-pink-400">arrow_outward</span>
+            </a>
+            
+        </div>
     </main>
 
-    <script>
-        // 1. Initialize Icons
-        lucide.createIcons();
-        document.getElementById('year').textContent = new Date().getFullYear();
+    <!-- Footer -->
+    <footer class="bg-white py-8 border-t border-gray-100 text-gray-500 text-sm font-medium">
+        <div class="max-w-7xl mx-auto px-6 flex flex-col md:flex-row justify-between items-center gap-4">
+            <div class="flex items-center gap-2">
+                <svg class="w-8 h-8 text-blue-600" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <circle cx="50" cy="50" r="40" stroke="currentColor" stroke-width="8" />
+                    <path d="M38 30 H58 C66 30 70 34 70 40 C70 46 66 50 58 50 H38 V70" stroke="currentColor" stroke-width="8" stroke-linecap="round" stroke-linejoin="round" />
+                </svg>
+                <span class="font-sans font-extrabold text-lg tracking-tight text-gray-900">DAX <span class="font-normal text-gray-500">PRAJAPATI</span></span>
+            </div>
+            <p>© <span id="year">2026</span> Dax Prajapati. All rights reserved.</p>
+            <p>Built with ❤️ and lots of ☕</p>
+        </div>
+    </footer>
 
-        // 2. Preloader Text Shuffle
+    <script>
+        const yearEl = document.getElementById('year');
+        if (yearEl) {
+            yearEl.textContent = new Date().getFullYear();
+        }
+
+        // Mobile Menu Toggle
+        const menuToggle = document.getElementById('menu-toggle');
+        const mobileMenu = document.getElementById('mobile-menu');
+        const menuIcon = document.getElementById('menu-icon');
+        const closeIcon = document.getElementById('close-icon');
+
+        menuToggle.addEventListener('click', () => {
+            const isHidden = mobileMenu.classList.contains('hidden');
+            if (isHidden) {
+                mobileMenu.classList.remove('hidden');
+                menuIcon.classList.add('hidden');
+                closeIcon.classList.remove('hidden');
+            } else {
+                mobileMenu.classList.add('hidden');
+                menuIcon.classList.remove('hidden');
+                closeIcon.classList.add('hidden');
+            }
+        });
+
+        // Preloader Logic
         const loaderText = document.getElementById('loader-text');
         const preloader = document.getElementById('preloader');
-        const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890!@#$%^&*()';
-        const targetText = 'CONTACT_ME        ';
+        const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890';
+        const targetText = 'CONTACT_ME      ';
         
         let interval = null;
         let iteration = 0;
@@ -229,62 +275,28 @@
                         setTimeout(() => preloader.style.display = 'none', 500);
                     }, 500);
                 }
-                
                 iteration += 1 / 3;
             }, 30);
         }
-
         window.onload = startLoader;
 
-        // 3. Theme Toggle
-        const toggleButton = document.getElementById('theme-toggle');
-        const html = document.documentElement;
-        
-        // Check Saved Theme
-        if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
-            html.classList.add('dark');
-        } else {
-            html.classList.remove('dark');
-        }
+        // Force Light Mode
+        document.documentElement.classList.remove('dark');
+        document.documentElement.classList.add('light');
+        localStorage.theme = 'light';
 
-        toggleButton.addEventListener('click', () => {
-            if (html.classList.contains('dark')) {
-                html.classList.remove('dark');
-                localStorage.theme = 'light';
-            } else {
-                html.classList.add('dark');
-                localStorage.theme = 'dark';
-            }
-        });
-
-        // 4. Custom Cursor
-        const cursor = document.getElementById('cursor');
-        const hoverElements = document.querySelectorAll('.cursor-hover');
-
-        document.addEventListener('mousemove', (e) => {
-            cursor.style.left = e.clientX + 'px';
-            cursor.style.top = e.clientY + 'px';
-        });
-
-        hoverElements.forEach(el => {
-            el.addEventListener('mouseenter', () => cursor.classList.add('hovered'));
-            el.addEventListener('mouseleave', () => cursor.classList.remove('hovered'));
-        });
-
-        // 5. Scroll Animations
-        const observerOptions = { threshold: 0.1 };
+        // Scroll Animations
+        const observerOptions = { threshold: 0.15 };
         const observer = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
                     entry.target.classList.add('active');
-                    observer.unobserve(entry.target); 
+                    observer.unobserve(entry.target);
                 }
             });
         }, observerOptions);
 
-        document.querySelectorAll('.reveal').forEach(el => {
-            observer.observe(el);
-        });
+        document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
     </script>
 </body>
 </html>
