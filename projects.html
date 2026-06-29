@@ -169,7 +169,7 @@
 
         <div class="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3" id="projects-grid">
             <!-- Project: Mindmate (Full Stack) -->
-            <div class="project-card reveal cursor-hover group relative flex flex-col justify-between overflow-hidden rounded-[2rem] border border-gray-200 bg-white p-6 transition-all hover:-translate-y-2 hover:shadow-xl dark:border-gray-800 dark:bg-gray-900 min-h-[250px]" data-category="fullstack">
+            <div class="project-card reveal cursor-hover group relative flex flex-col justify-between overflow-hidden rounded-[2rem] border border-gray-200 bg-white p-6 transition-all hover:-translate-y-2 hover:shadow-xl dark:border-gray-800 dark:bg-gray-900 min-h-[250px]" data-category="fullstack" data-image="assets/mindmate.png">
                 <div class="z-10 relative mb-12">
                     <div class="mb-4 flex items-center justify-between">
                         <span class="rounded-full border border-neutral-300 px-3 py-1 text-[10px] font-bold uppercase dark:border-gray-800 bg-gray-100 dark:bg-gray-900">Full Stack</span>
@@ -200,7 +200,7 @@
             </div>
 
             <!-- Project: OS Portfolio (Frontend) -->
-            <div class="project-card reveal cursor-hover group relative flex flex-col justify-between overflow-hidden rounded-[2rem] border border-gray-200 bg-white p-6 transition-all hover:-translate-y-2 hover:shadow-xl dark:border-gray-800 dark:bg-gray-900 min-h-[250px]" data-category="frontend">
+            <div class="project-card reveal cursor-hover group relative flex flex-col justify-between overflow-hidden rounded-[2rem] border border-gray-200 bg-white p-6 transition-all hover:-translate-y-2 hover:shadow-xl dark:border-gray-800 dark:bg-gray-900 min-h-[250px]" data-category="frontend" data-image="assets/os-portfolio.png">
                 <div class="z-10 relative mb-12">
                     <div class="mb-4 flex items-center justify-between">
                         <span class="rounded-full border border-neutral-300 px-3 py-1 text-[10px] font-bold uppercase dark:border-gray-800 bg-gray-100 dark:bg-gray-900">Frontend UI</span>
@@ -231,7 +231,7 @@
             </div>
 
             <!-- Project: Earth Vision (Frontend) -->
-            <div class="project-card reveal cursor-hover group relative flex flex-col justify-between overflow-hidden rounded-[2rem] border border-gray-200 bg-white p-6 transition-all hover:-translate-y-2 hover:shadow-xl dark:border-gray-800 dark:bg-gray-900 min-h-[250px]" data-category="frontend">
+            <div class="project-card reveal cursor-hover group relative flex flex-col justify-between overflow-hidden rounded-[2rem] border border-gray-200 bg-white p-6 transition-all hover:-translate-y-2 hover:shadow-xl dark:border-gray-800 dark:bg-gray-900 min-h-[250px]" data-category="frontend" data-image="assets/earth-vision.png">
                 <div class="z-10 relative mb-12">
                     <div class="mb-4 flex items-center justify-between">
                         <span class="rounded-full border border-neutral-300 px-3 py-1 text-[10px] font-bold uppercase dark:border-gray-800 bg-gray-100 dark:bg-gray-900">Frontend UI</span>
@@ -711,6 +711,36 @@
                     }
                 });
             });
+        });
+
+        // Dynamic Card Background Images
+        projectCards.forEach(card => {
+            const h3 = card.querySelector('h3');
+            if (!h3) return;
+            const title = h3.textContent.trim();
+            const cleanedTitle = title.toLowerCase()
+                .replace(/[^a-z0-9\s-]/g, '')
+                .replace(/\s+/g, '-')
+                .replace(/-+/g, '-');
+            
+            const imageUrl = card.getAttribute('data-image') || `assets/${cleanedTitle}.png`;
+            
+            const img = new Image();
+            img.onload = () => {
+                // 1. Background image div (full opacity, scale transition)
+                const bgDiv = document.createElement('div');
+                bgDiv.className = 'project-card-bg absolute inset-0 bg-cover bg-center transition-all duration-500 group-hover:scale-105 pointer-events-none z-0';
+                bgDiv.style.backgroundImage = `url('${imageUrl}')`;
+                
+                // 2. Readability overlay div (tint + subtle blur, fades slightly on hover)
+                const overlayDiv = document.createElement('div');
+                overlayDiv.className = 'project-card-overlay absolute inset-0 bg-white/90 dark:bg-gray-950/90 backdrop-blur-[1px] transition-all duration-500 group-hover:bg-white/75 dark:group-hover:bg-gray-950/75 group-hover:backdrop-blur-none pointer-events-none z-0';
+                
+                // Insert both behind the card content (bgDiv first, then overlayDiv on top of it)
+                card.insertBefore(overlayDiv, card.firstChild);
+                card.insertBefore(bgDiv, card.firstChild);
+            };
+            img.src = imageUrl;
         });
     </script>
 </body>
