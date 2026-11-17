@@ -1,0 +1,149 @@
+{% extends "admin/base_admin.html" %}
+
+{% block breadcrumb %}Categories{% endblock %}
+
+{% block admin_content %}
+<div class="space-y-6 max-w-6xl mx-auto">
+
+    <!-- Top Action Bar -->
+    <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 bg-white p-6 rounded-3xl border border-admin-200 shadow-xs">
+        <div>
+            <h1 class="text-2xl font-extrabold text-admin-900">Design Categories</h1>
+            <p class="text-xs text-admin-500 mt-0.5">Manage taxonomy, display sequence, and grouping for the UI Design Showcase</p>
+        </div>
+        <button type="button" onclick="document.getElementById('modal-new-cat').classList.remove('hidden')" class="bg-blue-600 hover:bg-blue-700 text-white font-bold text-xs px-4 py-2.5 rounded-xl shadow-xs transition-all flex items-center gap-1.5">
+            <span class="material-symbols-outlined !text-[18px]">add</span> Add Category
+        </button>
+    </div>
+
+    <!-- Categories Table -->
+    <div class="bg-white rounded-3xl border border-admin-200 shadow-xs overflow-hidden">
+        <table class="w-full text-left text-xs border-collapse">
+            <thead>
+                <tr class="bg-admin-50 border-b border-admin-200 text-admin-500 uppercase font-mono font-bold text-[10px] tracking-wider">
+                    <th class="py-3 px-4">Order</th>
+                    <th class="py-3 px-4">Category Name</th>
+                    <th class="py-3 px-4">Slug</th>
+                    <th class="py-3 px-4">Templates</th>
+                    <th class="py-3 px-4">Status</th>
+                    <th class="py-3 px-4 text-right">Actions</th>
+                </tr>
+            </thead>
+            <tbody class="divide-y divide-admin-100 font-medium text-admin-700">
+                {% for c in categories %}
+                <tr class="hover:bg-admin-50/80 transition-colors">
+                    <td class="py-3.5 px-4 font-mono font-bold text-admin-400">#{{ c.display_order }}</td>
+                    <td class="py-3.5 px-4">
+                        <div class="font-extrabold text-admin-900 text-sm">{{ c.name }}</div>
+                        <div class="text-[11px] text-admin-500 line-clamp-1 mt-0.5">{{ c.description }}</div>
+                    </td>
+                    <td class="py-3.5 px-4 font-mono text-[11px] text-blue-600">{{ c.slug }}</td>
+                    <td class="py-3.5 px-4">
+                        <span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-[10px] font-mono font-bold bg-admin-100 text-admin-700">
+                            {{ c.templates.count() }} templates
+                        </span>
+                    </td>
+                    <td class="py-3.5 px-4">
+                        <span class="px-2 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider {{ 'bg-emerald-100 text-emerald-800' if c.is_active else 'bg-admin-100 text-admin-500' }}">
+                            {{ 'Active' if c.is_active else 'Disabled' }}
+                        </span>
+                    </td>
+                    <td class="py-3.5 px-4 text-right">
+                        <div class="flex items-center justify-end gap-1.5">
+                            <button type="button" onclick="openEditCatModal({{ c.id }}, '{{ c.name|e }}', '{{ c.description|e }}', {{ c.display_order }}, {{ 'true' if c.is_active else 'false' }})" class="p-1.5 rounded-lg bg-admin-100 hover:bg-admin-200 text-admin-700 transition-colors" title="Edit">
+                                <span class="material-symbols-outlined !text-[16px]">edit</span>
+                            </button>
+                            <form action="{{ url_for('admin.category_delete', cat_id=c.id) }}" method="POST" onsubmit="return confirm('Delete category {{ c.name }}?');" class="inline">
+                                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                                <button type="submit" class="p-1.5 rounded-lg bg-admin-100 hover:bg-red-50 hover:text-red-600 text-admin-400 transition-colors" title="Delete">
+                                    <span class="material-symbols-outlined !text-[16px]">delete</span>
+                                </button>
+                            </form>
+                        </div>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+</div>
+
+<!-- Modal: New Category -->
+<div id="modal-new-cat" class="hidden fixed inset-0 z-50 bg-black/40 backdrop-blur-xs flex items-center justify-center p-4">
+    <div class="bg-white rounded-3xl max-w-md w-full p-6 shadow-2xl border border-admin-200">
+        <h3 class="text-lg font-black text-admin-900 mb-1">Add Design Category</h3>
+        <p class="text-xs text-admin-500 mb-4">Create a new category for grouping UI showcase templates</p>
+
+        <form action="{{ url_for('admin.categories_list') }}" method="POST" class="space-y-3 text-xs font-medium">
+            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+            <div>
+                <label class="block font-bold text-admin-700 mb-1">Category Name *</label>
+                <input type="text" name="name" required placeholder="e.g. Modern Web3" class="w-full p-2.5 rounded-xl border border-admin-200">
+            </div>
+            <div>
+                <label class="block font-bold text-admin-700 mb-1">URL Slug (Optional)</label>
+                <input type="text" name="slug" placeholder="e.g. modern-web3" class="w-full p-2.5 rounded-xl border border-admin-200 font-mono">
+            </div>
+            <div>
+                <label class="block font-bold text-admin-700 mb-1">Display Order</label>
+                <input type="number" name="display_order" value="10" class="w-full p-2.5 rounded-xl border border-admin-200">
+            </div>
+            <div>
+                <label class="block font-bold text-admin-700 mb-1">Description</label>
+                <textarea name="description" rows="2" placeholder="Brief category description..." class="w-full p-2.5 rounded-xl border border-admin-200"></textarea>
+            </div>
+            <div class="flex justify-end gap-2 pt-3 border-t border-admin-100">
+                <button type="button" onclick="document.getElementById('modal-new-cat').classList.add('hidden')" class="px-4 py-2 rounded-xl border border-admin-200 text-admin-700 font-bold">Cancel</button>
+                <button type="submit" class="bg-blue-600 hover:bg-blue-700 text-white font-bold px-4 py-2 rounded-xl">Save Category</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- Modal: Edit Category -->
+<div id="modal-edit-cat" class="hidden fixed inset-0 z-50 bg-black/40 backdrop-blur-xs flex items-center justify-center p-4">
+    <div class="bg-white rounded-3xl max-w-md w-full p-6 shadow-2xl border border-admin-200">
+        <h3 class="text-lg font-black text-admin-900 mb-1">Edit Category</h3>
+        
+        <form id="edit-cat-form" method="POST" class="space-y-3 text-xs font-medium mt-4">
+            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+            <div>
+                <label class="block font-bold text-admin-700 mb-1">Category Name *</label>
+                <input type="text" id="edit-cat-name" name="name" required class="w-full p-2.5 rounded-xl border border-admin-200">
+            </div>
+            <div>
+                <label class="block font-bold text-admin-700 mb-1">Display Order</label>
+                <input type="number" id="edit-cat-order" name="display_order" class="w-full p-2.5 rounded-xl border border-admin-200">
+            </div>
+            <div>
+                <label class="block font-bold text-admin-700 mb-1">Description</label>
+                <textarea id="edit-cat-desc" name="description" rows="2" class="w-full p-2.5 rounded-xl border border-admin-200"></textarea>
+            </div>
+            <div class="flex items-center gap-2">
+                <input type="checkbox" id="edit-cat-active" name="is_active" value="1" class="rounded">
+                <label for="edit-cat-active" class="font-bold text-admin-800">Category Active / Visible</label>
+            </div>
+            <div class="flex justify-end gap-2 pt-3 border-t border-admin-100">
+                <button type="button" onclick="document.getElementById('modal-edit-cat').classList.add('hidden')" class="px-4 py-2 rounded-xl border border-admin-200 text-admin-700 font-bold">Cancel</button>
+                <button type="submit" class="bg-blue-600 hover:bg-blue-700 text-white font-bold px-4 py-2 rounded-xl">Update Category</button>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+function openEditCatModal(id, name, desc, order, active) {
+    const modal = document.getElementById("modal-edit-cat");
+    const form = document.getElementById("edit-cat-form");
+    document.getElementById("edit-cat-name").value = name;
+    document.getElementById("edit-cat-desc").value = desc;
+    document.getElementById("edit-cat-order").value = order;
+    document.getElementById("edit-cat-active").checked = active;
+    form.action = `/admin/categories/${id}/edit`;
+    modal.classList.remove("hidden");
+}
+</script>
+{% endblock %}

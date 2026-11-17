@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="en" class="h-full bg-slate-50">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ page_title or 'Admin Control Center | Dax Prajapati' }}</title>
+    
+    <!-- Fonts & Icons -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+    
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['"Plus Jakarta Sans"', 'system-ui', 'sans-serif'],
+                        mono: ['"JetBrains Mono"', 'monospace'],
+                    },
+                    colors: {
+                        admin: {
+                            50: '#f8fafc',
+                            100: '#f1f5f9',
+                            200: '#e2e8f0',
+                            300: '#cbd5e1',
+                            400: '#94a3b8',
+                            500: '#64748b',
+                            600: '#475569',
+                            700: '#334155',
+                            800: '#1e293b',
+                            900: '#0f172a',
+                        },
+                        brand: {
+                            blue: '#2563EB',
+                            dark: '#1D4ED8',
+                            accent: '#3B82F6',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <!-- Chart.js CDN for Analytics -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+
+    <style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 450, 'GRAD' 0, 'opsz' 24;
+            display: inline-block;
+            vertical-align: middle;
+            line-height: 1;
+        }
+        /* Custom scrollbar for admin tables & panels */
+        ::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #f1f5f9;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 9999px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #94a3b8;
+        }
+    </style>
+</head>
+<body class="h-full flex flex-col font-sans antialiased text-admin-800 bg-slate-50">
+
+    <div class="flex h-screen overflow-hidden">
+        
+        <!-- SIDEBAR (DESKTOP & COLLAPSIBLE DRAWER MOBILE) -->
+        <aside id="admin-sidebar" class="fixed inset-y-0 left-0 z-40 w-64 bg-white border-r border-admin-200 transform -translate-x-full transition-transform duration-200 ease-in-out lg:translate-x-0 lg:static lg:inset-auto flex flex-col shadow-sm">
+            
+            <!-- Sidebar Header / Logo -->
+            <div class="h-16 flex items-center justify-between px-6 border-b border-admin-200 bg-white">
+                <a href="{{ url_for('admin.dashboard') }}" class="flex items-center gap-2.5">
+                    <span class="w-8 h-8 rounded-xl bg-blue-600 text-white flex items-center justify-center font-extrabold text-sm shadow-md shadow-blue-500/20">D</span>
+                    <div>
+                        <span class="text-sm font-black text-admin-900 tracking-tight block">Dax Prajapati</span>
+                        <span class="text-[10px] font-mono font-bold text-blue-600 uppercase tracking-wider block">Control Center</span>
+                    </div>
+                </a>
+                <button type="button" id="sidebar-close-btn" class="lg:hidden p-1.5 rounded-lg text-admin-400 hover:text-admin-700 hover:bg-admin-100">
+                    <span class="material-symbols-outlined !text-[20px]">close</span>
+                </button>
+            </div>
+
+            <!-- Navigation Links -->
+            <div class="flex-1 overflow-y-auto px-4 py-5 space-y-1">
+                
+                <div class="px-2 pb-2 text-[10px] font-mono font-bold uppercase tracking-wider text-admin-400">Main Modules</div>
+
+                <a href="{{ url_for('admin.dashboard') }}" class="flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-xs font-bold transition-all {{ 'bg-blue-50 text-blue-700 font-extrabold' if current_route == 'admin.dashboard' else 'text-admin-600 hover:bg-admin-100 hover:text-admin-900' }}">
+                    <span class="material-symbols-outlined !text-[20px] {{ 'text-blue-600' if current_route == 'admin.dashboard' else 'text-admin-400' }}">dashboard</span>
+                    <span>Dashboard</span>
+                </a>
+
+                <a href="{{ url_for('admin.quotations_list') }}" class="flex items-center justify-between px-3.5 py-2.5 rounded-xl text-xs font-bold transition-all {{ 'bg-blue-50 text-blue-700 font-extrabold' if 'admin.quotation' in current_route else 'text-admin-600 hover:bg-admin-100 hover:text-admin-900' }}">
+                    <div class="flex items-center gap-3">
+                        <span class="material-symbols-outlined !text-[20px] {{ 'text-blue-600' if 'admin.quotation' in current_route else 'text-admin-400' }}">request_quote</span>
+                        <span>Quotations</span>
+                    </div>
+                </a>
+
+                <a href="{{ url_for('admin.designs_list') }}" class="flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-xs font-bold transition-all {{ 'bg-blue-50 text-blue-700 font-extrabold' if 'admin.design' in current_route else 'text-admin-600 hover:bg-admin-100 hover:text-admin-900' }}">
+                    <span class="material-symbols-outlined !text-[20px] {{ 'text-blue-600' if 'admin.design' in current_route else 'text-admin-400' }}">web</span>
+                    <span>UI Templates</span>
+                </a>
+
+                <a href="{{ url_for('admin.categories_list') }}" class="flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-xs font-bold transition-all {{ 'bg-blue-50 text-blue-700 font-extrabold' if 'admin.categories' in current_route else 'text-admin-600 hover:bg-admin-100 hover:text-admin-900' }}">
+                    <span class="material-symbols-outlined !text-[20px] {{ 'text-blue-600' if 'admin.categories' in current_route else 'text-admin-400' }}">category</span>
+                    <span>Categories</span>
+                </a>
+
+                <a href="{{ url_for('admin.contact_messages_list') }}" class="flex items-center justify-between px-3.5 py-2.5 rounded-xl text-xs font-bold transition-all {{ 'bg-blue-50 text-blue-700 font-extrabold' if 'admin.contact' in current_route else 'text-admin-600 hover:bg-admin-100 hover:text-admin-900' }}">
+                    <div class="flex items-center gap-3">
+                        <span class="material-symbols-outlined !text-[20px] {{ 'text-blue-600' if 'admin.contact' in current_route else 'text-admin-400' }}">mail</span>
+                        <span>Inquiries</span>
+                    </div>
+                    {% if unread_contacts_count > 0 %}
+                    <span class="bg-blue-600 text-white font-mono text-[10px] px-2 py-0.5 rounded-full font-bold">{{ unread_contacts_count }}</span>
+                    {% endif %}
+                </a>
+
+                <div class="pt-5 px-2 pb-2 text-[10px] font-mono font-bold uppercase tracking-wider text-admin-400">Assets & System</div>
+
+                <a href="{{ url_for('admin.media_library') }}" class="flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-xs font-bold transition-all {{ 'bg-blue-50 text-blue-700 font-extrabold' if 'admin.media' in current_route else 'text-admin-600 hover:bg-admin-100 hover:text-admin-900' }}">
+                    <span class="material-symbols-outlined !text-[20px] {{ 'text-blue-600' if 'admin.media' in current_route else 'text-admin-400' }}">perm_media</span>
+                    <span>Media (Neon S3)</span>
+                </a>
+
+                <a href="{{ url_for('admin.activity_log') }}" class="flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-xs font-bold transition-all {{ 'bg-blue-50 text-blue-700 font-extrabold' if 'admin.activity' in current_route else 'text-admin-600 hover:bg-admin-100 hover:text-admin-900' }}">
+                    <span class="material-symbols-outlined !text-[20px] {{ 'text-blue-600' if 'admin.activity' in current_route else 'text-admin-400' }}">history</span>
+                    <span>Audit Logs</span>
+                </a>
+
+                <a href="{{ url_for('admin.settings') }}" class="flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-xs font-bold transition-all {{ 'bg-blue-50 text-blue-700 font-extrabold' if 'admin.settings' in current_route else 'text-admin-600 hover:bg-admin-100 hover:text-admin-900' }}">
+                    <span class="material-symbols-outlined !text-[20px] {{ 'text-blue-600' if 'admin.settings' in current_route else 'text-admin-400' }}">settings</span>
+                    <span>Settings</span>
+                </a>
+            </div>
+
+            <!-- Sidebar Footer / Live Site Link -->
+            <div class="p-4 border-t border-admin-200 bg-white">
+                <a href="{{ url_for('main.index') }}" target="_blank" class="w-full flex items-center justify-between p-2.5 rounded-xl bg-admin-100 hover:bg-admin-200 text-admin-700 text-xs font-bold transition-colors">
+                    <span class="flex items-center gap-2">
+                        <span class="material-symbols-outlined !text-[16px] text-emerald-600">public</span>
+                        View Live Website
+                    </span>
+                    <span class="material-symbols-outlined !text-[16px] text-admin-400">open_in_new</span>
+                </a>
+            </div>
+        </aside>
+
+        <!-- BACKDROP FOR MOBILE SIDEBAR -->
+        <div id="sidebar-backdrop" class="fixed inset-0 z-30 bg-black/40 backdrop-blur-xs hidden lg:hidden"></div>
+
+        <!-- MAIN CONTENT WRAPPER -->
+        <div class="flex-1 flex flex-col min-w-0 overflow-hidden">
+            
+            <!-- TOP NAVBAR -->
+            <header class="h-16 bg-white border-b border-admin-200 px-4 sm:px-8 flex items-center justify-between z-20 flex-shrink-0">
+                <div class="flex items-center gap-3">
+                    <button type="button" id="sidebar-toggle-btn" class="lg:hidden p-2 rounded-xl text-admin-600 hover:bg-admin-100">
+                        <span class="material-symbols-outlined !text-[22px]">menu</span>
+                    </button>
+                    <!-- Breadcrumbs -->
+                    <nav class="flex items-center text-xs font-medium text-admin-500">
+                        <a href="{{ url_for('admin.dashboard') }}" class="hover:text-admin-900 flex items-center gap-1">
+                            <span class="material-symbols-outlined !text-[16px]">home</span> Admin
+                        </a>
+                        <span class="mx-2 text-admin-300">/</span>
+                        <span class="text-admin-900 font-bold">{% block breadcrumb %}Overview{% endblock %}</span>
+                    </nav>
+                </div>
+
+                <!-- Right Header Actions (Notifications + User Menu) -->
+                <div class="flex items-center gap-3">
+                    
+                    <!-- Notifications Dropdown -->
+                    <div class="relative">
+                        <button type="button" id="notif-dropdown-btn" class="p-2 rounded-xl text-admin-600 hover:bg-admin-100 relative transition-colors" title="Notifications">
+                            <span class="material-symbols-outlined !text-[22px]">notifications</span>
+                            {% if unread_notifications_count > 0 %}
+                            <span id="notif-badge-count" class="absolute top-1.5 right-1.5 w-4 h-4 bg-red-500 text-white rounded-full font-mono font-bold text-[9px] flex items-center justify-center animate-pulse">
+                                {{ unread_notifications_count }}
+                            </span>
+                            {% endif %}
+                        </button>
+
+                        <!-- Dropdown Panel -->
+                        <div id="notif-dropdown-panel" class="hidden absolute right-0 mt-2 w-80 sm:w-96 bg-white rounded-2xl shadow-xl border border-admin-200 z-50 overflow-hidden">
+                            <div class="p-3.5 bg-admin-50 border-b border-admin-200 flex items-center justify-between">
+                                <span class="text-xs font-bold text-admin-900">Notifications</span>
+                                <button type="button" onclick="window.markAllNotificationsRead()" class="text-[11px] font-bold text-blue-600 hover:underline">Mark all read</button>
+                            </div>
+                            <div id="notif-list-container" class="max-h-80 overflow-y-auto divide-y divide-admin-100 text-xs">
+                                <div class="p-6 text-center text-admin-400">Loading...</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Admin User Avatar & Profile Dropdown -->
+                    <div class="relative">
+                        <button type="button" id="user-menu-btn" class="flex items-center gap-2.5 p-1.5 rounded-2xl hover:bg-admin-100 transition-colors">
+                            <span class="w-8 h-8 rounded-xl bg-blue-600 text-white font-extrabold flex items-center justify-center text-xs shadow-sm">
+                                {{ admin_name[:1] }}
+                            </span>
+                            <div class="hidden sm:block text-left pr-1">
+                                <span class="text-xs font-bold text-admin-900 block leading-tight">{{ admin_name }}</span>
+                                <span class="text-[10px] text-admin-400 block leading-tight font-mono truncate max-w-[120px]">{{ admin_email }}</span>
+                            </div>
+                            <span class="material-symbols-outlined !text-[16px] text-admin-400">expand_more</span>
+                        </button>
+
+                        <!-- Profile Dropdown -->
+                        <div id="user-menu-panel" class="hidden absolute right-0 mt-2 w-52 bg-white rounded-2xl shadow-xl border border-admin-200 py-1.5 z-50 text-xs">
+                            <div class="px-4 py-2 border-b border-admin-100">
+                                <p class="font-bold text-admin-900">{{ admin_name }}</p>
+                                <p class="text-[10px] font-mono text-admin-500 truncate">{{ admin_email }}</p>
+                            </div>
+                            <a href="{{ url_for('admin.settings') }}" class="flex items-center gap-2 px-4 py-2 text-admin-700 hover:bg-admin-50 font-medium">
+                                <span class="material-symbols-outlined !text-[18px] text-admin-400">settings</span> Account Settings
+                            </a>
+                            <a href="{{ url_for('admin.activity_log') }}" class="flex items-center gap-2 px-4 py-2 text-admin-700 hover:bg-admin-50 font-medium">
+                                <span class="material-symbols-outlined !text-[18px] text-admin-400">history</span> Audit Log
+                            </a>
+                            <div class="border-t border-admin-100 my-1"></div>
+                            <a href="{{ url_for('admin.admin_logout') }}" class="flex items-center gap-2 px-4 py-2 text-red-600 hover:bg-red-50 font-bold">
+                                <span class="material-symbols-outlined !text-[18px]">logout</span> Sign Out
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </header>
+
+            <!-- FLASH ALERTS -->
+            {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+            <div class="px-6 pt-4">
+                {% for category, message in messages %}
+                <div class="p-3.5 rounded-2xl text-xs font-semibold flex items-center justify-between gap-3 shadow-xs {{ 'bg-emerald-50 text-emerald-800 border border-emerald-200' if category == 'success' else 'bg-red-50 text-red-800 border border-red-200' if category == 'error' else 'bg-blue-50 text-blue-800 border border-blue-200' }}">
+                    <div class="flex items-center gap-2">
+                        <span class="material-symbols-outlined !text-[18px]">
+                            {{ 'check_circle' if category == 'success' else 'error' if category == 'error' else 'info' }}
+                        </span>
+                        <span>{{ message }}</span>
+                    </div>
+                    <button type="button" onclick="this.parentElement.remove()" class="p-1 text-admin-400 hover:text-admin-700">
+                        <span class="material-symbols-outlined !text-[16px]">close</span>
+                    </button>
+                </div>
+                {% endfor %}
+            </div>
+            {% endif %}
+            {% endwith %}
+
+            <!-- MAIN SCROLLABLE CONTENT BODY -->
+            <main class="flex-1 overflow-y-auto px-4 sm:px-8 py-6">
+                {% block admin_content %}{% endblock %}
+            </main>
+        </div>
+    </div>
+
+    <!-- SHARED GLOBAL SCRIPT -->
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            // Sidebar Drawer Toggle for Mobile
+            const sidebar = document.getElementById("admin-sidebar");
+            const backdrop = document.getElementById("sidebar-backdrop");
+            const toggleBtn = document.getElementById("sidebar-toggle-btn");
+            const closeBtn = document.getElementById("sidebar-close-btn");
+
+            function toggleSidebar() {
+                sidebar.classList.toggle("-translate-x-full");
+                backdrop.classList.toggle("hidden");
+            }
+
+            toggleBtn?.addEventListener("click", toggleSidebar);
+            closeBtn?.addEventListener("click", toggleSidebar);
+            backdrop?.addEventListener("click", toggleSidebar);
+
+            // User Profile Menu Toggle
+            const userBtn = document.getElementById("user-menu-btn");
+            const userPanel = document.getElementById("user-menu-panel");
+            userBtn?.addEventListener("click", (e) => {
+                e.stopPropagation();
+                userPanel.classList.toggle("hidden");
+                notifPanel?.classList.add("hidden");
+            });
+
+            // Notifications Dropdown Toggle
+            const notifBtn = document.getElementById("notif-dropdown-btn");
+            const notifPanel = document.getElementById("notif-dropdown-panel");
+            const notifContainer = document.getElementById("notif-list-container");
+
+            async function loadNotifications() {
+                try {
+                    const res = await fetch("/admin/api/notifications");
+                    const data = await res.json();
+                    if (res.ok && data.status === "success") {
+                        if (data.notifications.length === 0) {
+                            notifContainer.innerHTML = `<div class="p-6 text-center text-admin-400"><span class="material-symbols-outlined !text-[28px] block mb-1">done_all</span>All caught up! No notifications.</div>`;
+                        } else {
+                            notifContainer.innerHTML = data.notifications.map(n => `
+                                <div class="p-3 hover:bg-admin-50 flex items-start gap-2.5 ${n.is_read ? 'opacity-60' : 'bg-blue-50/40'}">
+                                    <span class="w-2 h-2 rounded-full mt-1.5 flex-shrink-0 ${n.is_read ? 'bg-transparent' : 'bg-blue-600'}"></span>
+                                    <div class="flex-1 min-w-0">
+                                        <p class="font-bold text-admin-900 truncate">${n.title}</p>
+                                        <p class="text-admin-600 text-[11px] line-clamp-2 mt-0.5">${n.message}</p>
+                                        <div class="flex items-center justify-between mt-1 text-[10px] text-admin-400 font-mono">
+                                            <span>${n.created_at}</span>
+                                            ${n.link_url ? `<a href="${n.link_url}" class="text-blue-600 font-bold hover:underline">View &rarr;</a>` : ''}
+                                        </div>
+                                    </div>
+                                </div>
+                            `).join("");
+                        }
+                    }
+                } catch (e) {
+                    notifContainer.innerHTML = `<div class="p-4 text-center text-red-500">Failed to load notifications</div>`;
+                }
+            }
+
+            notifBtn?.addEventListener("click", (e) => {
+                e.stopPropagation();
+                notifPanel.classList.toggle("hidden");
+                userPanel?.classList.add("hidden");
+                if (!notifPanel.classList.contains("hidden")) {
+                    loadNotifications();
+                }
+            });
+
+            window.markAllNotificationsRead = async function() {
+                try {
+                    await fetch("/admin/api/notifications/read-all", { method: "POST" });
+                    document.getElementById("notif-badge-count")?.remove();
+                    loadNotifications();
+                } catch(e) {}
+            };
+
+            // Close dropdowns on outside click
+            document.addEventListener("click", () => {
+                userPanel?.classList.add("hidden");
+                notifPanel?.classList.add("hidden");
+            });
+        });
+    </script>
+
+    {% block scripts %}{% endblock %}
+</body>
+</html>

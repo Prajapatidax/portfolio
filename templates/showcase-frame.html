@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ template.name }} &mdash; Live Interactive UI Preview</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800;900&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,600;1,6..72,400&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;600;700&family=Syne:wght@700;800&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,400&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet">
+    <style>
+        /* Smooth responsive typography & scroll */
+        html { -webkit-text-size-adjust: 100%; }
+        body { margin: 0; padding: 0; overflow-x: hidden; }
+        ::-webkit-scrollbar { width: 8px; height: 8px; }
+        ::-webkit-scrollbar-track { background: rgba(0,0,0,0.05); }
+        ::-webkit-scrollbar-thumb { background: rgba(0,0,0,0.2); border-radius: 4px; }
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-900">
+    {% set cslug = template.category.slug if template.category else template.slug %}
+
+    {% if cslug == 'minimal-professional' or template.slug == 'zenith-minimal' %}
+        {% include 'showcase_templates/minimal_professional.html' %}
+    {% elif cslug == 'apple-inspired' or template.slug == 'aura-liquid-glass' %}
+        {% include 'showcase_templates/apple_inspired.html' %}
+    {% elif cslug == 'dark-futuristic' or template.slug == 'cyber-obsidian-matrix' %}
+        {% include 'showcase_templates/dark_futuristic.html' %}
+    {% elif cslug == 'modern-saas' or template.slug == 'saas-velocity' %}
+        {% include 'showcase_templates/modern_saas.html' %}
+    {% elif cslug == 'creative-experimental' or template.slug == 'avant-garde-kinetic' %}
+        {% include 'showcase_templates/creative_experimental.html' %}
+    {% elif cslug == 'luxury-premium' or template.slug == 'olympia-haute-luxe' %}
+        {% include 'showcase_templates/luxury_premium.html' %}
+    {% elif cslug == 'ecommerce' or template.slug == 'nordic-craft-market' %}
+        {% include 'showcase_templates/ecommerce.html' %}
+    {% elif cslug == 'dashboard-admin' or template.slug == 'nexus-command-dashboard' %}
+        {% include 'showcase_templates/dashboard_admin.html' %}
+    {% elif cslug == 'portfolio-personal' or template.slug == 'craftsman-dev-portfolio' %}
+        {% include 'showcase_templates/portfolio_personal.html' %}
+    {% elif cslug == 'corporate-business' or template.slug == 'apex-corporate-consulting' %}
+        {% include 'showcase_templates/corporate_business.html' %}
+    {% else %}
+        <!-- Fallback Default Showcase Frame -->
+        <div class="min-h-screen p-8 flex items-center justify-center bg-slate-900 text-white">
+            <div class="max-w-xl text-center space-y-4">
+                <span class="text-xs uppercase font-mono tracking-widest text-blue-400">UI TEMPLATE PREVIEW</span>
+                <h1 class="text-3xl font-extrabold">{{ template.name }}</h1>
+                <p class="text-sm text-slate-300 leading-relaxed">{{ template.description }}</p>
+            </div>
+        </div>
+    {% endif %}
+</body>
+</html>

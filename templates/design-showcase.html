@@ -1,0 +1,139 @@
+{% extends "base.html" %}
+
+{% block content %}
+<main class="min-h-screen pb-28 pt-8">
+    <!-- Hero Section (Phase 3) -->
+    <section class="max-w-7xl mx-auto px-6 py-12 text-center reveal">
+        <span class="inline-flex items-center gap-2 px-4 py-1 rounded-full bg-blue-100 text-blue-700 text-xs font-bold uppercase tracking-wider mb-4 border border-blue-200">
+            <span class="material-symbols-outlined !text-[16px]">palette</span> Interactive UI Design Showcase
+        </span>
+
+        <h1 class="text-4xl md:text-6xl font-sans font-black text-brand-textDark tracking-tight mb-4 leading-tight">
+            "Your Vision. My Creativity."
+        </h1>
+
+        <p class="text-gray-600 text-base md:text-lg max-w-2xl mx-auto font-medium leading-relaxed mb-8">
+            Explore different website designs, choose your preferred visual direction and tell me what you want to build.
+        </p>
+
+        <!-- Category Filter Pills (10 Categories) -->
+        <div class="flex flex-wrap items-center justify-center gap-2 max-w-5xl mx-auto mt-6">
+            <button class="px-4 py-2 rounded-full text-xs font-bold transition-all bg-blue-600 text-white shadow-sm" data-category-filter="all">
+                All Designs
+            </button>
+            {% for cat in categories %}
+            <button class="px-4 py-2 rounded-full text-xs font-bold transition-all bg-gray-100 text-gray-700 hover:bg-gray-200" data-category-filter="{{ cat.slug }}">
+                {{ cat.name }}
+            </button>
+            {% endfor %}
+        </div>
+    </section>
+
+    <!-- Design Gallery Grid -->
+    <section class="max-w-7xl mx-auto px-6 py-8">
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8" id="showcase-grid">
+            {% for tpl in templates %}
+            <div class="reveal group flex flex-col justify-between bg-white rounded-[2rem] border border-gray-200 shadow-sm hover:shadow-xl transition-all overflow-hidden" data-design-card data-category-slug="{{ tpl.category.slug if tpl.category else '' }}">
+                
+                <!-- Mockup Visual Header -->
+                <div class="relative p-6 bg-gradient-to-br from-slate-900 to-gray-800 text-white min-h-[200px] flex flex-col justify-between overflow-hidden">
+                    <!-- Subtle background glow matching palette -->
+                    <div class="absolute -right-8 -top-8 w-40 h-40 rounded-full blur-2xl opacity-40 pointer-events-none" style="background-color: {{ tpl.color_palette[0].hex if tpl.color_palette else '#2563EB' }}"></div>
+                    
+                    <div class="relative z-10 flex items-center justify-between">
+                        <span class="text-[10px] font-mono font-bold tracking-wider px-2.5 py-1 rounded-full bg-white/10 backdrop-blur-md border border-white/20 text-blue-300">
+                            {{ tpl.design_id }}
+                        </span>
+                        <span class="px-2.5 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider bg-white/15 backdrop-blur-md text-white border border-white/20">
+                            {{ tpl.status }}
+                        </span>
+                    </div>
+
+                    <!-- Real Preview Mockup Image from Neon Storage -->
+                    <div class="relative z-10 my-3 rounded-xl overflow-hidden shadow-lg border border-white/15 aspect-[16/10] bg-black/40 group-hover:scale-[1.02] transition-transform">
+                        <img src="{{ tpl.get_asset_url('laptop') }}" alt="{{ tpl.name }} preview" loading="lazy" class="w-full h-full object-cover object-top" onerror="this.onerror=null; this.src='/static/assets/mindmate.png';">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent pointer-events-none"></div>
+                        <div class="absolute bottom-2 left-2.5 right-2.5 flex items-center justify-between text-[10px] text-white/90 font-mono">
+                            <span class="truncate font-sans font-bold">{{ tpl.name }}</span>
+                            <span class="bg-black/60 px-1.5 py-0.5 rounded text-[9px] backdrop-blur-sm border border-white/10">3 Devices</span>
+                        </div>
+                    </div>
+
+                    <!-- Color Swatches bar -->
+                    <div class="relative z-10 flex items-center gap-1.5 pt-1">
+                        {% for col in tpl.color_palette %}
+                        <span class="w-4 h-4 rounded-full border border-white/40 shadow-sm" style="background-color: {{ col.hex }}" title="{{ col.name }}: {{ col.hex }}"></span>
+                        {% endfor %}
+                    </div>
+                </div>
+
+                <!-- Card Body -->
+                <div class="p-6 flex-1 flex flex-col justify-between">
+                    <div>
+                        <div class="flex items-center justify-between gap-2 mb-2">
+                            <span class="text-xs font-bold text-blue-600 uppercase tracking-wide">{{ tpl.category.name if tpl.category else 'Custom' }}</span>
+                            <span class="text-[10px] font-mono text-gray-400 font-medium">3 Viewports</span>
+                        </div>
+                        <h3 class="text-xl font-extrabold text-gray-900 group-hover:text-blue-600 transition-colors mb-2">
+                            {{ tpl.name }}
+                        </h3>
+                        <p class="text-xs text-gray-600 line-clamp-2 leading-relaxed mb-3">
+                            {{ tpl.description }}
+                        </p>
+
+                        <!-- Available Device Formats Badges -->
+                        <div class="flex items-center gap-1.5 mb-4">
+                            <span class="inline-flex items-center gap-1 text-[10px] font-mono px-2 py-0.5 rounded-md bg-gray-50 text-gray-600 border border-gray-200">
+                                <span class="material-symbols-outlined !text-[12px] text-blue-600">laptop</span> Laptop
+                            </span>
+                            <span class="inline-flex items-center gap-1 text-[10px] font-mono px-2 py-0.5 rounded-md bg-gray-50 text-gray-600 border border-gray-200">
+                                <span class="material-symbols-outlined !text-[12px] text-blue-600">tablet</span> Tablet
+                            </span>
+                            <span class="inline-flex items-center gap-1 text-[10px] font-mono px-2 py-0.5 rounded-md bg-gray-50 text-gray-600 border border-gray-200">
+                                <span class="material-symbols-outlined !text-[12px] text-blue-600">smartphone</span> Mobile
+                            </span>
+                        </div>
+
+                        <!-- Typography & Traits -->
+                        <div class="text-[11px] font-mono text-gray-500 mb-4 bg-gray-50 p-2.5 rounded-xl border border-gray-100 flex items-center justify-between">
+                            <span>Type: <strong class="text-gray-800">{{ tpl.typography.heading if tpl.typography else 'Plus Jakarta Sans' }}</strong></span>
+                            <span>Pages: <strong class="text-gray-800">{{ tpl.pages_available | length if tpl.pages_available else 4 }}</strong></span>
+                        </div>
+                    </div>
+
+                    <!-- Action Controls -->
+                    <div class="pt-4 border-t border-gray-100 flex items-center gap-2">
+                        <a href="{{ url_for('showcase.preview', slug=tpl.slug) }}" class="flex-1 text-center bg-gray-100 hover:bg-gray-200 text-gray-800 font-bold text-xs py-2.5 px-3 rounded-xl transition-all flex items-center justify-center gap-1">
+                            <span class="material-symbols-outlined !text-[16px]">visibility</span> Preview Design
+                        </a>
+                        <button type="button" data-design-select-btn data-design-id="{{ tpl.design_id }}" data-design-name="{{ tpl.name }}" class="flex-1 text-center border border-gray-200 bg-white hover:border-blue-600 hover:text-blue-600 text-gray-700 font-bold text-xs py-2.5 px-3 rounded-xl transition-all flex items-center justify-center gap-1">
+                            <span class="material-symbols-outlined !text-[16px]">add_circle</span> Select This Design
+                        </button>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </section>
+
+    <!-- Sticky Floating Bottom Bar for Selected Designs -->
+    <div id="sticky-quote-bar" class="sticky-quote-bar fixed bottom-6 left-6 right-6 md:left-auto md:right-8 z-40 max-w-lg bg-gray-900/95 backdrop-blur-md text-white p-4 rounded-3xl shadow-2xl border border-gray-700 flex items-center justify-between gap-4">
+        <div class="flex items-center gap-3">
+            <span class="w-10 h-10 rounded-2xl bg-blue-600 flex items-center justify-center font-bold text-white shadow-md">
+                <span id="selected-designs-count">0</span>
+            </span>
+            <div>
+                <p class="font-extrabold text-sm text-white">Designs Selected</p>
+                <p class="text-xs text-gray-400">Ready to configure your project</p>
+            </div>
+        </div>
+        <a href="{{ url_for('quotation.wizard_page') }}" class="bg-blue-600 hover:bg-blue-500 text-white font-bold text-xs px-5 py-3 rounded-2xl transition-all flex items-center gap-1.5 shadow-lg shadow-blue-500/30">
+            Request Quote <span class="material-symbols-outlined !text-[16px]">arrow_forward</span>
+        </a>
+    </div>
+</main>
+{% endblock %}
+
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/showcase.js') }}"></script>
+{% endblock %}

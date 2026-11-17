@@ -1,0 +1,236 @@
+{% extends "admin/base_admin.html" %}
+
+{% block breadcrumb %}Quotations CRM{% endblock %}
+
+{% block admin_content %}
+<div class="space-y-6">
+
+    <!-- Header & Action Summary -->
+    <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 bg-white p-6 rounded-3xl border border-admin-200 shadow-xs">
+        <div>
+            <h1 class="text-2xl font-extrabold text-admin-900">Quotation Management CRM</h1>
+            <p class="text-xs text-admin-500 mt-0.5">Manage customer proposals, priorities, delivery estimates, and email communications</p>
+        </div>
+        <div class="flex items-center gap-2">
+            <a href="{{ url_for('admin.quotations_list', archived='1') if archived_filter != '1' else url_for('admin.quotations_list') }}" class="px-3.5 py-2 rounded-xl border border-admin-200 text-xs font-bold transition-all {{ 'bg-admin-900 text-white' if archived_filter == '1' else 'bg-white text-admin-700 hover:bg-admin-50' }}">
+                <span class="material-symbols-outlined !text-[16px]">archive</span> {{ 'Viewing Archived' if archived_filter == '1' else 'View Archived' }} ({{ status_counts.archived }})
+            </a>
+        </div>
+    </div>
+
+    <!-- Status Filters Strip -->
+    <div class="flex items-center gap-2 overflow-x-auto pb-1 text-xs font-bold">
+        <a href="{{ url_for('admin.quotations_list', archived=archived_filter) }}" class="px-3.5 py-2 rounded-xl transition-all whitespace-nowrap {{ 'bg-blue-600 text-white shadow-xs' if not status_filter else 'bg-white text-admin-700 border border-admin-200 hover:bg-admin-50' }}">
+            All Requests ({{ status_counts.all if archived_filter != '1' else status_counts.archived }})
+        </a>
+        <a href="{{ url_for('admin.quotations_list', status='new', archived=archived_filter) }}" class="px-3.5 py-2 rounded-xl transition-all whitespace-nowrap {{ 'bg-blue-600 text-white shadow-xs' if status_filter == 'new' else 'bg-white text-admin-700 border border-admin-200 hover:bg-admin-50' }}">
+            New ({{ status_counts.new }})
+        </a>
+        <a href="{{ url_for('admin.quotations_list', status='under_review', archived=archived_filter) }}" class="px-3.5 py-2 rounded-xl transition-all whitespace-nowrap {{ 'bg-amber-600 text-white shadow-xs' if status_filter == 'under_review' else 'bg-white text-admin-700 border border-admin-200 hover:bg-admin-50' }}">
+            Under Review ({{ status_counts.under_review }})
+        </a>
+        <a href="{{ url_for('admin.quotations_list', status='quotation_sent', archived=archived_filter) }}" class="px-3.5 py-2 rounded-xl transition-all whitespace-nowrap {{ 'bg-purple-600 text-white shadow-xs' if status_filter == 'quotation_sent' else 'bg-white text-admin-700 border border-admin-200 hover:bg-admin-50' }}">
+            Quote Sent ({{ status_counts.quotation_sent }})
+        </a>
+        <a href="{{ url_for('admin.quotations_list', status='accepted', archived=archived_filter) }}" class="px-3.5 py-2 rounded-xl transition-all whitespace-nowrap {{ 'bg-emerald-600 text-white shadow-xs' if status_filter == 'accepted' else 'bg-white text-admin-700 border border-admin-200 hover:bg-admin-50' }}">
+            Accepted ({{ status_counts.accepted }})
+        </a>
+        <a href="{{ url_for('admin.quotations_list', status='rejected', archived=archived_filter) }}" class="px-3.5 py-2 rounded-xl transition-all whitespace-nowrap {{ 'bg-red-600 text-white shadow-xs' if status_filter == 'rejected' else 'bg-white text-admin-700 border border-admin-200 hover:bg-admin-50' }}">
+            Rejected ({{ status_counts.rejected }})
+        </a>
+    </div>
+
+    <!-- Search & Filter Controls -->
+    <div class="bg-white p-4 rounded-3xl border border-admin-200 shadow-xs">
+        <form action="{{ url_for('admin.quotations_list') }}" method="GET" class="grid grid-cols-1 sm:grid-cols-12 gap-3 items-center">
+            {% if status_filter %}<input type="hidden" name="status" value="{{ status_filter }}">{% endif %}
+            {% if archived_filter == '1' %}<input type="hidden" name="archived" value="1">{% endif %}
+
+            <!-- Search input -->
+            <div class="sm:col-span-4 relative">
+                <span class="material-symbols-outlined absolute left-3 top-2.5 text-admin-400 !text-[18px]">search</span>
+                <input type="text" name="q" value="{{ search_query }}" placeholder="Search ref, customer, email, project..." class="w-full pl-9 pr-3 py-2 text-xs rounded-xl border border-admin-200 focus:ring-2 focus:ring-blue-500 bg-admin-50/50">
+            </div>
+
+            <!-- Priority filter -->
+            <div class="sm:col-span-3">
+                <select name="priority" class="w-full py-2 px-3 text-xs rounded-xl border border-admin-200 bg-admin-50/50">
+                    <option value="">All Priorities</option>
+                    <option value="urgent" {{ 'selected' if priority_filter == 'urgent' else '' }}>Urgent</option>
+                    <option value="high" {{ 'selected' if priority_filter == 'high' else '' }}>High</option>
+                    <option value="normal" {{ 'selected' if priority_filter == 'normal' else '' }}>Normal</option>
+                    <option value="low" {{ 'selected' if priority_filter == 'low' else '' }}>Low</option>
+                </select>
+            </div>
+
+            <!-- Sort order -->
+            <div class="sm:col-span-3">
+                <select name="sort" class="w-full py-2 px-3 text-xs rounded-xl border border-admin-200 bg-admin-50/50">
+                    <option value="desc" {{ 'selected' if sort_order == 'desc' else '' }}>Newest First</option>
+                    <option value="asc" {{ 'selected' if sort_order == 'asc' else '' }}>Oldest First</option>
+                </select>
+            </div>
+
+            <!-- Filter submit button -->
+            <div class="sm:col-span-2 flex items-center gap-2">
+                <button type="submit" class="flex-1 bg-admin-900 hover:bg-black text-white font-bold text-xs py-2 px-3 rounded-xl transition-all">
+                    Filter
+                </button>
+                {% if search_query or priority_filter or sort_order != 'desc' or status_filter %}
+                <a href="{{ url_for('admin.quotations_list', archived=archived_filter) }}" class="text-xs text-red-500 font-bold hover:underline px-2">Clear</a>
+                {% endif %}
+            </div>
+        </form>
+    </div>
+
+    <!-- Main Quotations Table -->
+    <div class="bg-white rounded-3xl border border-admin-200 shadow-xs overflow-hidden">
+        <div class="overflow-x-auto">
+            <table class="w-full text-left text-xs border-collapse">
+                <thead>
+                    <tr class="bg-admin-50 border-b border-admin-200 text-admin-500 uppercase font-mono font-bold text-[10px] tracking-wider">
+                        <th class="py-3 px-4">Ref ID</th>
+                        <th class="py-3 px-4">Customer</th>
+                        <th class="py-3 px-4">Project Details</th>
+                        <th class="py-3 px-4">Design References</th>
+                        <th class="py-3 px-4">Budget</th>
+                        <th class="py-3 px-4">Priority</th>
+                        <th class="py-3 px-4">Status</th>
+                        <th class="py-3 px-4">Date</th>
+                        <th class="py-3 px-4 text-right">Actions</th>
+                    </tr>
+                </thead>
+                <tbody class="divide-y divide-admin-100 font-medium text-admin-700">
+                    {% for q in quotations %}
+                    <tr class="hover:bg-admin-50/80 transition-colors">
+                        <td class="py-3.5 px-4 font-mono font-bold text-blue-600 whitespace-nowrap">
+                            <a href="{{ url_for('admin.quotation_detail', quote_id=q.id) }}" class="hover:underline">
+                                {{ q.reference_id }}
+                            </a>
+                        </td>
+                        <td class="py-3.5 px-4">
+                            <div class="font-bold text-admin-900">{{ q.customer_name }}</div>
+                            <div class="text-[11px] text-admin-400 font-mono truncate max-w-[150px]">{{ q.customer_email }}</div>
+                            {% if q.customer_phone %}
+                            <div class="text-[10px] text-admin-400 font-mono">{{ q.customer_phone }}</div>
+                            {% endif %}
+                        </td>
+                        <td class="py-3.5 px-4">
+                            <div class="font-bold text-admin-900 truncate max-w-[160px]">{{ q.project_name }}</div>
+                            <div class="text-[11px] text-admin-500 truncate max-w-[160px]">{{ q.project_type }}</div>
+                        </td>
+                        <td class="py-3.5 px-4">
+                            {% if q.selected_designs %}
+                                <div class="flex flex-wrap gap-1 max-w-[140px]">
+                                    {% for d in q.selected_designs %}
+                                    <span class="inline-block px-1.5 py-0.5 rounded text-[9px] font-mono font-bold bg-blue-50 text-blue-700 border border-blue-200">
+                                        {{ d.design_id_snapshot }}
+                                    </span>
+                                    {% endfor %}
+                                </div>
+                            {% else %}
+                                <span class="text-admin-400 italic text-[11px]">Custom Direct</span>
+                            {% endif %}
+                        </td>
+                        <td class="py-3.5 px-4 font-bold text-admin-900 whitespace-nowrap">{{ q.budget_range }}</td>
+                        <td class="py-3.5 px-4 whitespace-nowrap">
+                            <span class="px-2 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider {{ 'bg-red-100 text-red-800' if q.priority == 'urgent' else 'bg-amber-100 text-amber-800' if q.priority == 'high' else 'bg-blue-100 text-blue-800' if q.priority == 'normal' else 'bg-admin-100 text-admin-600' }}">
+                                {{ q.priority }}
+                            </span>
+                        </td>
+                        <td class="py-3.5 px-4 whitespace-nowrap">
+                            <span class="px-2.5 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider {{ 'bg-blue-100 text-blue-800' if q.status == 'new' else 'bg-amber-100 text-amber-800' if q.status in ('under_review', 'reviewing') else 'bg-purple-100 text-purple-800' if q.status == 'quotation_sent' else 'bg-emerald-100 text-emerald-800' if q.status == 'accepted' else 'bg-red-100 text-red-800' }}">
+                                {{ q.status.replace('_', ' ') }}
+                            </span>
+                        </td>
+                        <td class="py-3.5 px-4 text-admin-400 font-mono text-[11px] whitespace-nowrap">
+                            {{ q.created_at.strftime("%b %d, %Y") if q.created_at else '' }}
+                        </td>
+                        <td class="py-3.5 px-4 text-right whitespace-nowrap">
+                            <div class="flex items-center justify-end gap-1.5">
+                                <a href="{{ url_for('admin.quotation_detail', quote_id=q.id) }}" class="p-1.5 rounded-lg bg-blue-50 text-blue-600 hover:bg-blue-100 transition-colors" title="View Full Details">
+                                    <span class="material-symbols-outlined !text-[16px]">visibility</span>
+                                </a>
+                                <form action="{{ url_for('admin.archive_quotation', quote_id=q.id) }}" method="POST" class="inline">
+                                    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                                    <button type="submit" class="p-1.5 rounded-lg bg-admin-100 text-admin-600 hover:bg-admin-200 transition-colors" title="{{ 'Restore' if q.is_archived else 'Archive' }}">
+                                        <span class="material-symbols-outlined !text-[16px]">{{ 'unarchive' if q.is_archived else 'archive' }}</span>
+                                    </button>
+                                </form>
+                                <button type="button" onclick="confirmDeleteQuotation({{ q.id }}, '{{ q.reference_id }}')" class="p-1.5 rounded-lg bg-admin-100 text-admin-400 hover:bg-red-50 hover:text-red-600 transition-colors" title="Delete">
+                                    <span class="material-symbols-outlined !text-[16px]">delete</span>
+                                </button>
+                            </div>
+                        </td>
+                    </tr>
+                    {% else %}
+                    <tr>
+                        <td colspan="9" class="py-16 text-center text-admin-400">
+                            <span class="material-symbols-outlined !text-[42px] text-admin-300 block mb-2">find_in_page</span>
+                            <p class="font-bold text-admin-700">No quotation requests found</p>
+                            <p class="text-xs text-admin-400 mt-0.5">Try clearing your filters or search terms.</p>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Pagination Controls -->
+        {% if pagination.pages > 1 %}
+        <div class="p-4 bg-admin-50 border-t border-admin-200 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-admin-500 font-mono">
+            <span>Showing page {{ pagination.page }} of {{ pagination.pages }} ({{ pagination.total }} total items)</span>
+            <div class="flex items-center gap-1.5">
+                {% if pagination.has_prev %}
+                <a href="{{ url_for('admin.quotations_list', page=pagination.prev_num, q=search_query, status=status_filter, priority=priority_filter, sort=sort_order, archived=archived_filter) }}" class="px-3 py-1.5 rounded-xl border border-admin-200 bg-white hover:bg-admin-100 text-admin-800 font-bold">
+                    &larr; Prev
+                </a>
+                {% endif %}
+                
+                <span class="px-3 py-1.5 rounded-xl bg-blue-600 text-white font-bold">{{ pagination.page }}</span>
+
+                {% if pagination.has_next %}
+                <a href="{{ url_for('admin.quotations_list', page=pagination.next_num, q=search_query, status=status_filter, priority=priority_filter, sort=sort_order, archived=archived_filter) }}" class="px-3 py-1.5 rounded-xl border border-admin-200 bg-white hover:bg-admin-100 text-admin-800 font-bold">
+                    Next &rarr;
+                </a>
+                {% endif %}
+            </div>
+        </div>
+        {% endif %}
+    </div>
+
+</div>
+
+<!-- Delete Confirmation Modal -->
+<div id="delete-confirm-modal" class="hidden fixed inset-0 z-50 bg-black/40 backdrop-blur-xs flex items-center justify-center p-4">
+    <div class="bg-white rounded-3xl max-w-md w-full p-6 shadow-2xl border border-admin-200">
+        <h3 class="text-lg font-black text-admin-900 mb-1">Delete Quotation</h3>
+        <p class="text-xs text-admin-500 mb-4">Are you sure you want to permanently delete quotation <strong id="delete-modal-ref" class="text-admin-900 font-mono"></strong>? This action cannot be undone.</p>
+        
+        <form id="delete-confirm-form" method="POST" class="flex items-center justify-end gap-2">
+            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+            <button type="button" onclick="document.getElementById('delete-confirm-modal').classList.add('hidden')" class="px-4 py-2 rounded-xl border border-admin-200 text-xs font-bold text-admin-700 hover:bg-admin-50">
+                Cancel
+            </button>
+            <button type="submit" class="bg-red-600 hover:bg-red-700 text-white text-xs font-bold px-4 py-2 rounded-xl shadow-xs">
+                Delete Permanently
+            </button>
+        </form>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+function confirmDeleteQuotation(id, ref) {
+    const modal = document.getElementById("delete-confirm-modal");
+    const refSpan = document.getElementById("delete-modal-ref");
+    const form = document.getElementById("delete-confirm-form");
+    if (modal && refSpan && form) {
+        refSpan.textContent = ref;
+        form.action = `/admin/quotations/${id}/delete`;
+        modal.classList.remove("hidden");
+    }
+}
+</script>
+{% endblock %}

@@ -1,0 +1,107 @@
+<!-- Template 03: Vector Forge (Dark & Futuristic) -->
+<div class="min-h-screen bg-[#111511] text-[#E9E8DD] font-mono antialiased selection:bg-[#C8E65A] selection:text-[#111511] relative overflow-hidden">
+    <!-- Grid Overlay -->
+    <div class="absolute inset-0 bg-[linear-gradient(to_right,#1b201b_1px,transparent_1px),linear-gradient(to_bottom,#1b201b_1px,transparent_1px)] bg-[size:4rem_4rem] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_0%,#000_70%,transparent_100%)] pointer-events-none"></div>
+
+    <!-- Terminal Header -->
+    <header class="max-w-6xl mx-auto px-6 py-6 flex items-center justify-between border-b border-[#C8E65A]/15 relative z-10">
+        <a href="#" class="flex items-center gap-3">
+            <span class="w-3 h-3 bg-[#C8E65A] rounded-xs shadow-[0_0_10px_#C8E65A]"></span>
+            <span class="font-bold tracking-tight text-sm text-[#E9E8DD] uppercase">Vector Forge</span>
+            <span class="text-[10px] text-[#C8E65A] bg-[#C8E65A]/10 px-2 py-0.5 rounded border border-[#C8E65A]/20">v2.4-edge</span>
+        </a>
+
+        <nav class="hidden md:flex items-center gap-6 text-xs text-[#E9E8DD]/70">
+            <a href="#models" class="hover:text-[#C8E65A] transition-colors">// Models</a>
+            <a href="#latency" class="hover:text-[#C8E65A] transition-colors">// Telemetry</a>
+            <a href="#clusters" class="hover:text-[#C8E65A] transition-colors">// Edge Clusters</a>
+            <a href="#pricing" class="hover:text-[#C8E65A] transition-colors">// Enterprise</a>
+        </nav>
+
+        <div class="flex items-center gap-3">
+            <span class="text-[11px] text-[#C8E65A] flex items-center gap-1.5 hidden sm:inline-flex">
+                <span class="w-2 h-2 rounded-full bg-[#C8E65A] animate-ping"></span> ALL REGIONS ACTIVE
+            </span>
+            <button type="button" class="px-4 py-2 bg-[#C8E65A] text-[#111511] text-xs font-bold uppercase tracking-wider hover:bg-[#d8f07a] transition-all">
+                Deploy &rarr;
+            </button>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <main class="max-w-6xl mx-auto px-6 py-16 relative z-10">
+        <div class="max-w-3xl space-y-6">
+            <div class="inline-flex items-center gap-2 text-xs text-[#C8E65A] bg-[#C8E65A]/5 border border-[#C8E65A]/20 px-3 py-1">
+                <span>[TERMINAL // INFERENCE_ENGINE]</span>
+            </div>
+
+            <h1 class="text-4xl sm:text-6xl font-black text-[#E9E8DD] tracking-tight leading-[1.05]">
+                Intelligence. <br>
+                <span class="text-[#C8E65A] underline decoration-2 underline-offset-8">In production.</span>
+            </h1>
+
+            <p class="text-sm sm:text-base text-[#E9E8DD]/70 max-w-xl leading-relaxed">
+                Deploy, observe, and scale your models across 18 edge regions with deterministic cold-start latencies under 50ms.
+            </p>
+
+            <div class="flex flex-wrap items-center gap-4 pt-4">
+                <button type="button" class="px-6 py-3.5 bg-[#C8E65A] text-[#111511] text-xs font-bold uppercase tracking-wider hover:bg-[#d8f07a] transition-all">
+                    Deploy a model
+                </button>
+                <button type="button" class="px-6 py-3.5 border border-[#E9E8DD]/20 text-[#E9E8DD] text-xs font-bold uppercase tracking-wider hover:border-[#C8E65A] hover:text-[#C8E65A] transition-all">
+                    Read the docs &rarr;
+                </button>
+            </div>
+        </div>
+
+        <!-- Telemetry Proof Bar -->
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-6 my-14 p-6 bg-[#171c17] border border-[#C8E65A]/20">
+            <div>
+                <p class="text-2xl sm:text-3xl font-black text-[#C8E65A]">42 ms</p>
+                <p class="text-[11px] uppercase tracking-widest text-[#E9E8DD]/60 mt-1">Median Global Latency</p>
+            </div>
+            <div class="sm:border-l border-[#C8E65A]/20 sm:pl-6">
+                <p class="text-2xl sm:text-3xl font-black text-[#C8E65A]">99.99%</p>
+                <p class="text-[11px] uppercase tracking-widest text-[#E9E8DD]/60 mt-1">Inference Uptime SLA</p>
+            </div>
+            <div class="sm:border-l border-[#C8E65A]/20 sm:pl-6">
+                <p class="text-2xl sm:text-3xl font-black text-[#C8E65A]">18 Regions</p>
+                <p class="text-[11px] uppercase tracking-widest text-[#E9E8DD]/60 mt-1">Bare-Metal Edge PoPs</p>
+            </div>
+        </div>
+
+        <!-- Interactive CLI & Model Telemetry Board -->
+        <div class="bg-[#151a15] rounded-xl border border-[#C8E65A]/30 overflow-hidden shadow-2xl">
+            <!-- Terminal Chrome Header -->
+            <div class="bg-[#0c0f0c] px-4 py-3 border-b border-[#C8E65A]/20 flex items-center justify-between text-xs">
+                <div class="flex items-center gap-2">
+                    <span class="w-3 h-3 rounded-full bg-red-500/80"></span>
+                    <span class="w-3 h-3 rounded-full bg-yellow-500/80"></span>
+                    <span class="w-3 h-3 rounded-full bg-green-500/80"></span>
+                    <span class="ml-2 text-[#E9E8DD]/50">vector-forge-cli &bull; edge-proxy-fra-01</span>
+                </div>
+                <div class="flex items-center gap-2">
+                    <button type="button" class="px-2.5 py-0.5 bg-[#C8E65A]/20 text-[#C8E65A] text-[10px] font-bold rounded">LIVE FEED</button>
+                </div>
+            </div>
+
+            <!-- Terminal Body -->
+            <div class="p-6 text-xs space-y-4">
+                <div class="flex items-center justify-between text-[#E9E8DD]/60 border-b border-[#C8E65A]/10 pb-3">
+                    <span>$ curl -X POST https://api.vectorforge.ai/v1/inference</span>
+                    <span class="text-[#C8E65A]">HTTP 200 OK (38ms)</span>
+                </div>
+                <div class="space-y-1 text-[#E9E8DD]/90">
+                    <p><span class="text-[#C8E65A]">&gt;</span> model: "mistral-large-instruct-v2"</p>
+                    <p><span class="text-[#C8E65A]">&gt;</span> tokens_per_sec: 142.8</p>
+                    <p><span class="text-[#C8E65A]">&gt;</span> cold_start: false</p>
+                    <p><span class="text-[#C8E65A]">&gt;</span> routing: "eu-central-1 (Direct Anycast BGP)"</p>
+                </div>
+                <div class="bg-[#0c0f0c] p-3 rounded border border-[#C8E65A]/10 text-[11px] text-[#C8E65A] flex items-center justify-between">
+                    <span>$ npm i -g @vectorforge/cli</span>
+                    <button type="button" onclick="navigator.clipboard.writeText('npm i -g @vectorforge/cli'); this.innerText='COPIED!'" class="text-[10px] uppercase font-bold text-[#E9E8DD] hover:text-[#C8E65A]">Copy</button>
+                </div>
+            </div>
+        </div>
+    </main>
+</div>

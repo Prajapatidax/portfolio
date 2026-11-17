@@ -1,0 +1,187 @@
+<!-- Template 07: Hearth & Habit (E-commerce Storefront) -->
+<div class="min-h-screen bg-[#FAF8F5] text-[#2D3748] font-sans antialiased selection:bg-[#BC6447] selection:text-white">
+    <!-- Announcement Bar -->
+    <div class="bg-[#6E7357] text-[#FAF8F5] px-6 py-2 text-center text-xs font-medium tracking-wide">
+        Free shipping on all domestic orders over $75 &bull; Mindfully packaged
+    </div>
+
+    <!-- Store Header with Search, Logo & Cart -->
+    <header class="max-w-7xl mx-auto px-6 py-6 border-b border-[#E4D8C7]">
+        <div class="flex items-center justify-between gap-6">
+            <a href="#" class="flex items-center gap-2">
+                <span class="w-8 h-8 rounded-full bg-[#BC6447] text-white flex items-center justify-center font-bold text-sm">H</span>
+                <span class="font-extrabold text-xl tracking-tight text-[#2D3748]">Hearth &amp; Habit</span>
+            </a>
+
+            <!-- Central Search Bar -->
+            <div class="hidden sm:flex flex-1 max-w-md mx-6 relative">
+                <input type="text" placeholder="Search your next favorite object..." class="w-full pl-10 pr-4 py-2.5 rounded-full bg-white border border-[#E4D8C7] text-xs focus:outline-none focus:border-[#BC6447] shadow-xs">
+                <span class="material-symbols-outlined !text-[18px] text-gray-400 absolute left-3.5 top-1/2 -translate-y-1/2">search</span>
+            </div>
+
+            <!-- Account & Cart Actions -->
+            <div class="flex items-center gap-4 text-xs font-semibold text-[#2D3748]">
+                <a href="#" class="hidden sm:inline-block hover:text-[#BC6447]">Account</a>
+                <button type="button" id="hh-cart-btn" class="flex items-center gap-2 px-4 py-2 rounded-full bg-white border border-[#E4D8C7] hover:border-[#BC6447] transition-colors shadow-xs">
+                    <span class="material-symbols-outlined !text-[18px] text-[#BC6447]">shopping_bag</span>
+                    <span>Cart (<span id="hh-cart-count">0</span>)</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- Category Filter Pills -->
+        <div class="flex items-center gap-2 mt-6 overflow-x-auto pb-1 text-xs font-semibold">
+            <button type="button" class="px-4 py-1.5 rounded-full bg-[#BC6447] text-white whitespace-nowrap shadow-xs">All Categories</button>
+            <button type="button" class="px-4 py-1.5 rounded-full bg-white border border-[#E4D8C7] text-gray-700 hover:border-[#BC6447] whitespace-nowrap">Tableware</button>
+            <button type="button" class="px-4 py-1.5 rounded-full bg-white border border-[#E4D8C7] text-gray-700 hover:border-[#BC6447] whitespace-nowrap">Lighting</button>
+            <button type="button" class="px-4 py-1.5 rounded-full bg-white border border-[#E4D8C7] text-gray-700 hover:border-[#BC6447] whitespace-nowrap">Textiles</button>
+            <button type="button" class="px-4 py-1.5 rounded-full bg-white border border-[#E4D8C7] text-gray-700 hover:border-[#BC6447] whitespace-nowrap">Objects</button>
+        </div>
+    </header>
+
+    <!-- Warm Lifestyle Hero -->
+    <main class="max-w-7xl mx-auto px-6 py-12">
+        <div class="bg-white rounded-3xl border border-[#E4D8C7] p-8 sm:p-14 mb-16 shadow-xs flex flex-col lg:flex-row items-center justify-between gap-10">
+            <div class="max-w-lg space-y-5">
+                <span class="text-xs uppercase tracking-widest text-[#BC6447] font-bold">AUTUMN COLLECTION // 2026</span>
+                <h1 class="text-4xl sm:text-5xl font-black text-[#2D3748] tracking-tight leading-[1.1]">
+                    Good things for everyday living.
+                </h1>
+                <p class="text-sm sm:text-base text-gray-600 leading-relaxed">
+                    Thoughtfully designed tableware, tactile woven textiles, and warm architectural lighting handcrafted by independent ceramicists and weavers.
+                </p>
+                <div class="pt-2">
+                    <a href="#products" class="inline-flex items-center gap-2 px-8 py-3.5 rounded-full bg-[#BC6447] text-white text-xs font-bold uppercase tracking-wider hover:bg-[#a55338] transition-colors shadow-sm">
+                        Shop the collection &rarr;
+                    </a>
+                </div>
+            </div>
+
+            <!-- Stylized Sunlit Interior Preview Graphic -->
+            <div class="w-full lg:max-w-md aspect-[4/3] rounded-2xl bg-gradient-to-tr from-[#E4D8C7] to-[#FAF8F5] border border-[#E4D8C7] flex flex-col items-center justify-center p-8 relative overflow-hidden">
+                <span class="w-16 h-16 rounded-full bg-[#BC6447]/10 flex items-center justify-center text-[#BC6447] mb-3">
+                    <span class="material-symbols-outlined !text-[32px]">chair</span>
+                </span>
+                <p class="font-bold text-base text-[#2D3748]">Considered Spaces</p>
+                <p class="text-xs text-gray-500 mt-1 text-center">Form, tactile materiality &amp; calm warmth</p>
+            </div>
+        </div>
+
+        <!-- Believable 4-Product Grid with Real Prices and Star Ratings -->
+        <section id="products" class="mb-16">
+            <div class="flex items-center justify-between mb-8">
+                <div>
+                    <h2 class="text-2xl sm:text-3xl font-extrabold text-[#2D3748]">Everyday Favorites</h2>
+                    <p class="text-xs text-gray-500 mt-1">Our most-loved daily rituals</p>
+                </div>
+                <span class="text-xs font-bold text-[#BC6447]">View all (24) &rarr;</span>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                <!-- Product 1: Everyday Mug -->
+                <div class="bg-white rounded-2xl p-4 border border-[#E4D8C7] hover:border-[#BC6447] transition-all flex flex-col justify-between group shadow-xs">
+                    <div>
+                        <div class="aspect-square rounded-xl bg-[#F4EFEB] mb-4 flex items-center justify-center relative overflow-hidden p-6">
+                            <span class="material-symbols-outlined !text-[48px] text-[#BC6447]">local_cafe</span>
+                        </div>
+                        <div class="flex items-center gap-1.5 text-xs text-amber-500 mb-1">
+                            <span>&#9733;&#9733;&#9733;&#9733;&#9733;</span>
+                            <span class="text-gray-400 text-[11px]">4.8 (124)</span>
+                        </div>
+                        <h3 class="font-bold text-sm text-[#2D3748] group-hover:text-[#BC6447] transition-colors">Everyday Mug</h3>
+                        <p class="text-xs text-gray-500 mt-0.5">Cream Speckle &bull; 12 oz</p>
+                    </div>
+                    <div class="flex items-center justify-between mt-5 pt-3 border-t border-gray-100">
+                        <span class="font-extrabold text-sm text-[#2D3748]">$18</span>
+                        <button type="button" onclick="window.hhAddToCart('Everyday Mug')" class="px-3 py-1.5 rounded-lg bg-[#BC6447] hover:bg-[#a55338] text-white text-xs font-bold transition-colors">
+                            Add to Cart
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Product 2: Linen Cushion -->
+                <div class="bg-white rounded-2xl p-4 border border-[#E4D8C7] hover:border-[#BC6447] transition-all flex flex-col justify-between group shadow-xs">
+                    <div>
+                        <div class="aspect-square rounded-xl bg-[#F4EFEB] mb-4 flex items-center justify-center relative overflow-hidden p-6">
+                            <span class="material-symbols-outlined !text-[48px] text-[#6E7357]">crop_square</span>
+                        </div>
+                        <div class="flex items-center gap-1.5 text-xs text-amber-500 mb-1">
+                            <span>&#9733;&#9733;&#9733;&#9733;&#9733;</span>
+                            <span class="text-gray-400 text-[11px]">4.7 (86)</span>
+                        </div>
+                        <h3 class="font-bold text-sm text-[#2D3748] group-hover:text-[#BC6447] transition-colors">Linen Cushion</h3>
+                        <p class="text-xs text-gray-500 mt-0.5">Rust Terracotta &bull; 20x20 in</p>
+                    </div>
+                    <div class="flex items-center justify-between mt-5 pt-3 border-t border-gray-100">
+                        <span class="font-extrabold text-sm text-[#2D3748]">$42</span>
+                        <button type="button" onclick="window.hhAddToCart('Linen Cushion')" class="px-3 py-1.5 rounded-lg bg-[#BC6447] hover:bg-[#a55338] text-white text-xs font-bold transition-colors">
+                            Add to Cart
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Product 3: Arc Table Lamp -->
+                <div class="bg-white rounded-2xl p-4 border border-[#E4D8C7] hover:border-[#BC6447] transition-all flex flex-col justify-between group shadow-xs">
+                    <div>
+                        <div class="aspect-square rounded-xl bg-[#F4EFEB] mb-4 flex items-center justify-center relative overflow-hidden p-6">
+                            <span class="material-symbols-outlined !text-[48px] text-amber-600">light</span>
+                        </div>
+                        <div class="flex items-center gap-1.5 text-xs text-amber-500 mb-1">
+                            <span>&#9733;&#9733;&#9733;&#9733;&#9733;</span>
+                            <span class="text-gray-400 text-[11px]">4.9 (62)</span>
+                        </div>
+                        <h3 class="font-bold text-sm text-[#2D3748] group-hover:text-[#BC6447] transition-colors">Arc Table Lamp</h3>
+                        <p class="text-xs text-gray-500 mt-0.5">Olive Brass &bull; Warm LED</p>
+                    </div>
+                    <div class="flex items-center justify-between mt-5 pt-3 border-t border-gray-100">
+                        <span class="font-extrabold text-sm text-[#2D3748]">$89</span>
+                        <button type="button" onclick="window.hhAddToCart('Arc Table Lamp')" class="px-3 py-1.5 rounded-lg bg-[#BC6447] hover:bg-[#a55338] text-white text-xs font-bold transition-colors">
+                            Add to Cart
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Product 4: Oak Serving Board -->
+                <div class="bg-white rounded-2xl p-4 border border-[#E4D8C7] hover:border-[#BC6447] transition-all flex flex-col justify-between group shadow-xs">
+                    <div>
+                        <div class="aspect-square rounded-xl bg-[#F4EFEB] mb-4 flex items-center justify-center relative overflow-hidden p-6">
+                            <span class="material-symbols-outlined !text-[48px] text-yellow-800">table_restaurant</span>
+                        </div>
+                        <div class="flex items-center gap-1.5 text-xs text-amber-500 mb-1">
+                            <span>&#9733;&#9733;&#9733;&#9733;&#9733;</span>
+                            <span class="text-gray-400 text-[11px]">4.8 (95)</span>
+                        </div>
+                        <h3 class="font-bold text-sm text-[#2D3748] group-hover:text-[#BC6447] transition-colors">Oak Serving Board</h3>
+                        <p class="text-xs text-gray-500 mt-0.5">Solid White Oak &bull; Food-safe</p>
+                    </div>
+                    <div class="flex items-center justify-between mt-5 pt-3 border-t border-gray-100">
+                        <span class="font-extrabold text-sm text-[#2D3748]">$36</span>
+                        <button type="button" onclick="window.hhAddToCart('Oak Serving Board')" class="px-3 py-1.5 rounded-lg bg-[#BC6447] hover:bg-[#a55338] text-white text-xs font-bold transition-colors">
+                            Add to Cart
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Merchandising Strip -->
+        <footer class="border-t border-[#E4D8C7] pt-10 text-center space-y-3">
+            <p class="text-sm font-bold text-[#6E7357] uppercase tracking-widest">
+                Thoughtfully chosen. Made to last.
+            </p>
+            <p class="text-xs text-gray-400">
+                &copy; 2026 Hearth &amp; Habit Homeware Co. &bull; Designed for calm living.
+            </p>
+        </footer>
+    </main>
+
+    <script>
+        window.hhCartCount = 0;
+        window.hhAddToCart = function(item) {
+            window.hhCartCount += 1;
+            const badge = document.getElementById('hh-cart-count');
+            if (badge) badge.innerText = window.hhCartCount;
+            alert(item + ' added to cart!');
+        };
+    </script>
+</div>

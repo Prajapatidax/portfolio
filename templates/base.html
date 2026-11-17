@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="en" class="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ page_title | default("Dax Prajapati | Full Stack Dev & Security Learner") }}</title>
+    <meta name="description" content="{{ meta_description | default("Personal portfolio of Dax Prajapati — Full Stack Developer & Cybersecurity enthusiast. Crafting fast, accessible, secure, and visually stunning web experiences.") }}">
+    <link rel="canonical" href="{{ canonical_url | default("https://prajapatidax.co.in/") }}">
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="{{ canonical_url | default("https://prajapatidax.co.in/") }}">
+    <meta property="og:title" content="{{ og_title | default(page_title | default("Dax Prajapati | Full Stack Dev & Security Learner")) }}">
+    <meta property="og:description" content="{{ og_description | default(meta_description | default("Crafting fast, accessible, secure, and visually stunning web experiences.")) }}">
+    <meta property="og:image" content="{{ og_image | default(url_for('static', filename='assets/logo.png', _external=True)) }}">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="{{ og_title | default(page_title | default("Dax Prajapati | Full Stack Dev & Security Learner")) }}">
+    <meta name="twitter:description" content="{{ og_description | default(meta_description | default("Crafting fast, accessible, secure, and visually stunning web experiences.")) }}">
+    <meta name="twitter:image" content="{{ og_image | default(url_for('static', filename='assets/logo.png', _external=True)) }}">
+
+    <!-- Theme & Icons -->
+    <meta name="theme-color" content="#2563EB">
+    <link rel="icon" type="image/png" href="{{ url_for('static', filename='assets/logo.png') }}">
+    <link rel="website icon" href="{{ url_for('static', filename='assets/logo.png') }}">
+
+    <!-- Structured Data (JSON-LD) -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": "Person",
+          "@id": "https://prajapatidax.co.in/#person",
+          "name": "Dax Prajapati",
+          "url": "https://prajapatidax.co.in/",
+          "jobTitle": "Full Stack Developer & Cybersecurity Specialist",
+          "sameAs": [
+            "https://github.com/Prajapatidax",
+            "https://www.linkedin.com/in/dax-prajapati1707/",
+            "https://leetcode.com/u/dax1707"
+          ]
+        },
+        {
+          "@type": "WebSite",
+          "@id": "https://prajapatidax.co.in/#website",
+          "url": "https://prajapatidax.co.in/",
+          "name": "Dax Prajapati Portfolio",
+          "publisher": {
+            "@id": "https://prajapatidax.co.in/#person"
+          }
+        }
+      ]
+    }
+    </script>
+
+    <!-- Tailwind CSS (CDN matching original styling) -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Plus Jakarta Sans', 'Inter', 'sans-serif'],
+                        serif: ['Lora', 'serif'],
+                        mono: ['JetBrains Mono', 'monospace'],
+                    },
+                    colors: {
+                        brand: {
+                            blue: '#2563EB',
+                            darkBlue: '#1D4ED8',
+                            lightBlueBg: '#F0F5FA',
+                            lightCreamBg: '#FAF8F3',
+                            accentYellow: '#FBBF24',
+                            textDark: '#0F172A',
+                            coralRed: '#FF5A65',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Lora:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/custom.css') }}">
+
+    <style>
+        .material-symbols-outlined {
+            vertical-align: middle;
+            line-height: 1;
+        }
+        body { 
+            background-color: #FFFFFF;
+            color: #1E293B;
+        }
+        .reveal { opacity: 0; transform: translateY(20px); transition: all 0.8s cubic-bezier(0.5, 0, 0, 1); }
+        .reveal.active { opacity: 1; transform: translateY(0); }
+        
+        .progress-bar-fill {
+            transition: width 1.5s cubic-bezier(0.1, 1, 0.1, 1);
+            width: 0;
+        }
+
+        #preloader {
+            position: fixed; inset: 0; background: #FFFFFF; color: #1E293B; z-index: 10001; display: flex; align-items: center; justify-content: center; transition: opacity 0.5s ease;
+        }
+    </style>
+    {% block extra_head %}{% endblock %}
+</head>
+<body class="font-sans antialiased overflow-x-hidden selection:bg-brand-blue selection:text-white">
+
+    <!-- Preloader matching original design -->
+    <div id="preloader">
+        <h1 class="font-serif text-3xl md:text-4xl font-bold tracking-tight" id="loader-text" data-text="{{ preloader_text | default('PRAJAPATI DAX.DEV       ') }}">INITIALIZING...</h1>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="fixed left-0 right-0 top-0 z-50 mx-auto w-full px-6 py-4 bg-white/95 backdrop-blur-md border-b border-gray-200/50 transition-colors">
+        <div class="max-w-7xl mx-auto flex items-center justify-between">
+            <a href="{{ url_for('main.index') }}" class="flex items-center gap-2 group">
+                <svg class="w-8 h-8 text-blue-600 transition-transform group-hover:scale-105" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <circle cx="50" cy="50" r="40" stroke="currentColor" stroke-width="8" />
+                    <path d="M38 30 H58 C66 30 70 34 70 40 C70 46 66 50 58 50 H38 V70" stroke="currentColor" stroke-width="8" stroke-linecap="round" stroke-linejoin="round" />
+                </svg>
+                <span class="font-sans font-extrabold text-lg tracking-tight text-gray-900">DAX <span class="font-normal text-gray-500">PRAJAPATI</span></span>
+            </a>
+
+            <!-- Desktop Links -->
+            <div class="hidden md:flex items-center gap-8 font-sans text-sm font-semibold text-gray-600">
+                <a href="{{ url_for('main.index') }}" class="{{ 'text-blue-600 border-b-2 border-blue-600' if request.path == '/' else 'text-gray-600 hover:text-blue-600' }} transition-colors pb-1">Home</a>
+                <a href="{{ url_for('main.about') }}" class="{{ 'text-blue-600 border-b-2 border-blue-600' if request.path == '/about' else 'text-gray-600 hover:text-blue-600' }} transition-colors pb-1">About</a>
+                <a href="{{ url_for('main.projects') }}" class="{{ 'text-blue-600 border-b-2 border-blue-600' if request.path == '/projects' else 'text-gray-600 hover:text-blue-600' }} transition-colors pb-1">Projects</a>
+                <a href="{{ url_for('showcase.index') }}" class="{{ 'text-blue-600 border-b-2 border-blue-600' if request.path.startswith('/design-showcase') else 'text-gray-600 hover:text-blue-600' }} transition-colors pb-1 flex items-center gap-1.5">
+                    Explore Designs
+                    <span class="inline-flex items-center px-1.5 py-0.5 rounded text-[10px] font-bold bg-blue-100 text-blue-700">NEW</span>
+                </a>
+                <a href="{{ url_for('main.contact') }}" class="{{ 'text-blue-600 border-b-2 border-blue-600' if request.path == '/contact' else 'text-gray-600 hover:text-blue-600' }} transition-colors pb-1">Contact</a>
+            </div>
+
+            <div class="flex items-center gap-3">
+                <a href="{{ url_for('quotation.wizard_page') }}" class="hidden lg:flex items-center gap-1.5 border border-blue-600 text-blue-600 hover:bg-blue-50 font-semibold text-sm px-4 py-2 rounded-full transition-all">
+                    <span class="material-symbols-outlined !text-[16px]">calculate</span> Get a Quote
+                </a>
+                <a href="{{ url_for('main.contact') }}" class="hidden sm:flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white font-semibold text-sm px-5 py-2.5 rounded-full shadow-md shadow-blue-500/10 transition-all hover:scale-105 active:scale-95">
+                    Let's Talk <span class="material-symbols-outlined !text-[16px]">send</span>
+                </a>
+
+                <!-- Hamburger Button for Mobile -->
+                <button id="menu-toggle" class="p-2 rounded-full border border-gray-200 hover:bg-gray-100 transition-colors text-gray-800 focus:outline-none md:hidden" aria-label="Toggle navigation menu">
+                    <span class="material-symbols-outlined !text-[20px] block" id="menu-icon">menu</span>
+                    <span class="material-symbols-outlined !text-[20px] hidden" id="close-icon">close</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- Mobile Links Drawer -->
+        <div id="mobile-menu" class="hidden md:hidden absolute left-0 top-full w-full bg-white border-b border-gray-200/80 px-6 py-5 flex flex-col gap-3 shadow-xl">
+            <a href="{{ url_for('main.index') }}" class="{{ 'text-blue-600 font-bold' if request.path == '/' else 'text-gray-700 font-medium' }} py-1 border-b border-gray-100">Home</a>
+            <a href="{{ url_for('main.about') }}" class="{{ 'text-blue-600 font-bold' if request.path == '/about' else 'text-gray-700 font-medium' }} py-1 border-b border-gray-100">About</a>
+            <a href="{{ url_for('main.projects') }}" class="{{ 'text-blue-600 font-bold' if request.path == '/projects' else 'text-gray-700 font-medium' }} py-1 border-b border-gray-100">Projects</a>
+            <a href="{{ url_for('showcase.index') }}" class="{{ 'text-blue-600 font-bold' if request.path.startswith('/design-showcase') else 'text-gray-700 font-medium' }} py-1 border-b border-gray-100 flex items-center justify-between">
+                <span>Explore Designs</span>
+                <span class="px-2 py-0.5 rounded text-[10px] font-bold bg-blue-100 text-blue-700">NEW</span>
+            </a>
+            <a href="{{ url_for('main.contact') }}" class="{{ 'text-blue-600 font-bold' if request.path == '/contact' else 'text-gray-700 font-medium' }} py-1 border-b border-gray-100">Contact</a>
+            
+            <div class="grid grid-cols-2 gap-2 mt-2">
+                <a href="{{ url_for('quotation.wizard_page') }}" class="text-center border border-blue-600 text-blue-600 font-semibold text-xs py-2.5 rounded-full">
+                    Get a Quote
+                </a>
+                <a href="{{ url_for('main.contact') }}" class="text-center bg-blue-600 text-white font-semibold text-xs py-2.5 rounded-full shadow-sm">
+                    Let's Talk
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content Area -->
+    <div class="pt-20">
+        {% block content %}{% endblock %}
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-white py-12 border-t border-gray-100 text-gray-500 text-sm font-medium">
+        <div class="max-w-7xl mx-auto px-6 flex flex-col md:flex-row justify-between items-center gap-6">
+            <div class="flex items-center gap-2">
+                <svg class="w-7 h-7 text-blue-600" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <circle cx="50" cy="50" r="40" stroke="currentColor" stroke-width="8" />
+                    <path d="M38 30 H58 C66 30 70 34 70 40 C70 46 66 50 58 50 H38 V70" stroke="currentColor" stroke-width="8" stroke-linecap="round" stroke-linejoin="round" />
+                </svg>
+                <span class="font-sans font-bold text-gray-900">DAX <span class="font-normal text-gray-500">PRAJAPATI</span></span>
+            </div>
+            
+            <div class="flex flex-wrap items-center justify-center gap-6 text-xs text-gray-600">
+                <a href="{{ url_for('main.index') }}" class="hover:text-blue-600">Home</a>
+                <a href="{{ url_for('main.about') }}" class="hover:text-blue-600">About</a>
+                <a href="{{ url_for('main.projects') }}" class="hover:text-blue-600">Projects</a>
+                <a href="{{ url_for('showcase.index') }}" class="hover:text-blue-600">Design Showcase</a>
+                <a href="{{ url_for('quotation.wizard_page') }}" class="hover:text-blue-600">Quotation Wizard</a>
+                <a href="{{ url_for('main.contact') }}" class="hover:text-blue-600">Contact</a>
+                <button type="button" onclick="window.openCookieSettings()" class="hover:text-blue-600 flex items-center gap-1 font-semibold text-gray-500">
+                    <span class="material-symbols-outlined !text-[14px]">cookie</span> Cookie Settings
+                </button>
+            </div>
+
+            <p class="text-xs text-gray-400">© <span id="year">2026</span> Dax Prajapati. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <!-- Cookie Consent Banner (Phase 7) -->
+    <div id="cookie-consent-banner" class="hidden fixed bottom-4 left-4 right-4 md:left-auto md:right-6 md:max-w-md z-50 p-6 rounded-3xl bg-white/95 backdrop-blur-md border border-gray-200/90 shadow-2xl transition-all">
+        <div class="flex items-start gap-3 mb-3">
+            <span class="material-symbols-outlined text-blue-600 !text-[24px]">cookie</span>
+            <div>
+                <h4 class="font-bold text-gray-900 text-sm">Cookie Preferences</h4>
+                <p class="text-xs text-gray-600 mt-1 leading-relaxed">
+                    We use cookies to improve your browsing experience, understand website performance and provide essential functionality.
+                </p>
+            </div>
+        </div>
+        <div class="flex items-center justify-end gap-2 mt-4 pt-3 border-t border-gray-100 flex-wrap">
+            <button id="cookie-open-settings" class="text-xs font-bold text-gray-600 hover:text-blue-600 px-3 py-1.5 rounded-full transition-colors">
+                Cookie Settings
+            </button>
+            <button id="cookie-reject-optional" class="text-xs font-bold text-gray-700 bg-gray-100 hover:bg-gray-200 px-3.5 py-1.5 rounded-full transition-colors">
+                Reject Optional
+            </button>
+            <button id="cookie-accept-all" class="text-xs font-bold text-white bg-blue-600 hover:bg-blue-700 px-4 py-1.5 rounded-full transition-all shadow-sm">
+                Accept All
+            </button>
+        </div>
+    </div>
+
+    <!-- Cookie Granular Settings Modal (Phase 7) -->
+    <div id="cookie-consent-modal" class="hidden fixed inset-0 z-50 bg-black/50 backdrop-blur-sm flex items-center justify-center p-4">
+        <div class="bg-white rounded-3xl max-w-lg w-full p-6 sm:p-8 shadow-2xl border border-gray-200 relative animate-shimmer">
+            <div class="flex items-center justify-between pb-4 border-b border-gray-100">
+                <div class="flex items-center gap-2">
+                    <span class="material-symbols-outlined text-blue-600 !text-[24px]">tune</span>
+                    <h3 class="font-extrabold text-lg text-gray-900">Cookie Settings</h3>
+                </div>
+                <button id="cookie-close-modal" class="text-gray-400 hover:text-gray-600 p-1 rounded-full">
+                    <span class="material-symbols-outlined !text-[20px]">close</span>
+                </button>
+            </div>
+
+            <div class="py-4 space-y-4">
+                <!-- Essential -->
+                <div class="flex items-start justify-between gap-4 p-4 rounded-2xl bg-gray-50 border border-gray-100">
+                    <div>
+                        <div class="flex items-center gap-2">
+                            <span class="font-bold text-sm text-gray-900">Essential Cookies</span>
+                            <span class="px-2 py-0.5 rounded text-[10px] font-bold bg-green-100 text-green-700">Always Active</span>
+                        </div>
+                        <p class="text-xs text-gray-500 mt-1">Required for website security, session persistence, and basic navigation functionality.</p>
+                    </div>
+                    <input type="checkbox" checked disabled class="mt-1 h-5 w-5 text-blue-600 rounded cursor-not-allowed">
+                </div>
+
+                <!-- Analytics -->
+                <div class="flex items-start justify-between gap-4 p-4 rounded-2xl bg-gray-50 border border-gray-100">
+                    <div>
+                        <span class="font-bold text-sm text-gray-900">Analytics Cookies</span>
+                        <p class="text-xs text-gray-500 mt-1">Help us understand how visitors interact with the website to improve user experience.</p>
+                    </div>
+                    <input id="consent-analytics-toggle" type="checkbox" class="mt-1 h-5 w-5 text-blue-600 rounded cursor-pointer">
+                </div>
+
+                <!-- Marketing -->
+                <div class="flex items-start justify-between gap-4 p-4 rounded-2xl bg-gray-50 border border-gray-100">
+                    <div>
+                        <span class="font-bold text-sm text-gray-900">Marketing Cookies</span>
+                        <p class="text-xs text-gray-500 mt-1">Used to evaluate marketing performance and external platform referrals.</p>
+                    </div>
+                    <input id="consent-marketing-toggle" type="checkbox" class="mt-1 h-5 w-5 text-blue-600 rounded cursor-pointer">
+                </div>
+            </div>
+
+            <div class="flex items-center justify-end gap-3 pt-4 border-t border-gray-100">
+                <button id="cookie-save-settings" class="bg-blue-600 hover:bg-blue-700 text-white font-bold text-xs px-6 py-2.5 rounded-full transition-all shadow-md">
+                    Save Preferences
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Core Scripts -->
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/cookie-consent.js') }}"></script>
+    {% block scripts %}{% endblock %}
+</body>
+</html>

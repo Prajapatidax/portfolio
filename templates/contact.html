@@ -1,0 +1,145 @@
+{% extends "base.html" %}
+
+{% block content %}
+<main class="mx-auto max-w-7xl px-4 pt-16 pb-20 min-h-[85vh]">
+    <div class="reveal mb-12 text-center">
+        <span class="text-xs font-bold text-brand-blue uppercase tracking-widest">Get In Touch</span>
+        <div class="flex justify-center mt-1 mb-2">
+            <svg class="w-16 h-2 text-yellow-500" viewBox="0 0 100 10" fill="none" preserveAspectRatio="none">
+                <path d="M0,5 Q12.5,0 25,5 T50,5 T75,5 T100,5" stroke="currentColor" stroke-width="3" stroke-linecap="round"/>
+            </svg>
+        </div>
+        <h1 class="text-4xl md:text-5xl font-sans font-extrabold text-brand-textDark mb-6 leading-tight">Let's Build Something Together</h1>
+        <p class="mx-auto max-w-2xl font-mono text-sm text-gray-500">
+            Feel free to reach out for collaborations, opportunities, custom design quotations, or just to connect!
+        </p>
+    </div>
+
+    <!-- Centered Profile Cards Grid -->
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-4xl mx-auto items-stretch">
+        
+        <!-- Interactive Quotation Request Feature Card -->
+        <a href="{{ url_for('quotation.wizard_page') }}" class="reveal cursor-hover group relative flex items-center p-6 gap-6 overflow-hidden rounded-[2rem] border-2 border-blue-500/30 bg-blue-50/40 transition-all hover:-translate-y-1 hover:shadow-xl md:col-span-2">
+            <div class="flex h-16 w-16 flex-shrink-0 items-center justify-center rounded-full bg-blue-600 text-white transition-colors group-hover:scale-110 duration-300 shadow-md">
+                <span class="material-symbols-outlined !text-[32px]">calculate</span>
+            </div>
+            <div class="flex-1">
+                <div class="flex items-center gap-2 mb-1">
+                    <h3 class="text-xl font-black tracking-tight text-gray-900 group-hover:text-brand-blue transition-colors">Start a Project & Request Quotation</h3>
+                    <span class="px-2 py-0.5 rounded text-[10px] font-bold bg-blue-600 text-white">INTERACTIVE WIZARD</span>
+                </div>
+                <p class="font-sans text-sm text-gray-600">Select design directions, customize colors, configure features, and get an instant proposal reference.</p>
+            </div>
+            <span class="material-symbols-outlined !text-[24px] text-blue-600 transition-transform group-hover:translate-x-1">arrow_forward</span>
+        </a>
+
+        <!-- Email -->
+        <a href="mailto:daxprajapati1707@gmail.com" target="_blank" class="reveal cursor-hover group relative flex items-center p-6 gap-6 overflow-hidden rounded-[2rem] border border-gray-200 bg-white transition-all hover:-translate-y-1 hover:shadow-xl">
+            <div class="flex h-16 w-16 flex-shrink-0 items-center justify-center rounded-full bg-gray-100 group-hover:bg-gray-100 transition-colors group-hover:scale-110 duration-300">
+                <span class="material-symbols-outlined !text-[32px] text-neutral-600 group-hover:text-brand-blue transition-colors">mail</span>
+            </div>
+            <div>
+                <h3 class="text-xl font-black tracking-tight mb-1 group-hover:text-brand-blue transition-colors">Email</h3>
+                <p class="font-mono text-sm text-gray-500 truncate">daxprajapati1707@gmail.com</p>
+            </div>
+            <span class="material-symbols-outlined !text-[20px] absolute right-6 top-6 opacity-0 -translate-x-2 transition-all group-hover:translate-x-0 group-hover:opacity-100 text-brand-blue">arrow_outward</span>
+        </a>
+
+        <!-- GitHub -->
+        <a href="https://github.com/Prajapatidax" target="_blank" class="reveal cursor-hover group relative flex items-center p-6 gap-6 overflow-hidden rounded-[2rem] border border-gray-200 bg-white transition-all hover:-translate-y-1 hover:shadow-xl">
+            <div class="flex h-16 w-16 flex-shrink-0 items-center justify-center rounded-full bg-gray-100 group-hover:bg-gray-200 transition-colors group-hover:scale-110 duration-300">
+                <svg viewBox="0 0 24 24" aria-hidden="true" class="h-8 w-8 text-neutral-600 group-hover:text-black transition-colors" fill="currentColor">
+                    <path d="M12 .297a12 12 0 0 0-3.79 23.39c.6.111.82-.258.82-.577v-2.24c-3.34.726-4.04-1.416-4.04-1.416a3.18 3.18 0 0 0-1.34-1.756c-1.09-.744.084-.729.084-.729a2.52 2.52 0 0 1 1.84 1.24 2.56 2.56 0 0 0 3.5 1 2.56 2.56 0 0 1 .76-1.61c-2.67-.3-5.47-1.33-5.47-5.93a4.64 4.64 0 0 1 1.24-3.22 4.3 4.3 0 0 1 .12-3.18s1-.322 3.3 1.23a11.4 11.4 0 0 1 6 0c2.28-1.55 3.28-1.23 3.28-1.23a4.3 4.3 0 0 1 .12 3.18 4.63 4.63 0 0 1 1.23 3.22c0 4.61-2.8 5.62-5.48 5.92a2.87 2.87 0 0 1 .82 2.22v3.29c0 .32.22.69.83.57A12 12 0 0 0 12 .297"/>
+                </svg>
+            </div>
+            <div>
+                <h3 class="text-xl font-black tracking-tight mb-1 group-hover:text-neutral-900 transition-colors">GitHub</h3>
+                <p class="font-mono text-sm text-gray-500 truncate">github.com/Prajapatidax</p>
+            </div>
+            <span class="material-symbols-outlined !text-[20px] absolute right-6 top-6 opacity-0 -translate-x-2 transition-all group-hover:translate-x-0 group-hover:opacity-100 text-neutral-900">arrow_outward</span>
+        </a>
+
+        <!-- LinkedIn -->
+        <a href="https://www.linkedin.com/in/dax-prajapati1707/" target="_blank" class="reveal cursor-hover group relative flex items-center p-6 gap-6 overflow-hidden rounded-[2rem] border border-gray-200 bg-white transition-all hover:-translate-y-1 hover:shadow-xl">
+            <div class="flex h-16 w-16 flex-shrink-0 items-center justify-center rounded-full bg-gray-100 group-hover:bg-gray-100 transition-colors group-hover:scale-110 duration-300">
+                <svg viewBox="0 0 24 24" aria-hidden="true" class="h-8 w-8 text-neutral-600 group-hover:text-brand-blue transition-colors" fill="currentColor">
+                    <path d="M20.45 20.45h-3.56v-5.57c0-1.33-.03-3.05-1.86-3.05-1.86 0-2.15 1.45-2.15 2.95v5.67H9.32V9h3.41v1.56h.05c.48-.9 1.63-1.86 3.36-1.86 3.59 0 4.25 2.36 4.25 5.43v6.32ZM5.34 7.43a2.07 2.07 0 1 1 0-4.14 2.07 2.07 0 0 1 0 4.14Zm1.78 13.02H3.56V9h3.56v11.45ZM22.23 0H1.77A1.77 1.77 0 0 0 0 1.77v20.46C0 23.2.8 24 1.77 24h20.46A1.77 1.77 0 0 0 24 22.23V1.77A1.77 1.77 0 0 0 22.23 0Z"/>
+                </svg>
+            </div>
+            <div>
+                <h3 class="text-xl font-black tracking-tight mb-1 group-hover:text-brand-blue transition-colors">LinkedIn</h3>
+                <p class="font-mono text-sm text-gray-500 truncate">in/dax-prajapati1707</p>
+            </div>
+            <span class="material-symbols-outlined !text-[20px] absolute right-6 top-6 opacity-0 -translate-x-2 transition-all group-hover:translate-x-0 group-hover:opacity-100 text-brand-blue">arrow_outward</span>
+        </a>
+
+        <!-- Leetcode -->
+        <a href="https://leetcode.com/u/dax1707" target="_blank" class="reveal cursor-hover group relative flex items-center p-6 gap-6 overflow-hidden rounded-[2rem] border border-gray-200 bg-white transition-all hover:-translate-y-1 hover:shadow-xl">
+            <div class="flex h-16 w-16 flex-shrink-0 items-center justify-center rounded-full bg-gray-100 group-hover:bg-pink-50 transition-colors group-hover:scale-110 duration-300">
+                <svg viewBox="0 0 24 24" aria-hidden="true" class="h-8 w-8 text-neutral-600 group-hover:text-yellow-500 transition-colors" fill="currentColor">
+                    <path d="M13.483 0a1.374 1.374 0 0 0-.977.403L1.403 11.506a1.374 1.374 0 0 0 0 1.944l11.103 11.103a1.374 1.374 0 0 0 1.944 0l2.122-2.122a1.374 1.374 0 0 0-1.944-1.944l-1.15 1.15-9.16-9.16 9.16-9.16 1.15 1.15a1.374 1.374 0 0 0 1.944-1.944L14.45.403A1.374 1.374 0 0 0 13.483 0ZM9.44 7.44a1.374 1.374 0 1 0-1.944 1.944L10.112 12l-2.616 2.616a1.374 1.374 0 1 0 1.944 1.944l3.588-3.588a1.374 1.374 0 0 0 0-1.944L9.44 7.44Z"/>
+                </svg>
+            </div>
+            <div>
+                <h3 class="text-xl font-black tracking-tight mb-1 group-hover:text-neutral-900 transition-colors">LeetCode</h3>
+                <p class="font-mono text-sm text-gray-500 truncate">dax1707</p>
+            </div>
+            <span class="material-symbols-outlined !text-[20px] absolute right-6 top-6 opacity-0 -translate-x-2 transition-all group-hover:translate-x-0 group-hover:opacity-100 text-neutral-900">arrow_outward</span>
+        </a>
+
+        <!-- Instagram -->
+        <a href="https://www.instagram.com/i_am_dax7596" target="_blank" class="reveal cursor-hover group relative flex items-center p-6 gap-6 overflow-hidden rounded-[2rem] border border-gray-200 bg-white transition-all hover:-translate-y-1 hover:shadow-xl md:col-span-2 md:max-w-md md:mx-auto w-full">
+            <div class="flex h-16 w-16 flex-shrink-0 items-center justify-center rounded-full bg-gray-100 group-hover:bg-pink-50 transition-colors group-hover:scale-110 duration-300">
+                <svg viewBox="0 0 24 24" aria-hidden="true" class="h-8 w-8 text-neutral-600 group-hover:text-pink-600 transition-colors" fill="currentColor">
+                    <path d="M7.75 2h8.5A5.75 5.75 0 0 1 22 7.75v8.5A5.75 5.75 0 0 1 16.25 22h-8.5A5.75 5.75 0 0 1 2 16.25v-8.5A5.75 5.75 0 0 1 7.75 2Zm-.2 1.9A3.65 3.65 0 0 0 3.9 7.55v8.9a3.65 3.65 0 0 0 3.65 3.65h8.9a3.65 3.65 0 0 0 3.65-3.65v-8.9a3.65 3.65 0 0 0-3.65-3.65h-8.9Zm9.75 1.45a1.2 1.2 0 1 1 0 2.4 1.2 1.2 0 0 1 0-2.4ZM12 7a5 5 0 1 1 0 10 5 5 0 0 1 0-10Zm0 1.9a3.1 3.1 0 1 0 0 6.2 3.1 3.1 0 0 0 0-6.2Z"/>
+                </svg>
+            </div>
+            <div>
+                <h3 class="text-xl font-black tracking-tight mb-1 group-hover:text-pink-600 transition-colors">Instagram</h3>
+                <p class="font-mono text-sm text-gray-500 truncate">@i_am_dax7596</p>
+            </div>
+            <span class="material-symbols-outlined !text-[20px] absolute right-6 top-6 opacity-0 -translate-x-2 transition-all group-hover:translate-x-0 group-hover:opacity-100 text-pink-600">arrow_outward</span>
+        </a>
+    </div>
+
+    <!-- Direct Contact Inquiry Form -->
+    <div class="mt-16 max-w-2xl mx-auto bg-white p-8 sm:p-10 rounded-[2.5rem] border border-gray-200 shadow-xl reveal">
+        <div class="text-center mb-8">
+            <span class="text-xs font-mono font-bold text-blue-600 bg-blue-50 px-3 py-1 rounded-full uppercase tracking-wider border border-blue-100">Send Direct Message</span>
+            <h2 class="text-2xl sm:text-3xl font-extrabold text-gray-900 mt-2">Leave a Message</h2>
+            <p class="text-xs text-gray-500 mt-1">Have an engineering question, security inquiry, or general question? I'll respond directly via email.</p>
+        </div>
+
+        <form action="{{ url_for('main.contact') }}" method="POST" class="space-y-4 text-xs font-medium">
+            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div>
+                    <label class="block font-bold text-gray-700 mb-1">Your Name *</label>
+                    <input type="text" name="name" required placeholder="e.g. Alex Mercer" class="w-full p-3 rounded-2xl border border-gray-200 focus:ring-2 focus:ring-blue-500 bg-gray-50/50">
+                </div>
+                <div>
+                    <label class="block font-bold text-gray-700 mb-1">Email Address *</label>
+                    <input type="email" name="email" required placeholder="alex@example.com" class="w-full p-3 rounded-2xl border border-gray-200 focus:ring-2 focus:ring-blue-500 bg-gray-50/50">
+                </div>
+            </div>
+
+            <div>
+                <label class="block font-bold text-gray-700 mb-1">Subject *</label>
+                <input type="text" name="subject" required placeholder="e.g. Collaboration on Next-Gen Web Application" class="w-full p-3 rounded-2xl border border-gray-200 focus:ring-2 focus:ring-blue-500 bg-gray-50/50">
+            </div>
+
+            <div>
+                <label class="block font-bold text-gray-700 mb-1">Message *</label>
+                <textarea name="message" rows="4" required placeholder="Share your message, project idea, or collaboration question..." class="w-full p-3 rounded-2xl border border-gray-200 focus:ring-2 focus:ring-blue-500 bg-gray-50/50 leading-relaxed"></textarea>
+            </div>
+
+            <div class="pt-2">
+                <button type="submit" class="w-full py-3.5 bg-blue-600 hover:bg-blue-700 text-white font-extrabold text-xs rounded-2xl shadow-lg shadow-blue-500/20 transition-all flex items-center justify-center gap-2">
+                    <span class="material-symbols-outlined !text-[18px]">send</span> Send Message
+                </button>
+            </div>
+        </form>
+    </div>
+</main>
+{% endblock %}

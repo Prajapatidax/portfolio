@@ -1,0 +1,315 @@
+{% extends "admin/base_admin.html" %}
+
+{% block breadcrumb %}
+<a href="{{ url_for('admin.quotations_list') }}" class="hover:underline">Quotations</a>
+<span class="mx-2 text-admin-300">/</span>
+<span>{{ quote.reference_id }}</span>
+{% endblock %}
+
+{% block admin_content %}
+<div class="space-y-6 max-w-7xl mx-auto">
+
+    <!-- Top Action Bar -->
+    <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 bg-white p-6 rounded-3xl border border-admin-200 shadow-xs">
+        <div class="flex items-center gap-3">
+            <a href="{{ url_for('admin.quotations_list') }}" class="p-2 rounded-xl bg-admin-100 hover:bg-admin-200 text-admin-700 transition-colors" title="Back to Quotations">
+                <span class="material-symbols-outlined !text-[20px]">arrow_back</span>
+            </a>
+            <div>
+                <div class="flex items-center gap-2">
+                    <span class="text-xs font-mono font-bold text-blue-600 bg-blue-50 px-2.5 py-0.5 rounded-full border border-blue-200">#{{ quote.reference_id }}</span>
+                    <span class="px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider {{ 'bg-red-100 text-red-800' if quote.priority == 'urgent' else 'bg-amber-100 text-amber-800' if quote.priority == 'high' else 'bg-blue-100 text-blue-800' if quote.priority == 'normal' else 'bg-admin-100 text-admin-600' }}">
+                        {{ quote.priority }} Priority
+                    </span>
+                    <span class="px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider {{ 'bg-blue-100 text-blue-800' if quote.status == 'new' else 'bg-amber-100 text-amber-800' if quote.status in ('under_review', 'reviewing') else 'bg-purple-100 text-purple-800' if quote.status == 'quotation_sent' else 'bg-emerald-100 text-emerald-800' if quote.status == 'accepted' else 'bg-red-100 text-red-800' }}">
+                        {{ quote.status.replace('_', ' ') }}
+                    </span>
+                </div>
+                <h1 class="text-xl sm:text-2xl font-black text-admin-900 mt-1">{{ quote.project_name }}</h1>
+            </div>
+        </div>
+
+        <!-- Quick CTAs: Archive & Delete -->
+        <div class="flex items-center gap-2">
+            <form action="{{ url_for('admin.archive_quotation', quote_id=quote.id) }}" method="POST" class="inline">
+                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                <button type="submit" class="p-2.5 rounded-xl border border-admin-200 bg-admin-50 hover:bg-admin-100 text-admin-700 text-xs font-bold transition-colors" title="{{ 'Restore' if quote.is_archived else 'Archive' }}">
+                    <span class="material-symbols-outlined !text-[18px]">{{ 'unarchive' if quote.is_archived else 'archive' }}</span>
+                </button>
+            </form>
+            <button type="button" onclick="document.getElementById('delete-modal').classList.remove('hidden')" class="p-2.5 rounded-xl bg-red-50 hover:bg-red-100 text-red-600 transition-colors" title="Delete">
+                <span class="material-symbols-outlined !text-[18px]">delete</span>
+            </button>
+        </div>
+    </div>
+
+    <!-- Main Grid Layout -->
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
+        
+        <!-- Left 8 Columns: Request Details & Specifications -->
+        <div class="lg:col-span-8 space-y-6">
+            
+            <!-- 1. Customer Information Card -->
+            <div class="bg-white rounded-3xl border border-admin-200 shadow-xs p-6">
+                <h3 class="text-xs font-bold text-admin-400 uppercase tracking-wider mb-4 flex items-center gap-1.5">
+                    <span class="material-symbols-outlined text-blue-600 !text-[18px]">person</span> Customer Information
+                </h3>
+                <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                    <div class="bg-admin-50 p-3.5 rounded-2xl border border-admin-100">
+                        <span class="text-[10px] font-bold text-admin-400 uppercase block">Full Name</span>
+                        <span class="font-extrabold text-admin-900 text-sm mt-0.5 block">{{ quote.customer_name }}</span>
+                    </div>
+                    <div class="bg-admin-50 p-3.5 rounded-2xl border border-admin-100">
+                        <span class="text-[10px] font-bold text-admin-400 uppercase block">Email Address</span>
+                        <a href="mailto:{{ quote.customer_email }}" class="font-bold text-blue-600 hover:underline text-xs mt-0.5 block truncate">
+                            {{ quote.customer_email }}
+                        </a>
+                    </div>
+                    <div class="bg-admin-50 p-3.5 rounded-2xl border border-admin-100">
+                        <span class="text-[10px] font-bold text-admin-400 uppercase block">Phone / WhatsApp</span>
+                        <span class="font-bold text-admin-800 text-xs mt-0.5 block font-mono">
+                            {{ quote.customer_phone or 'Not provided' }}
+                        </span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 2. Project Specifications Card -->
+            <div class="bg-white rounded-3xl border border-admin-200 shadow-xs p-6">
+                <h3 class="text-xs font-bold text-admin-400 uppercase tracking-wider mb-4 flex items-center gap-1.5">
+                    <span class="material-symbols-outlined text-blue-600 !text-[18px]">description</span> Project Specifications
+                </h3>
+                
+                <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-4">
+                    <div class="bg-admin-50 p-3 rounded-xl border border-admin-100">
+                        <span class="text-[10px] font-bold text-admin-400 uppercase block">Project Category</span>
+                        <span class="font-bold text-admin-900 text-xs block mt-0.5">{{ quote.project_type }}</span>
+                    </div>
+                    <div class="bg-admin-50 p-3 rounded-xl border border-admin-100">
+                        <span class="text-[10px] font-bold text-admin-400 uppercase block">Budget Expectation</span>
+                        <span class="font-bold text-blue-600 text-xs block mt-0.5">{{ quote.budget_range }}</span>
+                    </div>
+                    <div class="bg-admin-50 p-3 rounded-xl border border-admin-100">
+                        <span class="text-[10px] font-bold text-admin-400 uppercase block">Delivery Timeline</span>
+                        <span class="font-bold text-admin-900 text-xs block mt-0.5">{{ quote.timeline }}</span>
+                    </div>
+                </div>
+
+                {% if quote.reference_website %}
+                <div class="mb-4 p-3 bg-blue-50/50 rounded-xl border border-blue-100 text-xs flex items-center justify-between">
+                    <span class="text-admin-600">Reference Website: <strong class="text-admin-900">{{ quote.reference_website }}</strong></span>
+                    <a href="{{ quote.reference_website }}" target="_blank" class="text-blue-600 font-bold hover:underline flex items-center gap-0.5">
+                        Open <span class="material-symbols-outlined !text-[14px]">open_in_new</span>
+                    </a>
+                </div>
+                {% endif %}
+
+                <div>
+                    <span class="text-[10px] font-bold text-admin-400 uppercase block mb-1">Project Description &amp; Scope</span>
+                    <div class="p-4 bg-admin-50 rounded-2xl border border-admin-100 text-xs text-admin-800 whitespace-pre-line leading-relaxed font-medium">
+                        {{ quote.project_description }}
+                    </div>
+                </div>
+            </div>
+
+            <!-- 3. Selected Design References -->
+            <div class="bg-white rounded-3xl border border-admin-200 shadow-xs p-6">
+                <h3 class="text-xs font-bold text-admin-400 uppercase tracking-wider mb-4 flex items-center gap-1.5">
+                    <span class="material-symbols-outlined text-blue-600 !text-[18px]">palette</span> Design Preferences &amp; Selected Templates
+                </h3>
+
+                {% if quote.selected_designs %}
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    {% for d in quote.selected_designs %}
+                    <div class="p-4 rounded-2xl bg-admin-50 border border-admin-100 flex items-start justify-between">
+                        <div>
+                            <span class="text-[10px] font-mono font-bold text-blue-600 bg-blue-50 px-2 py-0.5 rounded border border-blue-200">{{ d.design_id_snapshot }}</span>
+                            <h4 class="font-extrabold text-admin-900 text-sm mt-1">{{ d.design_name_snapshot }}</h4>
+                            <p class="text-[11px] text-admin-500">{{ d.category_snapshot }}</p>
+                        </div>
+                        <a href="{{ url_for('showcase.preview', slug=d.design_template.slug) if d.design_template else '#' }}" target="_blank" class="p-2 rounded-xl bg-white hover:bg-blue-50 hover:text-blue-600 border border-admin-200 text-admin-600 transition-colors" title="View Template Reference">
+                            <span class="material-symbols-outlined !text-[16px]">visibility</span>
+                        </a>
+                    </div>
+                    {% endfor %}
+                </div>
+                {% else %}
+                <p class="text-xs text-admin-400 italic">No specific design templates selected; customer requested a bespoke custom visual direction.</p>
+                {% endif %}
+
+                <!-- Customization specs -->
+                {% if quote.customization %}
+                <div class="mt-4 pt-4 border-t border-admin-100 grid grid-cols-2 sm:grid-cols-4 gap-3 text-xs">
+                    <div class="p-2.5 rounded-xl bg-admin-50 border border-admin-100">
+                        <span class="text-[10px] font-bold text-admin-400 uppercase block">Primary Color</span>
+                        <div class="flex items-center gap-1.5 mt-1">
+                            <span class="w-4 h-4 rounded-full border border-admin-300" style="background-color: {{ quote.customization.primary_color }}"></span>
+                            <span class="font-mono text-[11px] font-bold text-admin-900">{{ quote.customization.primary_color }}</span>
+                        </div>
+                    </div>
+                    <div class="p-2.5 rounded-xl bg-admin-50 border border-admin-100">
+                        <span class="text-[10px] font-bold text-admin-400 uppercase block">Theme Mode</span>
+                        <span class="font-bold text-admin-900 text-[11px] block mt-1 capitalize">{{ quote.customization.theme_mode }} Mode</span>
+                    </div>
+                    <div class="p-2.5 rounded-xl bg-admin-50 border border-admin-100">
+                        <span class="text-[10px] font-bold text-admin-400 uppercase block">Typography</span>
+                        <span class="font-bold text-admin-900 text-[11px] block mt-1 truncate">{{ quote.customization.typography_preference }}</span>
+                    </div>
+                    <div class="p-2.5 rounded-xl bg-admin-50 border border-admin-100">
+                        <span class="text-[10px] font-bold text-admin-400 uppercase block">Animation</span>
+                        <span class="font-bold text-admin-900 text-[11px] block mt-1 truncate">{{ quote.customization.animation_preference }}</span>
+                    </div>
+                </div>
+                {% endif %}
+            </div>
+
+            <!-- 4. Requested Features -->
+            <div class="bg-white rounded-3xl border border-admin-200 shadow-xs p-6">
+                <h3 class="text-xs font-bold text-admin-400 uppercase tracking-wider mb-3 flex items-center gap-1.5">
+                    <span class="material-symbols-outlined text-blue-600 !text-[18px]">checklist</span> Requested Features
+                </h3>
+                {% if quote.features %}
+                <div class="flex flex-wrap gap-2">
+                    {% for f in quote.features %}
+                    <span class="px-3 py-1.5 rounded-xl text-xs font-semibold bg-admin-50 text-admin-800 border border-admin-200 flex items-center gap-1.5">
+                        <span class="material-symbols-outlined text-emerald-600 !text-[16px]">check_circle</span>
+                        {{ f.feature_label }}
+                    </span>
+                    {% endfor %}
+                </div>
+                {% else %}
+                <p class="text-xs text-admin-400 italic">No modular feature packages selected.</p>
+                {% endif %}
+            </div>
+        </div>
+
+        <!-- Right 4 Columns: Administration & Workflow Control Panel -->
+        <div class="lg:col-span-4 space-y-6">
+            
+            <!-- Workflow Management Form -->
+            <div class="bg-white rounded-3xl border border-admin-200 shadow-xs p-6">
+                <h3 class="text-xs font-bold text-admin-400 uppercase tracking-wider mb-4 flex items-center gap-1.5">
+                    <span class="material-symbols-outlined text-blue-600 !text-[18px]">tune</span> Proposal &amp; Status Controls
+                </h3>
+
+                <form action="{{ url_for('admin.update_status', quote_id=quote.id) }}" method="POST" class="space-y-4 text-xs font-medium">
+                    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+
+                    <div>
+                        <label class="block text-[11px] font-bold text-admin-700 mb-1">Quotation Status</label>
+                        <select name="status" class="w-full p-2.5 rounded-xl border border-admin-200 bg-white font-bold text-admin-800 focus:ring-2 focus:ring-blue-500">
+                            <option value="new" {{ 'selected' if quote.status == 'new' else '' }}>New</option>
+                            <option value="under_review" {{ 'selected' if quote.status in ('under_review', 'reviewing') else '' }}>Under Review</option>
+                            <option value="requirements_clarification" {{ 'selected' if quote.status == 'requirements_clarification' else '' }}>Requirements Clarification</option>
+                            <option value="quotation_prepared" {{ 'selected' if quote.status == 'quotation_prepared' else '' }}>Quotation Prepared</option>
+                            <option value="quotation_sent" {{ 'selected' if quote.status == 'quotation_sent' else '' }}>Quotation Sent</option>
+                            <option value="negotiation" {{ 'selected' if quote.status == 'negotiation' else '' }}>Negotiation</option>
+                            <option value="accepted" {{ 'selected' if quote.status == 'accepted' else '' }}>Accepted</option>
+                            <option value="rejected" {{ 'selected' if quote.status == 'rejected' else '' }}>Rejected</option>
+                            <option value="completed" {{ 'selected' if quote.status == 'completed' else '' }}>Completed</option>
+                            <option value="archived" {{ 'selected' if quote.status == 'archived' else '' }}>Archived</option>
+                        </select>
+                    </div>
+
+                    <div>
+                        <label class="block text-[11px] font-bold text-admin-700 mb-1">Proposed Quotation Amount</label>
+                        <input type="text" name="proposed_amount" value="{{ quote.proposed_amount or '' }}" placeholder="e.g. ₹25,000 / $350" class="w-full p-2.5 rounded-xl border border-admin-200 focus:ring-2 focus:ring-blue-500 font-bold">
+                    </div>
+
+                    <div>
+                        <label class="block text-[11px] font-bold text-admin-700 mb-1">Estimated Completion Timeline</label>
+                        <input type="text" name="estimated_delivery" value="{{ quote.estimated_delivery or '' }}" placeholder="e.g. 10–14 business days" class="w-full p-2.5 rounded-xl border border-admin-200 focus:ring-2 focus:ring-blue-500 font-medium">
+                    </div>
+
+                    <div>
+                        <label class="block text-[11px] font-bold text-admin-700 mb-1">Status Change Log Comments</label>
+                        <textarea name="comments" rows="2" placeholder="Brief note explaining status update..." class="w-full p-2.5 rounded-xl border border-admin-200 focus:ring-2 focus:ring-blue-500"></textarea>
+                    </div>
+
+                    <button type="submit" class="w-full py-2.5 bg-blue-600 hover:bg-blue-700 text-white font-bold text-xs rounded-xl shadow-xs transition-all">
+                        Update Status &amp; Estimates
+                    </button>
+                </form>
+
+                <!-- Priority Form -->
+                <div class="mt-4 pt-4 border-t border-admin-100">
+                    <form action="{{ url_for('admin.update_priority', quote_id=quote.id) }}" method="POST" class="flex items-center gap-2 text-xs">
+                        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                        <select name="priority" class="flex-1 p-2 rounded-xl border border-admin-200 font-bold">
+                            <option value="low" {{ 'selected' if quote.priority == 'low' else '' }}>Low</option>
+                            <option value="normal" {{ 'selected' if quote.priority == 'normal' else '' }}>Normal</option>
+                            <option value="high" {{ 'selected' if quote.priority == 'high' else '' }}>High</option>
+                            <option value="urgent" {{ 'selected' if quote.priority == 'urgent' else '' }}>Urgent</option>
+                        </select>
+                        <button type="submit" class="px-3 py-2 bg-admin-900 hover:bg-black text-white font-bold rounded-xl">Set Priority</button>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Internal Admin Notes (Private) -->
+            <div class="bg-white rounded-3xl border border-admin-200 shadow-xs p-6">
+                <div class="flex items-center justify-between pb-3 border-b border-admin-100 mb-4">
+                    <h3 class="text-xs font-bold text-admin-400 uppercase tracking-wider flex items-center gap-1.5">
+                        <span class="material-symbols-outlined text-amber-500 !text-[18px]">lock</span> Internal Notes (Private)
+                    </h3>
+                    <span class="text-[10px] font-mono text-admin-400">Never emailed to customer</span>
+                </div>
+
+                <form action="{{ url_for('admin.add_note', quote_id=quote.id) }}" method="POST" class="space-y-3 mb-4">
+                    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                    <textarea name="note_text" rows="2" required placeholder="Add confidential observation, call notes, or pricing considerations..." class="w-full p-2.5 text-xs rounded-xl border border-admin-200 focus:ring-2 focus:ring-amber-500 bg-amber-50/20"></textarea>
+                    <button type="submit" class="w-full py-2 bg-admin-900 hover:bg-black text-white font-bold text-xs rounded-xl">
+                        Add Internal Note
+                    </button>
+                </form>
+
+                <div class="space-y-2 max-h-60 overflow-y-auto">
+                    {% for n in quote.notes %}
+                    <div class="p-3 rounded-xl bg-amber-50/60 border border-amber-200 text-xs">
+                        <div class="flex items-center justify-between font-bold text-amber-950 text-[11px] mb-1">
+                            <span>{{ n.admin.name if n.admin else 'Admin' }}</span>
+                            <span class="text-[10px] font-mono text-amber-700 font-normal">{{ n.created_at.strftime("%b %d, %H:%M") }}</span>
+                        </div>
+                        <p class="text-amber-900 leading-relaxed">{{ n.note_text }}</p>
+                    </div>
+                    {% else %}
+                    <p class="text-xs text-admin-400 italic text-center py-2">No internal notes added yet.</p>
+                    {% endfor %}
+                </div>
+            </div>
+
+            <!-- Status History Audit Trail -->
+            <div class="bg-white rounded-3xl border border-admin-200 shadow-xs p-6">
+                <h3 class="text-xs font-bold text-admin-400 uppercase tracking-wider mb-3 flex items-center gap-1.5">
+                    <span class="material-symbols-outlined text-admin-500 !text-[18px]">history</span> Status Timeline
+                </h3>
+                <div class="space-y-3 text-xs">
+                    {% for h in quote.status_history %}
+                    <div class="relative pl-4 border-l-2 border-blue-500">
+                        <span class="text-[10px] font-mono text-admin-400 block">{{ h.created_at.strftime("%b %d, %Y %H:%M UTC") if h.created_at else '' }}</span>
+                        <span class="font-bold text-admin-900 text-xs">{{ h.new_status.replace('_', ' ').title() }}</span>
+                        {% if h.comments %}
+                        <p class="text-admin-600 text-[11px] mt-0.5">{{ h.comments }}</p>
+                        {% endif %}
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<!-- Delete Confirmation Modal -->
+<div id="delete-modal" class="hidden fixed inset-0 z-50 bg-black/40 backdrop-blur-xs flex items-center justify-center p-4">
+    <div class="bg-white rounded-3xl max-w-md w-full p-6 shadow-2xl border border-admin-200">
+        <h3 class="text-lg font-black text-admin-900 mb-1">Delete Quotation</h3>
+        <p class="text-xs text-admin-500 mb-4">Are you sure you want to permanently delete quotation #{{ quote.reference_id }}? All history and internal notes will be removed.</p>
+        <form action="{{ url_for('admin.delete_quotation', quote_id=quote.id) }}" method="POST" class="flex justify-end gap-2">
+            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+            <button type="button" onclick="document.getElementById('delete-modal').classList.add('hidden')" class="px-4 py-2 rounded-xl border border-admin-200 text-xs font-bold">Cancel</button>
+            <button type="submit" class="bg-red-600 hover:bg-red-700 text-white text-xs font-bold px-4 py-2 rounded-xl">Delete</button>
+        </form>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+
+{% block content %}
+<main class="min-h-[80vh] flex items-center justify-center px-4 py-16">
+    <div class="max-w-xl w-full text-center">
+        <!-- Animated 404 Badge Illustration -->
+        <div class="relative inline-block mb-8">
+            <div class="w-36 h-36 sm:w-44 sm:h-44 rounded-full bg-blue-50 border-2 border-blue-200/60 flex items-center justify-center mx-auto shadow-inner">
+                <span class="font-serif text-6xl sm:text-7xl font-extrabold text-blue-600 tracking-tight select-none">404</span>
+            </div>
+            <!-- Decorative orbiting badge -->
+            <div class="absolute -bottom-2 -right-2 bg-white border border-gray-200 p-2.5 rounded-2xl shadow-lg flex items-center gap-1.5 text-xs font-bold text-gray-700 animate-bounce">
+                <span class="material-symbols-outlined text-amber-500 !text-[18px]">warning</span> Route Missing
+            </div>
+        </div>
+
+        <div class="flex justify-center mb-4">
+            <svg class="w-16 h-2 text-yellow-500" viewBox="0 0 100 10" fill="none" preserveAspectRatio="none">
+                <path d="M0,5 Q12.5,0 25,5 T50,5 T75,5 T100,5" stroke="currentColor" stroke-width="3" stroke-linecap="round"/>
+            </svg>
+        </div>
+
+        <h1 class="text-3xl sm:text-4xl md:text-5xl font-sans font-black text-brand-textDark mb-4 leading-tight">
+            Oops! Page Not Found
+        </h1>
+
+        <p class="text-sm sm:text-base text-gray-500 font-mono max-w-md mx-auto mb-8 leading-relaxed">
+            {{ custom_message | default("The page you're looking for doesn't exist or may have been moved.") }}
+        </p>
+
+        <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
+            <a href="{{ url_for('main.index') }}" class="w-full sm:w-auto inline-flex items-center justify-center gap-2 bg-blue-600 hover:bg-blue-700 text-white font-semibold text-sm px-7 py-3.5 rounded-full shadow-lg shadow-blue-500/20 transition-all hover:scale-105 active:scale-95">
+                <span class="material-symbols-outlined !text-[18px]">home</span> Back to Home
+            </a>
+            <a href="{{ url_for('main.projects') }}" class="w-full sm:w-auto inline-flex items-center justify-center gap-2 bg-gray-100 hover:bg-gray-200 text-gray-800 font-semibold text-sm px-7 py-3.5 rounded-full transition-all hover:bg-gray-200">
+                <span class="material-symbols-outlined !text-[18px]">grid_view</span> Explore My Projects
+            </a>
+        </div>
+    </div>
+</main>
+{% endblock %}

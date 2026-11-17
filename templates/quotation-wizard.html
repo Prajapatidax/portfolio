@@ -1,0 +1,353 @@
+{% extends "base.html" %}
+
+{% block content %}
+<main class="min-h-screen pb-24 pt-10 bg-gray-50/50" id="quotation-wizard-root">
+    <div class="max-w-4xl mx-auto px-6">
+        <!-- Header -->
+        <div class="text-center mb-8 reveal">
+            <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-blue-100 text-blue-700 text-xs font-bold uppercase tracking-wider mb-2">
+                <span class="material-symbols-outlined !text-[16px]">calculate</span> Project Quotation Wizard
+            </span>
+            <h1 class="text-3xl md:text-5xl font-sans font-black text-brand-textDark tracking-tight mb-2">
+                Let's Build Your Vision
+            </h1>
+            <p class="text-gray-500 text-sm max-w-xl mx-auto">
+                Customize your website project, select preferred design directions, and receive a transparent project quotation.
+            </p>
+        </div>
+
+        <!-- Progress Indicator -->
+        <div class="bg-white p-4 rounded-3xl border border-gray-200 shadow-sm mb-8">
+            <div class="flex items-center justify-between text-xs font-bold text-gray-500 mb-2">
+                <span id="wizard-step-indicator-text">Step 1 of 6</span>
+                <span class="text-blue-600 font-mono">Quotation Wizard</span>
+            </div>
+            <div class="w-full bg-gray-100 h-2.5 rounded-full overflow-hidden">
+                <div id="wizard-progress-bar-fill" class="bg-blue-600 h-full rounded-full transition-all duration-500" style="width: 0%;"></div>
+            </div>
+        </div>
+
+        <!-- Wizard Card Container -->
+        <div id="quotation-wizard-card" class="bg-white rounded-[2.5rem] border border-gray-200 shadow-xl p-6 sm:p-10 relative">
+            <div id="submission-status-box"></div>
+
+            <!-- =============================================================== -->
+            <!-- STEP 1: SELECT PROJECT TYPE -->
+            <!-- =============================================================== -->
+            <div id="wizard-step-panel-1" class="wizard-step-panel">
+                <div id="step-1-error"></div>
+                <div class="mb-6">
+                    <span class="text-xs font-bold text-blue-600 uppercase tracking-widest">Step 01</span>
+                    <h2 class="text-2xl font-black text-gray-900 mt-1">Select Project Type</h2>
+                    <p class="text-xs text-gray-500 mt-1">What type of platform or website are we creating?</p>
+                </div>
+
+                <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 mb-8">
+                    {% set project_types = [
+                        ("Personal Website", "person", "For individual developers, consultants & personal branding."),
+                        ("Business Website", "domain", "Professional digital presence for studios, companies & agencies."),
+                        ("Portfolio Website", "folder_special", "Creative showcase for design, engineering & case studies."),
+                        ("Landing Page", "flag", "High-conversion product, app or campaign landing page."),
+                        ("E-commerce Website", "storefront", "Online shop, product catalog & checkout integration."),
+                        ("SaaS Platform", "cloud", "Subscription software, customer portal & dynamic app."),
+                        ("Web Application", "widgets", "Full-featured database-driven web application."),
+                        ("Admin Dashboard", "space_dashboard", "Internal control panel, analytics & workflow tooling."),
+                        ("Other", "tune", "Custom architecture or specialized specifications.")
+                    ] %}
+                    {% for p_name, p_icon, p_desc in project_types %}
+                    <div data-project-type-card data-project-type="{{ p_name }}" class="p-4 rounded-2xl border {{ 'border-blue-600 bg-blue-50/50' if p_name == 'Portfolio Website' else 'border-gray-200 bg-white' }} hover:border-blue-600 cursor-pointer transition-all flex flex-col justify-between">
+                        <div class="flex items-center justify-between mb-2">
+                            <span class="material-symbols-outlined text-blue-600 !text-[24px]">{{ p_icon }}</span>
+                            <span class="w-4 h-4 rounded-full border border-gray-300 flex items-center justify-center">
+                                <span class="w-2 h-2 rounded-full bg-blue-600 hidden"></span>
+                            </span>
+                        </div>
+                        <h4 class="font-extrabold text-sm text-gray-900 mb-1">{{ p_name }}</h4>
+                        <p class="text-[11px] text-gray-500 leading-relaxed">{{ p_desc }}</p>
+                    </div>
+                    {% endfor %}
+                </div>
+
+                <div class="flex justify-end pt-4 border-t border-gray-100">
+                    <button type="button" id="btn-step1-next" class="bg-blue-600 hover:bg-blue-700 text-white font-bold text-xs px-7 py-3 rounded-full shadow-md shadow-blue-500/20 transition-all flex items-center gap-1.5">
+                        Next: Select Design <span class="material-symbols-outlined !text-[16px]">arrow_forward</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- =============================================================== -->
+            <!-- STEP 2: SELECT DESIGN -->
+            <!-- =============================================================== -->
+            <div id="wizard-step-panel-2" class="wizard-step-panel hidden">
+                <div id="step-2-error"></div>
+                <div class="mb-6">
+                    <span class="text-xs font-bold text-blue-600 uppercase tracking-widest">Step 02</span>
+                    <h2 class="text-2xl font-black text-gray-900 mt-1">Select Design References</h2>
+                    <p class="text-xs text-gray-500 mt-1">Pick one or more design styles from my catalog. Selected: <span id="step-2-selected-count" class="font-bold text-blue-600">0</span></p>
+                </div>
+
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-8 max-h-[400px] overflow-y-auto pr-2">
+                    {% for t in templates %}
+                    <div data-wizard-design-chip="{{ t.design_id }}" class="p-3.5 rounded-2xl border border-gray-200 bg-gray-50 hover:border-blue-600 cursor-pointer transition-all flex items-center justify-between gap-3">
+                        <div class="min-w-0">
+                            <div class="flex items-center gap-2 mb-0.5">
+                                <span class="font-mono text-[10px] font-bold text-blue-600">{{ t.design_id }}</span>
+                                <span class="text-[10px] text-gray-400 uppercase font-semibold">{{ t.category.name if t.category else 'Design' }}</span>
+                            </div>
+                            <h4 class="font-extrabold text-xs text-gray-900 truncate">{{ t.name }}</h4>
+                        </div>
+                        <span class="material-symbols-outlined text-gray-400 !text-[20px] flex-shrink-0">check_circle</span>
+                    </div>
+                    {% endfor %}
+                </div>
+
+                <div class="flex justify-between pt-4 border-t border-gray-100">
+                    <button type="button" id="btn-step2-prev" class="bg-gray-100 hover:bg-gray-200 text-gray-700 font-bold text-xs px-6 py-3 rounded-full transition-all">
+                        Back
+                    </button>
+                    <button type="button" id="btn-step2-next" class="bg-blue-600 hover:bg-blue-700 text-white font-bold text-xs px-7 py-3 rounded-full shadow-md shadow-blue-500/20 transition-all flex items-center gap-1.5">
+                        Next: Customization <span class="material-symbols-outlined !text-[16px]">arrow_forward</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- =============================================================== -->
+            <!-- STEP 3: CUSTOMIZE THE DESIGN -->
+            <!-- =============================================================== -->
+            <div id="wizard-step-panel-3" class="wizard-step-panel hidden">
+                <div id="step-3-error"></div>
+                <div class="mb-6">
+                    <span class="text-xs font-bold text-blue-600 uppercase tracking-widest">Step 03</span>
+                    <h2 class="text-2xl font-black text-gray-900 mt-1">Customize The Design</h2>
+                    <p class="text-xs text-gray-500 mt-1">Choose colors, typography, theme, and layout directions.</p>
+                </div>
+
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-6 mb-8 text-xs">
+                    <!-- Primary Color -->
+                    <div>
+                        <label class="block font-bold text-gray-700 mb-2">Primary Accent Color</label>
+                        <div class="flex items-center gap-3">
+                            <input id="custom-primary-color" type="color" value="#2563EB" class="w-10 h-10 rounded-xl cursor-pointer border border-gray-200">
+                            <span class="font-mono text-gray-600 font-medium">Pick a brand color</span>
+                        </div>
+                    </div>
+
+                    <!-- Secondary Color -->
+                    <div>
+                        <label class="block font-bold text-gray-700 mb-2">Secondary / Surface Color</label>
+                        <div class="flex items-center gap-3">
+                            <input id="custom-secondary-color" type="color" value="#0F172A" class="w-10 h-10 rounded-xl cursor-pointer border border-gray-200">
+                            <span class="font-mono text-gray-600 font-medium">Pick background/text tone</span>
+                        </div>
+                    </div>
+
+                    <!-- Theme Mode -->
+                    <div>
+                        <label class="block font-bold text-gray-700 mb-2">Theme Preference</label>
+                        <div class="grid grid-cols-3 gap-2">
+                            <button type="button" data-theme-option="light" class="p-2.5 rounded-xl border border-blue-600 bg-blue-50 font-bold text-gray-900 text-center">Light</button>
+                            <button type="button" data-theme-option="dark" class="p-2.5 rounded-xl border border-gray-200 bg-white font-bold text-gray-700 text-center">Dark</button>
+                            <button type="button" data-theme-option="system" class="p-2.5 rounded-xl border border-gray-200 bg-white font-bold text-gray-700 text-center">Auto</button>
+                        </div>
+                    </div>
+
+                    <!-- Platform First -->
+                    <div>
+                        <label class="block font-bold text-gray-700 mb-2">Platform Focus</label>
+                        <div class="grid grid-cols-2 gap-2">
+                            <button type="button" data-platform-option="desktop-first" class="p-2.5 rounded-xl border border-blue-600 bg-blue-50 font-bold text-gray-900 text-center">Desktop-First</button>
+                            <button type="button" data-platform-option="mobile-first" class="p-2.5 rounded-xl border border-gray-200 bg-white font-bold text-gray-700 text-center">Mobile-First</button>
+                        </div>
+                    </div>
+
+                    <!-- Typography -->
+                    <div>
+                        <label class="block font-bold text-gray-700 mb-2">Typography Pairings</label>
+                        <select id="select-typography" class="w-full p-2.5 rounded-xl border border-gray-200 bg-white font-medium text-gray-800">
+                            <option value="Plus Jakarta Sans + Inter">Plus Jakarta Sans + Inter (Modern Sans)</option>
+                            <option value="Lora + Inter">Lora Serif + Inter (Editorial Luxury)</option>
+                            <option value="JetBrains Mono + Plus Jakarta Sans">JetBrains Mono + Sans (Developer & Tech)</option>
+                            <option value="System Standard">System Native Clean</option>
+                        </select>
+                    </div>
+
+                    <!-- Animation Preference -->
+                    <div>
+                        <label class="block font-bold text-gray-700 mb-2">Motion & Animation</label>
+                        <select id="select-animation" class="w-full p-2.5 rounded-xl border border-gray-200 bg-white font-medium text-gray-800">
+                            <option value="Smooth & Subtle">Smooth & Subtle (Professional)</option>
+                            <option value="Rich & Dynamic">Rich & Dynamic (Engaging)</option>
+                            <option value="Minimal">Minimal (Clean / High-speed)</option>
+                            <option value="None">None (Standard static accessibility)</option>
+                        </select>
+                    </div>
+
+                    <!-- Layout Preference -->
+                    <div class="sm:col-span-2">
+                        <label class="block font-bold text-gray-700 mb-2">Layout Preference</label>
+                        <select id="select-layout" class="w-full p-2.5 rounded-xl border border-gray-200 bg-white font-medium text-gray-800">
+                            <option value="Modern Grid">Modern Bento Grid & Card Flow</option>
+                            <option value="Split Screen">Editorial Split-Screen</option>
+                            <option value="Centered Hero & Timeline">Centered Clean Hero & Timeline</option>
+                            <option value="Asymmetric Creative">Asymmetric Avant-Garde</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="flex justify-between pt-4 border-t border-gray-100">
+                    <button type="button" id="btn-step3-prev" class="bg-gray-100 hover:bg-gray-200 text-gray-700 font-bold text-xs px-6 py-3 rounded-full transition-all">
+                        Back
+                    </button>
+                    <button type="button" id="btn-step3-next" class="bg-blue-600 hover:bg-blue-700 text-white font-bold text-xs px-7 py-3 rounded-full shadow-md shadow-blue-500/20 transition-all flex items-center gap-1.5">
+                        Next: Select Features <span class="material-symbols-outlined !text-[16px]">arrow_forward</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- =============================================================== -->
+            <!-- STEP 4: SELECT REQUIRED FEATURES -->
+            <!-- =============================================================== -->
+            <div id="wizard-step-panel-4" class="wizard-step-panel hidden">
+                <div id="step-4-error"></div>
+                <div class="mb-6">
+                    <span class="text-xs font-bold text-blue-600 uppercase tracking-widest">Step 04</span>
+                    <h2 class="text-2xl font-black text-gray-900 mt-1">Select Required Features</h2>
+                    <p class="text-xs text-gray-500 mt-1">Choose the technical capabilities you need for your web application.</p>
+                </div>
+
+                <div class="grid grid-cols-2 sm:grid-cols-3 gap-3 mb-8">
+                    {% set all_features = [
+                        "Responsive design",
+                        "Login and registration",
+                        "Admin dashboard",
+                        "Database integration",
+                        "Contact forms",
+                        "Payment integration",
+                        "API integration",
+                        "Authentication",
+                        "Search functionality",
+                        "Animations",
+                        "SEO optimization",
+                        "Other custom functionality"
+                    ] %}
+                    {% for feat in all_features %}
+                    <div data-feature-chip="{{ feat }}" class="p-3 rounded-2xl border {{ 'bg-blue-600 text-white border-blue-600' if feat in ['Responsive design', 'Contact forms', 'SEO optimization', 'Animations'] else 'bg-white text-gray-700 border-gray-200' }} hover:border-blue-600 cursor-pointer transition-all flex items-center justify-between text-xs font-bold">
+                        <span>{{ feat }}</span>
+                        <span class="material-symbols-outlined !text-[16px]">check</span>
+                    </div>
+                    {% endfor %}
+                </div>
+
+                <div class="flex justify-between pt-4 border-t border-gray-100">
+                    <button type="button" id="btn-step4-prev" class="bg-gray-100 hover:bg-gray-200 text-gray-700 font-bold text-xs px-6 py-3 rounded-full transition-all">
+                        Back
+                    </button>
+                    <button type="button" id="btn-step4-next" class="bg-blue-600 hover:bg-blue-700 text-white font-bold text-xs px-7 py-3 rounded-full shadow-md shadow-blue-500/20 transition-all flex items-center gap-1.5">
+                        Next: Project Details <span class="material-symbols-outlined !text-[16px]">arrow_forward</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- =============================================================== -->
+            <!-- STEP 5: PROJECT INFORMATION -->
+            <!-- =============================================================== -->
+            <div id="wizard-step-panel-5" class="wizard-step-panel hidden">
+                <div id="step-5-error"></div>
+                <div class="mb-6">
+                    <span class="text-xs font-bold text-blue-600 uppercase tracking-widest">Step 05</span>
+                    <h2 class="text-2xl font-black text-gray-900 mt-1">Project & Contact Information</h2>
+                    <p class="text-xs text-gray-500 mt-1">Tell me about yourself and your project specifications.</p>
+                </div>
+
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-8 text-xs">
+                    <div>
+                        <label class="block font-bold text-gray-700 mb-1">Your Full Name *</label>
+                        <input id="input-customer-name" type="text" placeholder="e.g. Rahul Sharma" required class="w-full p-3 rounded-xl border border-gray-200 focus:ring-2 focus:ring-blue-500">
+                    </div>
+                    <div>
+                        <label class="block font-bold text-gray-700 mb-1">Email Address *</label>
+                        <input id="input-customer-email" type="email" placeholder="e.g. rahul@example.com" required class="w-full p-3 rounded-xl border border-gray-200 focus:ring-2 focus:ring-blue-500">
+                    </div>
+                    <div>
+                        <label class="block font-bold text-gray-700 mb-1">Phone Number (Optional)</label>
+                        <input id="input-customer-phone" type="tel" placeholder="e.g. +91 98765 43210" class="w-full p-3 rounded-xl border border-gray-200 focus:ring-2 focus:ring-blue-500">
+                    </div>
+                    <div>
+                        <label class="block font-bold text-gray-700 mb-1">Project Name *</label>
+                        <input id="input-project-name" type="text" placeholder="e.g. NextGen SaaS Dashboard" required class="w-full p-3 rounded-xl border border-gray-200 focus:ring-2 focus:ring-blue-500">
+                    </div>
+
+                    <div>
+                        <label class="block font-bold text-gray-700 mb-1">Estimated Budget *</label>
+                        <select id="select-budget-range" class="w-full p-3 rounded-xl border border-gray-200 bg-white font-medium text-gray-800">
+                            <option value="Under ₹5,000">Under ₹5,000</option>
+                            <option value="₹5,000–₹10,000">₹5,000–₹10,000</option>
+                            <option value="₹10,000–₹25,000" selected>₹10,000–₹25,000</option>
+                            <option value="₹25,000–₹50,000">₹25,000–₹50,000</option>
+                            <option value="₹50,000+">₹50,000+</option>
+                            <option value="Not decided yet">Not decided yet</option>
+                        </select>
+                    </div>
+
+                    <div>
+                        <label class="block font-bold text-gray-700 mb-1">Expected Completion Timeline *</label>
+                        <select id="select-timeline" class="w-full p-3 rounded-xl border border-gray-200 bg-white font-medium text-gray-800">
+                            <option value="1-2 Weeks">1-2 Weeks (Urgent)</option>
+                            <option value="2-3 Weeks" selected>2-3 Weeks (Standard)</option>
+                            <option value="1 Month">1 Month</option>
+                            <option value="Flexible">Flexible / Discuss</option>
+                        </select>
+                    </div>
+
+                    <div class="sm:col-span-2">
+                        <label class="block font-bold text-gray-700 mb-1">Reference Website / Competitor Link (Optional)</label>
+                        <input id="input-reference-website" type="url" placeholder="https://..." class="w-full p-3 rounded-xl border border-gray-200 focus:ring-2 focus:ring-blue-500">
+                    </div>
+
+                    <div class="sm:col-span-2">
+                        <label class="block font-bold text-gray-700 mb-1">Project Description & Requirements *</label>
+                        <textarea id="input-project-desc" rows="4" placeholder="Describe the goal of the project, target audience, key pages or functionality needed..." required class="w-full p-3 rounded-xl border border-gray-200 focus:ring-2 focus:ring-blue-500 leading-relaxed"></textarea>
+                    </div>
+                </div>
+
+                <div class="flex justify-between pt-4 border-t border-gray-100">
+                    <button type="button" id="btn-step5-prev" class="bg-gray-100 hover:bg-gray-200 text-gray-700 font-bold text-xs px-6 py-3 rounded-full transition-all">
+                        Back
+                    </button>
+                    <button type="button" id="btn-step5-next" class="bg-blue-600 hover:bg-blue-700 text-white font-bold text-xs px-7 py-3 rounded-full shadow-md shadow-blue-500/20 transition-all flex items-center gap-1.5">
+                        Next: Review Summary <span class="material-symbols-outlined !text-[16px]">arrow_forward</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- =============================================================== -->
+            <!-- STEP 6: REVIEW AND SUBMIT -->
+            <!-- =============================================================== -->
+            <div id="wizard-step-panel-6" class="wizard-step-panel hidden">
+                <div class="mb-6">
+                    <span class="text-xs font-bold text-blue-600 uppercase tracking-widest">Step 06</span>
+                    <h2 class="text-2xl font-black text-gray-900 mt-1">Review & Confirm Request</h2>
+                    <p class="text-xs text-gray-500 mt-1">Review your project configuration before submitting to the backend.</p>
+                </div>
+
+                <div id="review-summary-content" class="mb-8">
+                    <!-- Populated dynamically via JS -->
+                </div>
+
+                <div class="flex justify-between items-center pt-4 border-t border-gray-100">
+                    <button type="button" id="btn-step6-prev" class="bg-gray-100 hover:bg-gray-200 text-gray-700 font-bold text-xs px-6 py-3 rounded-full transition-all">
+                        Back
+                    </button>
+                    <button type="button" id="btn-submit-quotation" class="bg-blue-600 hover:bg-blue-700 text-white font-bold text-sm px-8 py-3.5 rounded-full shadow-lg shadow-blue-500/20 transition-all flex items-center gap-2 hover:scale-105 active:scale-95">
+                        Submit Quotation Request <span class="material-symbols-outlined !text-[18px]">send</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+{% endblock %}
+
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/quotation-wizard.js') }}"></script>
+{% endblock %}

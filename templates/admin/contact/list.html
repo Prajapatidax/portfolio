@@ -1,0 +1,186 @@
+{% extends "admin/base_admin.html" %}
+
+{% block breadcrumb %}Contact Inquiries{% endblock %}
+
+{% block admin_content %}
+<div class="space-y-6">
+
+    <!-- Top Action Bar -->
+    <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 bg-white p-6 rounded-3xl border border-admin-200 shadow-xs">
+        <div>
+            <h1 class="text-2xl font-extrabold text-admin-900">Contact Inquiries Management</h1>
+            <p class="text-xs text-admin-500 mt-0.5">Manage incoming messages from the public contact form and record administrative follow-up notes</p>
+        </div>
+    </div>
+
+    <!-- Status Filters -->
+    <div class="flex items-center gap-2 overflow-x-auto pb-1 text-xs font-bold">
+        <a href="{{ url_for('admin.contact_messages_list') }}" class="px-3.5 py-2 rounded-xl transition-all whitespace-nowrap {{ 'bg-blue-600 text-white shadow-xs' if not status_filter else 'bg-white text-admin-700 border border-admin-200 hover:bg-admin-50' }}">
+            All Messages ({{ status_counts.all }})
+        </a>
+        <a href="{{ url_for('admin.contact_messages_list', status='unread') }}" class="px-3.5 py-2 rounded-xl transition-all whitespace-nowrap {{ 'bg-blue-600 text-white shadow-xs' if status_filter == 'unread' else 'bg-white text-admin-700 border border-admin-200 hover:bg-admin-50' }}">
+            Unread ({{ status_counts.unread }})
+        </a>
+        <a href="{{ url_for('admin.contact_messages_list', status='read') }}" class="px-3.5 py-2 rounded-xl transition-all whitespace-nowrap {{ 'bg-blue-600 text-white shadow-xs' if status_filter == 'read' else 'bg-white text-admin-700 border border-admin-200 hover:bg-admin-50' }}">
+            Read ({{ status_counts.read }})
+        </a>
+        <a href="{{ url_for('admin.contact_messages_list', status='replied') }}" class="px-3.5 py-2 rounded-xl transition-all whitespace-nowrap {{ 'bg-emerald-600 text-white shadow-xs' if status_filter == 'replied' else 'bg-white text-admin-700 border border-admin-200 hover:bg-admin-50' }}">
+            Replied ({{ status_counts.replied }})
+        </a>
+        <a href="{{ url_for('admin.contact_messages_list', status='archived') }}" class="px-3.5 py-2 rounded-xl transition-all whitespace-nowrap {{ 'bg-admin-800 text-white shadow-xs' if status_filter == 'archived' else 'bg-white text-admin-700 border border-admin-200 hover:bg-admin-50' }}">
+            Archived ({{ status_counts.archived }})
+        </a>
+    </div>
+
+    <!-- Search Form -->
+    <div class="bg-white p-4 rounded-3xl border border-admin-200 shadow-xs">
+        <form action="{{ url_for('admin.contact_messages_list') }}" method="GET" class="flex items-center gap-3">
+            {% if status_filter %}<input type="hidden" name="status" value="{{ status_filter }}">{% endif %}
+            <div class="relative flex-1">
+                <span class="material-symbols-outlined absolute left-3 top-2.5 text-admin-400 !text-[18px]">search</span>
+                <input type="text" name="q" value="{{ search_query }}" placeholder="Search customer, email, subject, or message content..." class="w-full pl-9 pr-3 py-2 text-xs rounded-xl border border-admin-200 focus:ring-2 focus:ring-blue-500 bg-admin-50/50">
+            </div>
+            <button type="submit" class="bg-admin-900 hover:bg-black text-white font-bold text-xs py-2 px-4 rounded-xl">
+                Filter
+            </button>
+            {% if search_query or status_filter %}
+            <a href="{{ url_for('admin.contact_messages_list') }}" class="text-xs text-red-500 font-bold hover:underline px-2">Clear</a>
+            {% endif %}
+        </form>
+    </div>
+
+    <!-- Messages Table -->
+    <div class="bg-white rounded-3xl border border-admin-200 shadow-xs overflow-hidden">
+        <div class="overflow-x-auto">
+            <table class="w-full text-left text-xs border-collapse">
+                <thead>
+                    <tr class="bg-admin-50 border-b border-admin-200 text-admin-500 uppercase font-mono font-bold text-[10px] tracking-wider">
+                        <th class="py-3 px-4">Customer</th>
+                        <th class="py-3 px-4">Subject</th>
+                        <th class="py-3 px-4">Message Snippet</th>
+                        <th class="py-3 px-4">Date</th>
+                        <th class="py-3 px-4">Status</th>
+                        <th class="py-3 px-4 text-right">Actions</th>
+                    </tr>
+                </thead>
+                <tbody class="divide-y divide-admin-100 font-medium text-admin-700">
+                    {% for m in messages %}
+                    <tr class="hover:bg-admin-50/80 transition-colors {{ 'bg-blue-50/30' if m.status == 'unread' else '' }}">
+                        <td class="py-3.5 px-4">
+                            <span class="font-extrabold text-admin-900 block text-xs">{{ m.name }}</span>
+                            <span class="text-[11px] text-admin-400 font-mono truncate max-w-[150px] block">{{ m.email }}</span>
+                        </td>
+                        <td class="py-3.5 px-4 font-bold text-admin-900 truncate max-w-[180px]">
+                            {{ m.subject }}
+                        </td>
+                        <td class="py-3.5 px-4 text-admin-500 truncate max-w-[240px]">
+                            {{ m.message }}
+                        </td>
+                        <td class="py-3.5 px-4 text-admin-400 font-mono text-[11px] whitespace-nowrap">
+                            {{ m.created_at.strftime("%b %d, %Y") if m.created_at else '' }}
+                        </td>
+                        <td class="py-3.5 px-4 whitespace-nowrap">
+                            <span class="px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider {{ 'bg-blue-100 text-blue-800' if m.status == 'unread' else 'bg-admin-100 text-admin-700' if m.status == 'read' else 'bg-emerald-100 text-emerald-800' if m.status == 'replied' else 'bg-admin-200 text-admin-600' }}">
+                                {{ m.status }}
+                            </span>
+                        </td>
+                        <td class="py-3.5 px-4 text-right whitespace-nowrap">
+                            <div class="flex items-center justify-end gap-1.5">
+                                <button type="button" onclick="openContactModal({{ m.id }})" class="p-1.5 rounded-lg bg-blue-50 text-blue-600 hover:bg-blue-100 transition-colors" title="View &amp; Reply">
+                                    <span class="material-symbols-outlined !text-[16px]">visibility</span>
+                                </button>
+                                <form action="{{ url_for('admin.contact_message_delete', msg_id=m.id) }}" method="POST" onsubmit="return confirm('Delete message from {{ m.email }}?');" class="inline">
+                                    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                                    <button type="submit" class="p-1.5 rounded-lg bg-admin-100 hover:bg-red-50 hover:text-red-600 text-admin-400 transition-colors" title="Delete">
+                                        <span class="material-symbols-outlined !text-[16px]">delete</span>
+                                    </button>
+                                </form>
+                            </div>
+                        </td>
+                    </tr>
+                    {% else %}
+                    <tr>
+                        <td colspan="6" class="py-16 text-center text-admin-400">
+                            <span class="material-symbols-outlined !text-[36px] text-admin-300 block mb-1">mark_email_read</span>
+                            No contact inquiries found matching the current criteria.
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        {% if pagination.pages > 1 %}
+        <div class="p-4 bg-admin-50 border-t border-admin-200 flex items-center justify-between text-xs text-admin-500 font-mono">
+            <span>Page {{ pagination.page }} of {{ pagination.pages }}</span>
+            <div class="flex gap-1.5">
+                {% if pagination.has_prev %}
+                <a href="{{ url_for('admin.contact_messages_list', page=pagination.prev_num, q=search_query, status=status_filter) }}" class="px-3 py-1.5 rounded-xl border border-admin-200 bg-white hover:bg-admin-100 text-admin-800 font-bold">&larr; Prev</a>
+                {% endif %}
+                {% if pagination.has_next %}
+                <a href="{{ url_for('admin.contact_messages_list', page=pagination.next_num, q=search_query, status=status_filter) }}" class="px-3 py-1.5 rounded-xl border border-admin-200 bg-white hover:bg-admin-100 text-admin-800 font-bold">Next &rarr;</a>
+                {% endif %}
+            </div>
+        </div>
+        {% endif %}
+    </div>
+
+</div>
+
+<!-- Contact Message Details & Reply Modal -->
+<div id="contact-modal" class="hidden fixed inset-0 z-50 bg-black/40 backdrop-blur-xs flex items-center justify-center p-4">
+    <div class="bg-white rounded-3xl max-w-xl w-full p-6 sm:p-8 shadow-2xl border border-admin-200 max-h-[90vh] overflow-y-auto">
+        <div class="flex items-center justify-between pb-3 border-b border-admin-100 mb-4">
+            <div>
+                <h3 class="text-lg font-black text-admin-900" id="cm-subject">Inquiry</h3>
+                <p class="text-xs text-admin-500" id="cm-from"></p>
+            </div>
+            <button type="button" onclick="document.getElementById('contact-modal').classList.add('hidden')" class="p-1 text-admin-400 hover:text-admin-700">
+                <span class="material-symbols-outlined !text-[20px]">close</span>
+            </button>
+        </div>
+
+        <div class="mb-4">
+            <span class="text-[10px] font-bold text-admin-400 uppercase tracking-wider block mb-1">Message Content</span>
+            <div id="cm-body" class="p-4 rounded-2xl bg-admin-50 border border-admin-100 text-xs text-admin-800 whitespace-pre-line leading-relaxed font-medium"></div>
+        </div>
+
+        <!-- Administrative Follow-up Note Form -->
+        <form id="cm-reply-form" method="POST" class="space-y-3 pt-3 border-t border-admin-100 text-xs font-medium">
+            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+            <div class="flex items-center justify-between">
+                <label class="block font-bold text-admin-700">Internal Follow-up / Reply Note</label>
+                <span class="text-[10px] text-admin-400">Saved to Neon database</span>
+            </div>
+            <textarea name="reply_message" rows="3" required placeholder="Add notes on response, call summary, or customer next steps..." class="w-full p-3 rounded-xl border border-admin-200 focus:ring-2 focus:ring-blue-500"></textarea>
+            
+            <div class="flex items-center justify-end gap-2 pt-2">
+                <button type="button" onclick="document.getElementById('contact-modal').classList.add('hidden')" class="px-4 py-2 rounded-xl border border-admin-200 text-admin-700 font-bold">Close</button>
+                <button type="submit" class="bg-blue-600 hover:bg-blue-700 text-white font-bold px-4 py-2 rounded-xl flex items-center gap-1 shadow-xs">
+                    <span class="material-symbols-outlined !text-[16px]">save</span> Save Follow-up Note
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+async function openContactModal(id) {
+    const modal = document.getElementById("contact-modal");
+    try {
+        const res = await fetch(`/admin/contact-messages/${id}`);
+        const data = await res.json();
+        if (res.ok && data.status === "success") {
+            const m = data.message;
+            document.getElementById("cm-subject").textContent = m.subject;
+            document.getElementById("cm-from").textContent = `${m.name} <${m.email}> • ${m.created_at}`;
+            document.getElementById("cm-body").textContent = m.message;
+            document.getElementById("cm-reply-form").action = `/admin/contact-messages/${id}/reply`;
+            modal.classList.remove("hidden");
+        }
+    } catch (e) {}
+}
+</script>
+{% endblock %}

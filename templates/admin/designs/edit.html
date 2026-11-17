@@ -1,0 +1,240 @@
+{% extends "admin/base_admin.html" %}
+
+{% block breadcrumb %}
+<a href="{{ url_for('admin.designs_list') }}" class="hover:underline">UI Templates</a>
+<span class="mx-2 text-admin-300">/</span>
+<span>{{ tpl.name }}</span>
+{% endblock %}
+
+{% block admin_content %}
+<div class="space-y-6 max-w-7xl mx-auto">
+
+    <!-- Top Action Bar -->
+    <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 bg-white p-6 rounded-3xl border border-admin-200 shadow-xs">
+        <div class="flex items-center gap-3">
+            <a href="{{ url_for('admin.designs_list') }}" class="p-2 rounded-xl bg-admin-100 hover:bg-admin-200 text-admin-700 transition-colors" title="Back to Templates">
+                <span class="material-symbols-outlined !text-[20px]">arrow_back</span>
+            </a>
+            <div>
+                <div class="flex items-center gap-2">
+                    <span class="text-xs font-mono font-bold text-blue-600 bg-blue-50 px-2.5 py-0.5 rounded-full border border-blue-200">{{ tpl.design_id }}</span>
+                    <span class="text-xs font-bold text-admin-400 uppercase tracking-wider">{{ tpl.category.name if tpl.category else 'General' }}</span>
+                    <span class="px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider {{ 'bg-emerald-100 text-emerald-800' if tpl.is_published else 'bg-admin-100 text-admin-600' }}">
+                        {{ 'Published' if tpl.is_published else 'Draft / Hidden' }}
+                    </span>
+                </div>
+                <h1 class="text-xl sm:text-2xl font-black text-admin-900 mt-1">{{ tpl.name }}</h1>
+            </div>
+        </div>
+
+        <div class="flex items-center gap-2">
+            <a href="{{ url_for('showcase.preview', slug=tpl.slug) }}" target="_blank" class="bg-blue-600 hover:bg-blue-700 text-white font-bold text-xs px-4 py-2.5 rounded-xl shadow-xs transition-all flex items-center gap-1.5">
+                <span class="material-symbols-outlined !text-[18px]">open_in_new</span> Live Responsive Preview
+            </a>
+            <form action="{{ url_for('admin.delete_design', design_id=tpl.id) }}" method="POST" onsubmit="return confirm('Permanently delete {{ tpl.name }}?');">
+                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                <button type="submit" class="p-2.5 rounded-xl bg-red-50 hover:bg-red-100 text-red-600 transition-colors" title="Delete Template">
+                    <span class="material-symbols-outlined !text-[18px]">delete</span>
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Section: 3-Device Reference Images Management (Neon Object Storage photos bucket) -->
+    <div class="bg-white rounded-3xl border border-admin-200 shadow-xs p-6 sm:p-8">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between pb-4 border-b border-admin-100 gap-2 mb-6">
+            <div>
+                <div class="flex items-center gap-2">
+                    <span class="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse"></span>
+                    <span class="text-[10px] font-mono uppercase tracking-wider font-bold text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded-md border border-emerald-200">Neon S3 Storage &bull; photos</span>
+                </div>
+                <h2 class="text-lg font-black text-admin-900 mt-1">Design Reference Images (All 3 Viewports)</h2>
+                <p class="text-xs text-admin-500">Each device reference is stored in the Neon Object Storage bucket and served via presigned URLs</p>
+            </div>
+            <span class="text-xs font-mono font-bold text-admin-400">{{ tpl.assets.count() }} assets stored</span>
+        </div>
+
+        <!-- 3 Device Cards -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 items-start">
+            
+            <!-- 1. Laptop Reference Card -->
+            <div class="bg-admin-50 rounded-2xl p-4 border border-admin-200 space-y-3">
+                <div class="flex items-center justify-between text-xs">
+                    <span class="font-bold text-admin-800 flex items-center gap-1.5">
+                        <span class="material-symbols-outlined !text-[16px] text-blue-600">laptop</span> Laptop Viewport
+                    </span>
+                    <span class="text-[10px] font-mono text-admin-500 bg-white px-2 py-0.5 rounded border border-admin-200">1920 &times; 1200 WebP</span>
+                </div>
+                
+                <div class="rounded-xl overflow-hidden shadow-xs border border-admin-200 bg-slate-900 aspect-[16/10] group relative">
+                    <img src="{{ tpl.get_asset_url('laptop') }}" alt="{{ tpl.name }} Laptop Reference" class="w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-300">
+                    <a href="{{ tpl.get_asset_url('laptop') }}" target="_blank" class="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center text-white text-xs font-bold gap-1 backdrop-blur-xs">
+                        <span class="material-symbols-outlined !text-[16px]">open_in_new</span> Full Resolution
+                    </a>
+                </div>
+
+                <!-- Replace Laptop Form -->
+                <form action="{{ url_for('admin.upload_template_asset', design_id=tpl.id) }}" method="POST" enctype="multipart/form-data" class="pt-2 border-t border-admin-200 space-y-2">
+                    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                    <input type="hidden" name="image_type" value="laptop">
+                    <label class="block text-[10px] font-bold text-admin-500 uppercase tracking-wider">Replace Laptop Artwork</label>
+                    <input type="file" name="asset_file" accept=".webp,.png,.jpg,.jpeg" required class="w-full text-[10px] text-admin-500 file:mr-2 file:py-1 file:px-2 file:rounded-md file:border-0 file:text-[10px] file:font-semibold file:bg-blue-50 file:text-blue-700">
+                    <button type="submit" class="w-full py-1.5 bg-admin-900 hover:bg-black text-white text-[11px] font-bold rounded-xl transition-all">
+                        Upload &amp; Replace (1920 &times; 1200)
+                    </button>
+                </form>
+            </div>
+
+            <!-- 2. Tablet Reference Card -->
+            <div class="bg-admin-50 rounded-2xl p-4 border border-admin-200 space-y-3">
+                <div class="flex items-center justify-between text-xs">
+                    <span class="font-bold text-admin-800 flex items-center gap-1.5">
+                        <span class="material-symbols-outlined !text-[16px] text-blue-600">tablet</span> Tablet Viewport
+                    </span>
+                    <span class="text-[10px] font-mono text-admin-500 bg-white px-2 py-0.5 rounded border border-admin-200">1600 &times; 1200 WebP</span>
+                </div>
+                
+                <div class="rounded-xl overflow-hidden shadow-xs border border-admin-200 bg-slate-900 aspect-[4/3] group relative">
+                    <img src="{{ tpl.get_asset_url('tablet') }}" alt="{{ tpl.name }} Tablet Reference" class="w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-300">
+                    <a href="{{ tpl.get_asset_url('tablet') }}" target="_blank" class="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center text-white text-xs font-bold gap-1 backdrop-blur-xs">
+                        <span class="material-symbols-outlined !text-[16px]">open_in_new</span> Full Resolution
+                    </a>
+                </div>
+
+                <!-- Replace Tablet Form -->
+                <form action="{{ url_for('admin.upload_template_asset', design_id=tpl.id) }}" method="POST" enctype="multipart/form-data" class="pt-2 border-t border-admin-200 space-y-2">
+                    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                    <input type="hidden" name="image_type" value="tablet">
+                    <label class="block text-[10px] font-bold text-admin-500 uppercase tracking-wider">Replace Tablet Artwork</label>
+                    <input type="file" name="asset_file" accept=".webp,.png,.jpg,.jpeg" required class="w-full text-[10px] text-admin-500 file:mr-2 file:py-1 file:px-2 file:rounded-md file:border-0 file:text-[10px] file:font-semibold file:bg-blue-50 file:text-blue-700">
+                    <button type="submit" class="w-full py-1.5 bg-admin-900 hover:bg-black text-white text-[11px] font-bold rounded-xl transition-all">
+                        Upload &amp; Replace (1600 &times; 1200)
+                    </button>
+                </form>
+            </div>
+
+            <!-- 3. Mobile Reference Card -->
+            <div class="bg-admin-50 rounded-2xl p-4 border border-admin-200 space-y-3">
+                <div class="flex items-center justify-between text-xs">
+                    <span class="font-bold text-admin-800 flex items-center gap-1.5">
+                        <span class="material-symbols-outlined !text-[16px] text-blue-600">smartphone</span> Mobile Viewport
+                    </span>
+                    <span class="text-[10px] font-mono text-admin-500 bg-white px-2 py-0.5 rounded border border-admin-200">1080 &times; 2340 WebP</span>
+                </div>
+                
+                <div class="rounded-xl overflow-hidden shadow-xs border border-admin-200 bg-slate-900 aspect-[9/19.5] max-h-[220px] flex items-center justify-center group relative p-1">
+                    <img src="{{ tpl.get_asset_url('mobile') }}" alt="{{ tpl.name }} Mobile Reference" class="max-h-[210px] w-auto rounded-lg shadow-xs group-hover:scale-105 transition-transform duration-300">
+                    <a href="{{ tpl.get_asset_url('mobile') }}" target="_blank" class="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center text-white text-xs font-bold gap-1 backdrop-blur-xs rounded-xl">
+                        <span class="material-symbols-outlined !text-[16px]">open_in_new</span> Full Resolution
+                    </a>
+                </div>
+
+                <!-- Replace Mobile Form -->
+                <form action="{{ url_for('admin.upload_template_asset', design_id=tpl.id) }}" method="POST" enctype="multipart/form-data" class="pt-2 border-t border-admin-200 space-y-2">
+                    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                    <input type="hidden" name="image_type" value="mobile">
+                    <label class="block text-[10px] font-bold text-admin-500 uppercase tracking-wider">Replace Mobile Artwork</label>
+                    <input type="file" name="asset_file" accept=".webp,.png,.jpg,.jpeg" required class="w-full text-[10px] text-admin-500 file:mr-2 file:py-1 file:px-2 file:rounded-md file:border-0 file:text-[10px] file:font-semibold file:bg-blue-50 file:text-blue-700">
+                    <button type="submit" class="w-full py-1.5 bg-admin-900 hover:bg-black text-white text-[11px] font-bold rounded-xl transition-all">
+                        Upload &amp; Replace (1080 &times; 2340)
+                    </button>
+                </form>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- Section: Metadata, Typography, Color Palette & Features Editor -->
+    <div class="bg-white rounded-3xl border border-admin-200 shadow-xs p-6 sm:p-8">
+        <h2 class="text-lg font-black text-admin-900 mb-1">Design Information &amp; Aesthetic Specs</h2>
+        <p class="text-xs text-admin-500 mb-6">Edit public template details, color palette, typography hierarchy, and feature lists</p>
+
+        <form action="{{ url_for('admin.design_edit', design_id=tpl.id) }}" method="POST" class="space-y-6 text-xs font-medium">
+            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                <div>
+                    <label class="block font-bold text-admin-700 mb-1">Template Name *</label>
+                    <input type="text" name="name" value="{{ tpl.name }}" required class="w-full p-2.5 rounded-xl border border-admin-200 font-bold focus:ring-2 focus:ring-blue-500">
+                </div>
+                <div>
+                    <label class="block font-bold text-admin-700 mb-1">Category *</label>
+                    <select name="category_id" required class="w-full p-2.5 rounded-xl border border-admin-200 bg-white">
+                        {% for c in categories %}
+                        <option value="{{ c.id }}" {{ 'selected' if tpl.category_id == c.id else '' }}>{{ c.name }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div>
+                    <label class="block font-bold text-admin-700 mb-1">Availability Status</label>
+                    <input type="text" name="status" value="{{ tpl.status }}" class="w-full p-2.5 rounded-xl border border-admin-200">
+                </div>
+            </div>
+
+            <div>
+                <label class="block font-bold text-admin-700 mb-1">Description *</label>
+                <textarea name="description" rows="3" required class="w-full p-3 rounded-xl border border-admin-200 leading-relaxed">{{ tpl.description }}</textarea>
+            </div>
+
+            <!-- Color Palette & Typography -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-6 p-4 rounded-2xl bg-admin-50 border border-admin-100">
+                <div>
+                    <h4 class="text-xs font-bold text-admin-900 uppercase tracking-wider mb-3">Color Palette</h4>
+                    <div class="grid grid-cols-2 gap-3">
+                        <div>
+                            <label class="block text-[11px] font-bold text-admin-600 mb-1">Primary Color</label>
+                            <input type="color" name="color_primary" value="{{ tpl.color_palette[0].hex if tpl.color_palette and tpl.color_palette|length > 0 else '#2563EB' }}" class="w-full h-10 rounded-xl border border-admin-200 cursor-pointer">
+                        </div>
+                        <div>
+                            <label class="block text-[11px] font-bold text-admin-600 mb-1">Secondary Color</label>
+                            <input type="color" name="color_secondary" value="{{ tpl.color_palette[1].hex if tpl.color_palette and tpl.color_palette|length > 1 else '#0F172A' }}" class="w-full h-10 rounded-xl border border-admin-200 cursor-pointer">
+                        </div>
+                    </div>
+                </div>
+
+                <div>
+                    <h4 class="text-xs font-bold text-admin-900 uppercase tracking-wider mb-3">Typography Information</h4>
+                    <div class="grid grid-cols-2 gap-3">
+                        <div>
+                            <label class="block text-[11px] font-bold text-admin-600 mb-1">Heading Typeface</label>
+                            <input type="text" name="font_heading" value="{{ tpl.typography.heading if tpl.typography else 'Plus Jakarta Sans' }}" class="w-full p-2 rounded-xl border border-admin-200">
+                        </div>
+                        <div>
+                            <label class="block text-[11px] font-bold text-admin-600 mb-1">Body Typeface</label>
+                            <input type="text" name="font_body" value="{{ tpl.typography.body if tpl.typography else 'Inter' }}" class="w-full p-2 rounded-xl border border-admin-200">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Features -->
+            <div>
+                <label class="block font-bold text-admin-700 mb-1">Core Features (One per line)</label>
+                <textarea name="features" rows="4" class="w-full p-3 rounded-xl border border-admin-200 font-mono text-xs">{{ tpl.features | join('\n') if tpl.features else '' }}</textarea>
+            </div>
+
+            <!-- Publication Checkbox -->
+            <div class="p-4 rounded-2xl bg-blue-50/50 border border-blue-100 flex items-center justify-between">
+                <div>
+                    <label class="font-extrabold text-admin-900 text-xs block">Public Visibility</label>
+                    <p class="text-[11px] text-admin-500">Published templates appear publicly in the Design Showcase gallery.</p>
+                </div>
+                <label class="relative inline-flex items-center cursor-pointer">
+                    <input type="checkbox" name="is_published" value="1" {{ 'checked' if tpl.is_published else '' }} class="sr-only peer">
+                    <div class="w-11 h-6 bg-admin-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-admin-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-blue-600"></div>
+                </label>
+            </div>
+
+            <div class="flex items-center justify-end gap-3 pt-4 border-t border-admin-100">
+                <a href="{{ url_for('admin.designs_list') }}" class="px-5 py-2.5 rounded-xl border border-admin-200 text-admin-700 font-bold">
+                    Cancel
+                </a>
+                <button type="submit" class="bg-blue-600 hover:bg-blue-700 text-white font-bold px-6 py-2.5 rounded-xl shadow-xs">
+                    Save Changes
+                </button>
+            </div>
+        </form>
+    </div>
+
+</div>
+{% endblock %}

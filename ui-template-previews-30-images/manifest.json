@@ -1,0 +1,705 @@
+{
+  "source": "ui-template-previews-30-images",
+  "total_templates": 10,
+  "total_images": 30,
+  "templates": [
+    {
+      "folder": "01-minimal-professional",
+      "design_id": "DSGN-MIN-01",
+      "slug": "minimal-professional",
+      "name": "Alder Advisory",
+      "category": "Minimal & Professional",
+      "brand": "Alder Advisory",
+      "purpose": "Professional strategy and operations consultancy",
+      "description": "Clean architectural strategy consultancy with quiet grid pacing, generous ivory whitespace, and refined editorial typography.",
+      "color_palette": [
+        {
+          "name": "Warm Ivory",
+          "hex": "#F5F3ED"
+        },
+        {
+          "name": "Forest Green",
+          "hex": "#233E33"
+        },
+        {
+          "name": "Charcoal",
+          "hex": "#202722"
+        },
+        {
+          "name": "Muted Sage",
+          "hex": "#7E8F84"
+        }
+      ],
+      "typography": {
+        "heading": "Newsreader / Editorial Serif",
+        "body": "Inter",
+        "accent": "Newsreader Italic",
+        "style": "Refined Editorial Typography"
+      },
+      "features": [
+        "Quiet architectural grid layout",
+        "Oversized serif editorial headline",
+        "Spacious multi-column service breakdown",
+        "Curated proof metrics (120+ projects, 18 industries, 12 years)"
+      ],
+      "references": {
+        "laptop": {
+          "filename": "01-minimal-professional-laptop.png",
+          "relative_path": "01-minimal-professional/01-minimal-professional-laptop.png",
+          "width": 1920,
+          "height": 1200,
+          "format": "PNG",
+          "size_bytes": 2444993,
+          "sha256": "e6b9aed104235e21d9117f35088238fd0f011cbe1b03c94c477c4ebf85e2df87"
+        },
+        "tablet": {
+          "filename": "01-minimal-professional-tablet.png",
+          "relative_path": "01-minimal-professional/01-minimal-professional-tablet.png",
+          "width": 1600,
+          "height": 1200,
+          "format": "PNG",
+          "size_bytes": 2063568,
+          "sha256": "74b7d843bb101696fb8662ad7bcf4383158ddcfaafcdb162585defd35f54d910"
+        },
+        "mobile": {
+          "filename": "01-minimal-professional-mobile.png",
+          "relative_path": "01-minimal-professional/01-minimal-professional-mobile.png",
+          "width": 1080,
+          "height": 2340,
+          "format": "PNG",
+          "size_bytes": 2640630,
+          "sha256": "66142f977a6095ed28b3706d2f24f11852ee9e20a24657daf71de4e685fdefea"
+        }
+      }
+    },
+    {
+      "folder": "02-liquid-glass",
+      "design_id": "DSGN-APL-02",
+      "slug": "apple-inspired",
+      "name": "Auralis One",
+      "category": "Apple-Inspired / Liquid Glass",
+      "brand": "Auralis",
+      "purpose": "Premium wireless headphone product landing page",
+      "description": "Hardware-grade product landing page with translucent glassmorphic panels, floating frosted navigation, and airy white space.",
+      "color_palette": [
+        {
+          "name": "Pearl White",
+          "hex": "#FFFFFF"
+        },
+        {
+          "name": "Translucent Silver",
+          "hex": "#E2E8F0"
+        },
+        {
+          "name": "Pale Ice Blue",
+          "hex": "#E0F2FE"
+        },
+        {
+          "name": "Graphite",
+          "hex": "#1E293B"
+        },
+        {
+          "name": "Cyan Accent",
+          "hex": "#38BDF8"
+        }
+      ],
+      "typography": {
+        "heading": "Plus Jakarta Sans",
+        "body": "Inter",
+        "accent": "SF Pro Display style",
+        "style": "Elegant Modern Sans-Serif"
+      },
+      "features": [
+        "Sculptural hero product showcase",
+        "Frosted glass floating navigation",
+        "Technical specification cards (40-hr battery, adaptive silence, spatial audio)",
+        "Direct e-commerce pricing and shopping action"
+      ],
+      "references": {
+        "laptop": {
+          "filename": "02-liquid-glass-laptop.png",
+          "relative_path": "02-liquid-glass/02-liquid-glass-laptop.png",
+          "width": 1920,
+          "height": 1200,
+          "format": "PNG",
+          "size_bytes": 2261331,
+          "sha256": "c00fe1ef42dc274de9e2ff0a8cd877704faa9be41a14630b1f3103c43c2fac50"
+        },
+        "tablet": {
+          "filename": "02-liquid-glass-tablet.png",
+          "relative_path": "02-liquid-glass/02-liquid-glass-tablet.png",
+          "width": 1600,
+          "height": 1200,
+          "format": "PNG",
+          "size_bytes": 2004705,
+          "sha256": "987383359ae67842c3d3021e0ab4d213af920427995255a3721115f8a1e182f9"
+        },
+        "mobile": {
+          "filename": "02-liquid-glass-mobile.png",
+          "relative_path": "02-liquid-glass/02-liquid-glass-mobile.png",
+          "width": 1080,
+          "height": 2340,
+          "format": "PNG",
+          "size_bytes": 2510029,
+          "sha256": "212a9cef15c2c694951b56628101fb0263500c80c8b28b187064a5131d0d66ec"
+        }
+      }
+    },
+    {
+      "folder": "03-dark-futuristic",
+      "design_id": "DSGN-DRK-03",
+      "slug": "dark-futuristic",
+      "name": "Vector Forge",
+      "category": "Dark & Futuristic",
+      "brand": "Vector Forge",
+      "purpose": "AI inference and model deployment platform",
+      "description": "High-performance AI inference infrastructure landing page with architectural terminal layout and acid chartreuse accents.",
+      "color_palette": [
+        {
+          "name": "Near-Black",
+          "hex": "#111511"
+        },
+        {
+          "name": "Warm Bone",
+          "hex": "#E9E8DD"
+        },
+        {
+          "name": "Acid Chartreuse",
+          "hex": "#C8E65A"
+        },
+        {
+          "name": "Steel Gray",
+          "hex": "#4B5563"
+        }
+      ],
+      "typography": {
+        "heading": "Plus Jakarta Sans Neo-Grotesk",
+        "body": "Inter",
+        "accent": "JetBrains Mono",
+        "style": "Technical Neo-Grotesk & Monospace"
+      },
+      "features": [
+        "Topology-inspired abstract interactive visualization",
+        "Live deployment telemetry card with latency stats (42ms, 99.99%)",
+        "Terminal-style code and model deployment controls",
+        "Monospace technical status labels"
+      ],
+      "references": {
+        "laptop": {
+          "filename": "03-dark-futuristic-laptop.png",
+          "relative_path": "03-dark-futuristic/03-dark-futuristic-laptop.png",
+          "width": 1920,
+          "height": 1200,
+          "format": "PNG",
+          "size_bytes": 2149714,
+          "sha256": "c43e59370fbe62cec259e5a8f10a08f3d095e175c21f007f66438190cdea07a4"
+        },
+        "tablet": {
+          "filename": "03-dark-futuristic-tablet.png",
+          "relative_path": "03-dark-futuristic/03-dark-futuristic-tablet.png",
+          "width": 1600,
+          "height": 1200,
+          "format": "PNG",
+          "size_bytes": 1969013,
+          "sha256": "b8498b8528582be30a736806443b2dcb3403b87acd5c158a0b7a5b56ffb7d47a"
+        },
+        "mobile": {
+          "filename": "03-dark-futuristic-mobile.png",
+          "relative_path": "03-dark-futuristic/03-dark-futuristic-mobile.png",
+          "width": 1080,
+          "height": 2340,
+          "format": "PNG",
+          "size_bytes": 2404881,
+          "sha256": "4fd48810b124930ae2c58c331f06bb96626d17c63d46e2106eed10e37e10163c"
+        }
+      }
+    },
+    {
+      "folder": "04-modern-saas",
+      "design_id": "DSGN-SAS-04",
+      "slug": "modern-saas",
+      "name": "Relay Workflow",
+      "category": "Modern SaaS",
+      "brand": "Relay",
+      "purpose": "Team project planning and workflow SaaS",
+      "description": "Conversion-focused team collaboration SaaS landing page with interactive kanban preview board and integrations showcase.",
+      "color_palette": [
+        {
+          "name": "Pure White",
+          "hex": "#FFFFFF"
+        },
+        {
+          "name": "Soft Sky Blue",
+          "hex": "#EAF2FB"
+        },
+        {
+          "name": "Ink Navy",
+          "hex": "#1C2D46"
+        },
+        {
+          "name": "Cobalt Blue",
+          "hex": "#315FD6"
+        },
+        {
+          "name": "Pale Coral",
+          "hex": "#F87171"
+        }
+      ],
+      "typography": {
+        "heading": "Plus Jakarta Sans",
+        "body": "Inter",
+        "accent": "Inter Medium",
+        "style": "Crisp Humanist Sans-Serif"
+      },
+      "features": [
+        "Interactive Kanban board (To Do, In Progress, Done)",
+        "Team avatar assignments and tag pills",
+        "Integration ecosystem teaser and seat pricing tiers ($12/seat)",
+        "Customer trust quotes and workflow metrics"
+      ],
+      "references": {
+        "laptop": {
+          "filename": "04-modern-saas-laptop.png",
+          "relative_path": "04-modern-saas/04-modern-saas-laptop.png",
+          "width": 1920,
+          "height": 1200,
+          "format": "PNG",
+          "size_bytes": 2045564,
+          "sha256": "4b6f6c8c349e631b7e0a46316217672cad138e9f8bf08067439968e059fe6421"
+        },
+        "tablet": {
+          "filename": "04-modern-saas-tablet.png",
+          "relative_path": "04-modern-saas/04-modern-saas-tablet.png",
+          "width": 1600,
+          "height": 1200,
+          "format": "PNG",
+          "size_bytes": 1861494,
+          "sha256": "156ac80cd85cae38185eff14ac5fa675188cf4887cc0e7031d8a1bffc4093400"
+        },
+        "mobile": {
+          "filename": "04-modern-saas-mobile.png",
+          "relative_path": "04-modern-saas/04-modern-saas-mobile.png",
+          "width": 1080,
+          "height": 2340,
+          "format": "PNG",
+          "size_bytes": 2262820,
+          "sha256": "c2f6cdcbf49fe3b22b229eed297a245c7d36f12217db348ff459ee31d1c82ffb"
+        }
+      }
+    },
+    {
+      "folder": "05-creative-experimental",
+      "design_id": "DSGN-EXP-05",
+      "slug": "creative-experimental",
+      "name": "Oddline Studio",
+      "category": "Creative & Experimental",
+      "brand": "Oddline Studio",
+      "purpose": "Independent branding and digital design studio",
+      "description": "Avant-garde editorial studio experience featuring punchy vermilion art panels, butter yellow background, and asymmetric project showcases.",
+      "color_palette": [
+        {
+          "name": "Punchy Vermilion",
+          "hex": "#F1462D"
+        },
+        {
+          "name": "Pale Butter",
+          "hex": "#F4EFAC"
+        },
+        {
+          "name": "Black Ink",
+          "hex": "#09090B"
+        }
+      ],
+      "typography": {
+        "heading": "Syne / Condensed Editorial",
+        "body": "Inter",
+        "accent": "Newsreader Italic",
+        "style": "Asymmetric Condensed Sans & Expressive Italic"
+      },
+      "features": [
+        "Asymmetric editorial composition with bold typography",
+        "Sculptural art panel and tactile creative work tiles",
+        "Interactive project case showcases (Forma, Paloma)",
+        "Expressive kinetic typography rhythm"
+      ],
+      "references": {
+        "laptop": {
+          "filename": "05-creative-experimental-laptop.png",
+          "relative_path": "05-creative-experimental/05-creative-experimental-laptop.png",
+          "width": 1920,
+          "height": 1200,
+          "format": "PNG",
+          "size_bytes": 2440289,
+          "sha256": "4e9c8b7756b82772842c3399d8ba1ae1bdc7e703cc8f946b8ddcab51d8a63e29"
+        },
+        "tablet": {
+          "filename": "05-creative-experimental-tablet.png",
+          "relative_path": "05-creative-experimental/05-creative-experimental-tablet.png",
+          "width": 1600,
+          "height": 1200,
+          "format": "PNG",
+          "size_bytes": 2124234,
+          "sha256": "2a0056b5609696ca5adb43ae29cfd09922e2e5253abd3cd09e46abf4c2de04fb"
+        },
+        "mobile": {
+          "filename": "05-creative-experimental-mobile.png",
+          "relative_path": "05-creative-experimental/05-creative-experimental-mobile.png",
+          "width": 1080,
+          "height": 2340,
+          "format": "PNG",
+          "size_bytes": 2528659,
+          "sha256": "e796b58ed4170867fb2fe4076ef15b7ed1632fdd1b796e061542961f8fba2673"
+        }
+      }
+    },
+    {
+      "folder": "06-luxury-premium",
+      "design_id": "DSGN-LUX-06",
+      "slug": "luxury-premium",
+      "name": "Maison Solenne",
+      "category": "Luxury & Premium",
+      "brand": "Maison Solenne",
+      "purpose": "Luxury leather goods and considered accessories storefront",
+      "description": "Haute editorial accessories storefront featuring travertine and warm cognac aesthetics, fine rules, and deliberate magazine pacing.",
+      "color_palette": [
+        {
+          "name": "Parchment",
+          "hex": "#F5F0E7"
+        },
+        {
+          "name": "Espresso",
+          "hex": "#302821"
+        },
+        {
+          "name": "Burgundy",
+          "hex": "#562E32"
+        },
+        {
+          "name": "Warm Cognac",
+          "hex": "#C27847"
+        }
+      ],
+      "typography": {
+        "heading": "Cormorant Garamond / Editorial Serif",
+        "body": "Inter",
+        "accent": "Inter Uppercase Monospace",
+        "style": "High-Contrast Luxury Serif"
+      },
+      "features": [
+        "Cinematic atelier hero with architectural sunlight",
+        "Sculptural product storytelling (The Arc Bag $680, The Fold Wallet $190)",
+        "Minimalist luxury navigation and subtle collection links",
+        "Artisanal heritage storytelling and materials breakdown"
+      ],
+      "references": {
+        "laptop": {
+          "filename": "06-luxury-premium-laptop.png",
+          "relative_path": "06-luxury-premium/06-luxury-premium-laptop.png",
+          "width": 1920,
+          "height": 1200,
+          "format": "PNG",
+          "size_bytes": 2581215,
+          "sha256": "5656e841270f432f9c8f4e0e0263f1cc438cb8d0bb894e3aca9402f2322e2709"
+        },
+        "tablet": {
+          "filename": "06-luxury-premium-tablet.png",
+          "relative_path": "06-luxury-premium/06-luxury-premium-tablet.png",
+          "width": 1600,
+          "height": 1200,
+          "format": "PNG",
+          "size_bytes": 2136960,
+          "sha256": "ba889ab3ddea7234e02f16be8778691c19fe53f055546b962ef26551d88dde0b"
+        },
+        "mobile": {
+          "filename": "06-luxury-premium-mobile.png",
+          "relative_path": "06-luxury-premium/06-luxury-premium-mobile.png",
+          "width": 1080,
+          "height": 2340,
+          "format": "PNG",
+          "size_bytes": 2729747,
+          "sha256": "a0b7c91c3feae8329fa919bf033c105131734a421253c01b71f9c22dc2ea50f0"
+        }
+      }
+    },
+    {
+      "folder": "07-ecommerce-storefront",
+      "design_id": "DSGN-ECM-07",
+      "slug": "ecommerce",
+      "name": "Hearth & Habit",
+      "category": "E-commerce Storefront",
+      "brand": "Hearth & Habit",
+      "purpose": "Contemporary homeware online store",
+      "description": "Scandinavian-inspired homeware e-commerce storefront with integrated search, category chips, and interactive product card grids.",
+      "color_palette": [
+        {
+          "name": "Warm White",
+          "hex": "#FAF8F5"
+        },
+        {
+          "name": "Terracotta",
+          "hex": "#BC6447"
+        },
+        {
+          "name": "Olive Green",
+          "hex": "#6E7357"
+        },
+        {
+          "name": "Warm Sand",
+          "hex": "#E4D8C7"
+        }
+      ],
+      "typography": {
+        "heading": "Plus Jakarta Sans",
+        "body": "Inter",
+        "accent": "Inter Rounded",
+        "style": "Approachable Rounded Sans-Serif"
+      },
+      "features": [
+        "Prominent live search and shopping announcement banner",
+        "Horizontal category filter chips (Tableware, Lighting, Textiles, Objects)",
+        "Four curated lifestyle product cards with real star ratings & pricing",
+        "Quick add-to-cart interaction and cart badge counter"
+      ],
+      "references": {
+        "laptop": {
+          "filename": "07-ecommerce-storefront-laptop.png",
+          "relative_path": "07-ecommerce-storefront/07-ecommerce-storefront-laptop.png",
+          "width": 1920,
+          "height": 1200,
+          "format": "PNG",
+          "size_bytes": 2820410,
+          "sha256": "9abe53fcda02842f7e02bb6bc9caf774036e057a5ae88db58123e1b8f5046e90"
+        },
+        "tablet": {
+          "filename": "07-ecommerce-storefront-tablet.png",
+          "relative_path": "07-ecommerce-storefront/07-ecommerce-storefront-tablet.png",
+          "width": 1600,
+          "height": 1200,
+          "format": "PNG",
+          "size_bytes": 2330769,
+          "sha256": "a18ac605e02b29956a29e13d357caa640ee801034db4958425fc0a6c204e4786"
+        },
+        "mobile": {
+          "filename": "07-ecommerce-storefront-mobile.png",
+          "relative_path": "07-ecommerce-storefront/07-ecommerce-storefront-mobile.png",
+          "width": 1080,
+          "height": 2340,
+          "format": "PNG",
+          "size_bytes": 2896849,
+          "sha256": "07f6bec84b03006e9041261f54bcf46972c06d7b7b4baf8be707ce5e9634758f"
+        }
+      }
+    },
+    {
+      "folder": "08-dashboard-admin",
+      "design_id": "DSGN-DSH-08",
+      "slug": "dashboard-admin",
+      "name": "Northstar Analytics",
+      "category": "Dashboard & Admin UI",
+      "brand": "Northstar Analytics",
+      "purpose": "Subscription business analytics dashboard",
+      "description": "Dense, professional SaaS analytics dashboard featuring revenue trend charts, customer cohort tables, and telemetry feeds.",
+      "color_palette": [
+        {
+          "name": "Cool White",
+          "hex": "#F7F9FC"
+        },
+        {
+          "name": "Deep Navy",
+          "hex": "#203047"
+        },
+        {
+          "name": "Teal Accent",
+          "hex": "#147F78"
+        },
+        {
+          "name": "Slate Gray",
+          "hex": "#64748B"
+        },
+        {
+          "name": "Success Emerald",
+          "hex": "#10B981"
+        }
+      ],
+      "typography": {
+        "heading": "Inter",
+        "body": "Inter",
+        "accent": "JetBrains Mono",
+        "style": "Clean Data UI with Tabular Numerals"
+      },
+      "features": [
+        "Collapsible navy app sidebar navigation",
+        "4 key KPI metric cards ($84,320 Revenue, 2,418 Customers, 4.8% Conv, 1.9% Churn)",
+        "Daily revenue trend chart with interactive tooltips",
+        "Live customer subscription data table and real-time activity stream"
+      ],
+      "references": {
+        "laptop": {
+          "filename": "08-dashboard-admin-laptop.png",
+          "relative_path": "08-dashboard-admin/08-dashboard-admin-laptop.png",
+          "width": 1920,
+          "height": 1200,
+          "format": "PNG",
+          "size_bytes": 2026041,
+          "sha256": "56d73de42a1d1e8e70db8bc4bee6a9e6623af4011e78f3b286b0d2c0e800fe68"
+        },
+        "tablet": {
+          "filename": "08-dashboard-admin-tablet.png",
+          "relative_path": "08-dashboard-admin/08-dashboard-admin-tablet.png",
+          "width": 1600,
+          "height": 1200,
+          "format": "PNG",
+          "size_bytes": 1754678,
+          "sha256": "6a70b37baf620e33eadbb9c37a1d8a67593161468495eebcffec818ff6794de1"
+        },
+        "mobile": {
+          "filename": "08-dashboard-admin-mobile.png",
+          "relative_path": "08-dashboard-admin/08-dashboard-admin-mobile.png",
+          "width": 1080,
+          "height": 2340,
+          "format": "PNG",
+          "size_bytes": 2185099,
+          "sha256": "aab59eadde1b79a13999c59e8fc0aac1b133db7edb5443f50dc2c201f156e5cb"
+        }
+      }
+    },
+    {
+      "folder": "09-portfolio-personal-branding",
+      "design_id": "DSGN-PRF-09",
+      "slug": "portfolio-personal",
+      "name": "Maya Ellis Studio",
+      "category": "Portfolio & Personal Branding",
+      "brand": "Maya Ellis",
+      "purpose": "Creative developer portfolio",
+      "description": "Creative developer portfolio featuring memorable typographic hero, kinetic orbital loop, and rich interactive project showcases.",
+      "color_palette": [
+        {
+          "name": "Warm Off-White",
+          "hex": "#FDFBF7"
+        },
+        {
+          "name": "Ink Black",
+          "hex": "#111111"
+        },
+        {
+          "name": "Cobalt Blue",
+          "hex": "#294ED7"
+        },
+        {
+          "name": "Pale Mint",
+          "hex": "#E0F2E9"
+        }
+      ],
+      "typography": {
+        "heading": "Newsreader / Editorial Serif",
+        "body": "Inter",
+        "accent": "JetBrains Mono",
+        "style": "Generous Serif & Utilitarian Code Metadata"
+      },
+      "features": [
+        "Memorable typographic hero with cobalt geometric orbital loop",
+        "Live availability indicator pill ('Available for select projects')",
+        "Editorial case study previews (Fieldnote, Kinfolk Studio)",
+        "Capabilities taxonomy & experience timeline"
+      ],
+      "references": {
+        "laptop": {
+          "filename": "09-portfolio-personal-branding-laptop.png",
+          "relative_path": "09-portfolio-personal-branding/09-portfolio-personal-branding-laptop.png",
+          "width": 1920,
+          "height": 1200,
+          "format": "PNG",
+          "size_bytes": 2238897,
+          "sha256": "b7c365a6c098123331e3e4cac6fe2a7d5f69ec036093a49f3c32096118271ecc"
+        },
+        "tablet": {
+          "filename": "09-portfolio-personal-branding-tablet.png",
+          "relative_path": "09-portfolio-personal-branding/09-portfolio-personal-branding-tablet.png",
+          "width": 1600,
+          "height": 1200,
+          "format": "PNG",
+          "size_bytes": 2005265,
+          "sha256": "be4a17e6302ac0e5899ea1cefae93e87ccc7632a5ecc535e6833cf819caba2b1"
+        },
+        "mobile": {
+          "filename": "09-portfolio-personal-branding-mobile.png",
+          "relative_path": "09-portfolio-personal-branding/09-portfolio-personal-branding-mobile.png",
+          "width": 1080,
+          "height": 2340,
+          "format": "PNG",
+          "size_bytes": 2414014,
+          "sha256": "cda98d39b25cadb5d84256e3b3c385ab43f01cfbd11a443e39cefd850b36fcc6"
+        }
+      }
+    },
+    {
+      "folder": "10-corporate-business",
+      "design_id": "DSGN-COR-10",
+      "slug": "corporate-business",
+      "name": "Meridian Works",
+      "category": "Corporate & Business",
+      "brand": "Meridian Works",
+      "purpose": "Industrial engineering and advanced manufacturing company",
+      "description": "High-trust precision engineering enterprise portal with split industrial hero, proof statistics bar, and sector capability matrix.",
+      "color_palette": [
+        {
+          "name": "Deep Industrial Navy",
+          "hex": "#152E43"
+        },
+        {
+          "name": "Safety Orange",
+          "hex": "#E47539"
+        },
+        {
+          "name": "Pure White",
+          "hex": "#FFFFFF"
+        },
+        {
+          "name": "Cool Steel Gray",
+          "hex": "#94A3B8"
+        }
+      ],
+      "typography": {
+        "heading": "Plus Jakarta Sans",
+        "body": "Inter",
+        "accent": "Plus Jakarta Sans Bold",
+        "style": "Robust Industrial Sans-Serif"
+      },
+      "features": [
+        "High-contrast navy and safety orange technical branding",
+        "Proof metrics bar (35 years expertise, 240 specialists, 14 countries)",
+        "Core capability columns (Precision Machining, Systems Integration, Quality Assurance)",
+        "Industry focus selector (Energy, Mobility, Industrial Systems)"
+      ],
+      "references": {
+        "laptop": {
+          "filename": "10-corporate-business-laptop.png",
+          "relative_path": "10-corporate-business/10-corporate-business-laptop.png",
+          "width": 1920,
+          "height": 1200,
+          "format": "PNG",
+          "size_bytes": 2394366,
+          "sha256": "b3c13fe53bd91eb5cba82ea1a2062f41a7238a671ab81c7b18a5ad98a6673dec"
+        },
+        "tablet": {
+          "filename": "10-corporate-business-tablet.png",
+          "relative_path": "10-corporate-business/10-corporate-business-tablet.png",
+          "width": 1600,
+          "height": 1200,
+          "format": "PNG",
+          "size_bytes": 2073215,
+          "sha256": "8f91288f84454697e2cd740b16da2c3ce3c0995486ef6c6761dce3b2944fb662"
+        },
+        "mobile": {
+          "filename": "10-corporate-business-mobile.png",
+          "relative_path": "10-corporate-business/10-corporate-business-mobile.png",
+          "width": 1080,
+          "height": 2340,
+          "format": "PNG",
+          "size_bytes": 2451202,
+          "sha256": "3d239e7601b7c47e9d33ff44592c224179be5a75c89e6ffdc88ce2b6fd31821f"
+        }
+      }
+    }
+  ]
+}
