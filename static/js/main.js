@@ -3,7 +3,7 @@
  * Dax Prajapati Portfolio
  */
 
-document.addEventListener("DOMContentLoaded", () => {
+function initMainApp() {
     // Current Year
     const yearEl = document.getElementById("year");
     if (yearEl) {
@@ -31,36 +31,13 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 
-    // Preloader Animation
+    // Preloader Dismissal Safeguard
     const preloader = document.getElementById("preloader");
-    const loaderText = document.getElementById("loader-text");
-    if (preloader && loaderText) {
-        const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890";
-        const targetText = loaderText.getAttribute("data-text") || "PRAJAPATI DAX.DEV";
-        let iteration = 0;
-
-        const interval = setInterval(() => {
-            loaderText.innerText = targetText
-                .split("")
-                .map((letter, index) => {
-                    if (index < iteration) {
-                        return targetText[index];
-                    }
-                    return chars[Math.floor(Math.random() * chars.length)];
-                })
-                .join("");
-
-            if (iteration >= targetText.length) {
-                clearInterval(interval);
-                setTimeout(() => {
-                    preloader.style.opacity = "0";
-                    setTimeout(() => {
-                        preloader.style.display = "none";
-                    }, 400);
-                }, 300);
-            }
-            iteration += 1 / 3;
-        }, 25);
+    if (preloader && preloader.style.display !== "none") {
+        preloader.style.opacity = "0";
+        setTimeout(() => {
+            preloader.style.display = "none";
+        }, 200);
     }
 
     // Scroll Reveal Observer
@@ -77,4 +54,11 @@ document.addEventListener("DOMContentLoaded", () => {
 
         reveals.forEach((el) => observer.observe(el));
     }
-});
+}
+
+// Safely execute whether DOM is already parsed or still loading
+if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", initMainApp);
+} else {
+    initMainApp();
+}

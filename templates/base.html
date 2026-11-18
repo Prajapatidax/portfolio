@@ -119,6 +119,50 @@
     <div id="preloader">
         <h1 class="font-serif text-3xl md:text-4xl font-bold tracking-tight" id="loader-text" data-text="{{ preloader_text | default('PRAJAPATI DAX.DEV       ') }}">INITIALIZING...</h1>
     </div>
+    <script>
+        (function() {
+            var preloader = document.getElementById("preloader");
+            var loaderText = document.getElementById("loader-text");
+            if (!preloader) return;
+
+            function dismiss() {
+                if (preloader && preloader.style.display !== "none") {
+                    preloader.style.opacity = "0";
+                    setTimeout(function() {
+                        preloader.style.display = "none";
+                    }, 300);
+                }
+            }
+
+            // Hard safety fallback: Always dismiss after 700ms maximum
+            var safetyTimer = setTimeout(dismiss, 700);
+
+            if (loaderText) {
+                var chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890";
+                var targetText = loaderText.getAttribute("data-text") || "PRAJAPATI DAX.DEV";
+                var iteration = 0;
+
+                var interval = setInterval(function() {
+                    loaderText.innerText = targetText
+                        .split("")
+                        .map(function(letter, index) {
+                            if (index < iteration) {
+                                return targetText[index];
+                            }
+                            return chars[Math.floor(Math.random() * chars.length)];
+                        })
+                        .join("");
+
+                    if (iteration >= targetText.length) {
+                        clearInterval(interval);
+                        clearTimeout(safetyTimer);
+                        setTimeout(dismiss, 100);
+                    }
+                    iteration += 0.6;
+                }, 18);
+            }
+        })();
+    </script>
 
     <!-- Navigation -->
     <nav class="fixed left-0 right-0 top-0 z-50 mx-auto w-full px-6 py-4 bg-white/95 backdrop-blur-md border-b border-gray-200/50 transition-colors">
