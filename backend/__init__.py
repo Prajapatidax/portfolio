@@ -1,4 +1,5 @@
 import os
+import urllib.parse
 from flask import Flask, render_template, jsonify, request
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
@@ -10,38 +11,43 @@ migrate = Migrate()
 class VercelPathCorrectionMiddleware:
     """
     WSGI Middleware to restore client request PATH_INFO on Vercel.
-    When Vercel processes a rewrite rule (e.g. source /(.*) -> destination /api/index),
-    Vercel sets PATH_INFO to '/api/index' and passes the user's actual browser path in
-    headers such as 'x-matched-path' or 'x-forwarded-uri'.
-    This middleware restores PATH_INFO so Flask routes match correctly.
+    When Vercel processes rewrite rules (e.g. source /(.*) -> destination /api/index?__vercel_path=/$1),
+    this middleware extracts the real client request path and restores PATH_INFO so Flask routes match.
     """
     def __init__(self, wsgi_app):
         self.wsgi_app = wsgi_app
 
     def __call__(self, environ, start_response):
-        matched_path = (
-            environ.get("HTTP_X_MATCHED_PATH")
-            or environ.get("HTTP_X_FORWARDED_URI")
-            or environ.get("HTTP_X_VERCEL_FORWARDED_URI")
-        )
-        if not matched_path:
-            raw_uri = environ.get("RAW_URI", "")
-            if raw_uri and raw_uri not in ("/api/index", "/api/index.py", "/api", "/api/"):
-                matched_path = raw_uri
+        query_string = environ.get("QUERY_STRING", "")
 
-        current_path = environ.get("PATH_INFO", "")
+        # 1. Primary resolution: Extract explicit path forwarded via Vercel rewrite parameter
+        if "__vercel_path" in query_string:
+            params = urllib.parse.parse_qs(query_string, keep_blank_values=True)
+            if "__vercel_path" in params and params["__vercel_path"]:
+                target_path = params.pop("__vercel_path")[0]
+                if not target_path.startswith("/"):
+                    target_path = "/" + target_path
+                while target_path.startswith("//"):
+                    target_path = target_path[1:]
+                environ["PATH_INFO"] = target_path
 
-        if current_path in ("/api/index", "/api/index.py", "/api", "/api/"):
-            if matched_path and matched_path not in ("/api/index", "/api/index.py", "/api", "/api/"):
-                clean_path = matched_path.split("?")[0]
-                environ["PATH_INFO"] = clean_path
-                if "?" in matched_path and not environ.get("QUERY_STRING"):
-                    environ["QUERY_STRING"] = matched_path.split("?", 1)[1]
-            else:
-                environ["PATH_INFO"] = "/"
-        elif matched_path and current_path.startswith("/api/index"):
-            clean_path = matched_path.split("?")[0]
-            environ["PATH_INFO"] = clean_path
+                # Reconstruct query string without internal __vercel_path parameter
+                flat_params = [(k, v) for k, vals in params.items() for v in vals]
+                environ["QUERY_STRING"] = urllib.parse.urlencode(flat_params)
+        else:
+            # 2. Secondary fallback: Check Vercel routing headers
+            matched_path = (
+                environ.get("HTTP_X_MATCHED_PATH")
+                or environ.get("HTTP_X_FORWARDED_URI")
+                or environ.get("HTTP_X_VERCEL_FORWARDED_URI")
+            )
+            current_path = environ.get("PATH_INFO", "")
+            if current_path in ("/api/index", "/api/index.py", "/api", "/api/"):
+                if matched_path and matched_path not in ("/api/index", "/api/index.py", "/api", "/api/"):
+                    clean_path = matched_path.split("?")[0]
+                    environ["PATH_INFO"] = clean_path
+                else:
+                    environ["PATH_INFO"] = "/"
 
         environ["SCRIPT_NAME"] = ""
         return self.wsgi_app(environ, start_response)

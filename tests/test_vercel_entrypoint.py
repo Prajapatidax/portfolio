@@ -90,3 +90,39 @@ def test_vercel_rewrite_path_correction(client):
     r_naked = client.get("/api/index")
     assert r_naked.status_code == 200
     assert b"Dax Prajapati" in r_naked.data
+
+
+def test_vercel_rewrite_with_explicit_vercel_path(client):
+    """
+    Test that clicking any navigation link / route (Home, About, Projects, Showcase, Contact, Admin)
+    forwards __vercel_path and loads the EXACT page requested rather than the home page.
+    """
+    # 1. About page
+    r_about = client.get("/api/index?__vercel_path=/about")
+    assert r_about.status_code == 200
+    assert b"<title>About Me | Dax Prajapati</title>" in r_about.data
+
+    # 2. Projects page
+    r_projects = client.get("/api/index?__vercel_path=/projects")
+    assert r_projects.status_code == 200
+    assert b"<title>All Projects | Dax Prajapati</title>" in r_projects.data
+
+    # 3. Design Showcase page
+    r_showcase = client.get("/api/index?__vercel_path=/design-showcase")
+    assert r_showcase.status_code == 200
+    assert b"Design Showcase" in r_showcase.data
+
+    # 4. Contact page
+    r_contact = client.get("/api/index?__vercel_path=/contact")
+    assert r_contact.status_code == 200
+    assert b"Get In Touch" in r_contact.data or b"Contact" in r_contact.data
+
+    # 5. Quotation Wizard page
+    r_quote = client.get("/api/index?__vercel_path=/quotation")
+    assert r_quote.status_code == 200
+    assert b"Project Quotation Wizard" in r_quote.data
+
+    # 6. Admin Login page
+    r_admin = client.get("/api/index?__vercel_path=/admin/login/version/101")
+    assert r_admin.status_code == 200
+    assert b"Admin" in r_admin.data or b"Sign In" in r_admin.data
