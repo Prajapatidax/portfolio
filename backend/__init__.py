@@ -9,26 +9,40 @@ migrate = Migrate()
 
 def create_app(config_name=None):
     if config_name is None:
-        config_name = os.getenv("FLASK_ENV", "development")
+        if os.getenv("VERCEL"):
+            config_name = "production"
+        else:
+            config_name = os.getenv("FLASK_ENV", "development")
 
-    from config import config_by_name
+    from config import BASE_DIR, config_by_name
 
     app = Flask(
         __name__,
-        template_folder="../templates",
-        static_folder="../static",
+        template_folder=str(BASE_DIR / "templates"),
+        static_folder=str(BASE_DIR / "static"),
         static_url_path="/static",
     )
     
     app.config.from_object(config_by_name.get(config_name, config_by_name["default"]))
 
+    # Apply ProxyFix middleware for reverse proxies (Vercel, Nginx, cloud load balancers)
+    from werkzeug.middleware.proxy_fix import ProxyFix
+    app.wsgi_app = ProxyFix(app.wsgi_app, x_for=1, x_proto=1, x_host=1, x_prefix=1)
+
     # Ensure engine options only apply to PostgreSQL
     if "postgresql" not in app.config.get("SQLALCHEMY_DATABASE_URI", ""):
         app.config["SQLALCHEMY_ENGINE_OPTIONS"] = {}
 
-    # Ensure instance and upload directories exist
-    os.makedirs(app.config["UPLOAD_FOLDER"], exist_ok=True)
-    os.makedirs(app.config["BASE_DIR"] / "instance", exist_ok=True)
+    # Ensure instance and upload directories exist (safely catch read-only filesystem in serverless)
+    try:
+        os.makedirs(app.config["UPLOAD_FOLDER"], exist_ok=True)
+    except OSError:
+        pass
+
+    try:
+        os.makedirs(app.config["BASE_DIR"] / "instance", exist_ok=True)
+    except OSError:
+        pass
 
     # Initialize extensions
     db.init_app(app)

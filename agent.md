@@ -4,6 +4,7 @@
 **Base URL (Local):** `http://localhost:5000`  
 **Production URL:** `https://prajapatidax.co.in`  
 **Framework:** Python Flask (Unified Server Architecture)  
+**Deployment Modes:** Standard Flask (`app.py`) & Vercel Serverless (`api/index.py` + `vercel.json`)  
 **Database:** Neon PostgreSQL (with SQLite local fallback)  
 **Object Storage:** Neon Object Storage (AWS S3-compatible, bucket: `photos`)  
 

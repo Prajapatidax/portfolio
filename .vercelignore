@@ -1,0 +1,27 @@
+# Version control
+.git
+.gitignore
+
+# Python compilation & cache
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.pytest_cache/
+
+# Automated tests
+tests/
+conftest.py
+
+# Local development instance & databases
+instance/
+*.db
+*.sqlite
+*.sqlite3
+
+# Local secrets (configured in Vercel project environment variables)
+.env
+.env.local
+
+# Large local reference image assets (persisted in Neon Object Storage bucket)
+ui-template-previews-30-images/

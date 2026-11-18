@@ -30,20 +30,27 @@ class Config:
     if normalized_url and "YOUR_PASSWORD" not in normalized_url and "sample" not in normalized_url:
         SQLALCHEMY_DATABASE_URI = normalized_url
     else:
-        # Local development fallback
-        instance_dir = BASE_DIR / "instance"
-        instance_dir.mkdir(parents=True, exist_ok=True)
+        # Local development fallback (handles serverless/Vercel read-only filesystem safely)
+        if os.getenv("VERCEL"):
+            instance_dir = Path("/tmp")
+        else:
+            instance_dir = BASE_DIR / "instance"
+            try:
+                instance_dir.mkdir(parents=True, exist_ok=True)
+            except OSError:
+                instance_dir = Path("/tmp")
         SQLALCHEMY_DATABASE_URI = f"sqlite:///{instance_dir / 'portfolio.db'}"
 
     SQLALCHEMY_TRACK_MODIFICATIONS = False
     
     # Neon Serverless connection pool optimization
     if "postgresql" in SQLALCHEMY_DATABASE_URI:
+        is_serverless = os.getenv("VERCEL") == "1" or os.getenv("SERVERLESS") == "1"
         SQLALCHEMY_ENGINE_OPTIONS = {
             "pool_pre_ping": True,
-            "pool_recycle": 300,
-            "pool_size": 10,
-            "max_overflow": 20,
+            "pool_recycle": 120 if is_serverless else 300,
+            "pool_size": 5 if is_serverless else 10,
+            "max_overflow": 10 if is_serverless else 20,
         }
     else:
         SQLALCHEMY_ENGINE_OPTIONS = {}
@@ -52,7 +59,7 @@ class Config:
     SESSION_COOKIE_NAME = "prajapati_session"
     SESSION_COOKIE_HTTPONLY = True
     SESSION_COOKIE_SAMESITE = "Lax"
-    SESSION_COOKIE_SECURE = os.getenv("SESSION_COOKIE_SECURE", "False").lower() == "true"
+    SESSION_COOKIE_SECURE = os.getenv("SESSION_COOKIE_SECURE", "True" if os.getenv("VERCEL") else "False").lower() == "true"
     PERMANENT_SESSION_LIFETIME = timedelta(seconds=int(os.getenv("PERMANENT_SESSION_LIFETIME", 86400)))
 
     # Uploads
