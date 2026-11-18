@@ -99,8 +99,15 @@
             background-color: #FFFFFF;
             color: #1E293B;
         }
-        .reveal { opacity: 0; transform: translateY(20px); transition: all 0.8s cubic-bezier(0.5, 0, 0, 1); }
-        .reveal.active { opacity: 1; transform: translateY(0); }
+        .reveal { 
+            opacity: 1; 
+            transform: translateY(0); 
+            transition: opacity 0.6s ease, transform 0.6s ease; 
+        }
+        .reveal.active { 
+            opacity: 1; 
+            transform: translateY(0); 
+        }
         
         .progress-bar-fill {
             transition: width 1.5s cubic-bezier(0.1, 1, 0.1, 1);
@@ -108,7 +115,7 @@
         }
 
         #preloader {
-            position: fixed; inset: 0; background: #FFFFFF; color: #1E293B; z-index: 10001; display: flex; align-items: center; justify-content: center; transition: opacity 0.5s ease;
+            position: fixed; inset: 0; background: #FFFFFF; color: #1E293B; z-index: 10001; display: flex; align-items: center; justify-content: center; transition: opacity 0.4s ease;
         }
     </style>
     {% block extra_head %}{% endblock %}
@@ -128,14 +135,15 @@
             function dismiss() {
                 if (preloader && preloader.style.display !== "none") {
                     preloader.style.opacity = "0";
+                    preloader.style.pointerEvents = "none";
                     setTimeout(function() {
                         preloader.style.display = "none";
-                    }, 300);
+                    }, 200);
                 }
             }
 
-            // Hard safety fallback: Always dismiss after 700ms maximum
-            var safetyTimer = setTimeout(dismiss, 700);
+            // Hard safety fallback: Always dismiss after 500ms maximum
+            var safetyTimer = setTimeout(dismiss, 500);
 
             if (loaderText) {
                 var chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890";
@@ -337,6 +345,15 @@
     <!-- Core Scripts -->
     <script src="{{ url_for('static', filename='js/main.js') }}"></script>
     <script src="{{ url_for('static', filename='js/cookie-consent.js') }}"></script>
+    <script>
+        // Immediate reveal activation safeguard to prevent any blank sections
+        (function() {
+            var reveals = document.querySelectorAll(".reveal");
+            for (var i = 0; i < reveals.length; i++) {
+                reveals[i].classList.add("active");
+            }
+        })();
+    </script>
     {% block scripts %}{% endblock %}
 </body>
 </html>
