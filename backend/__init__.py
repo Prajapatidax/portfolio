@@ -7,6 +7,46 @@ db = SQLAlchemy()
 migrate = Migrate()
 
 
+class VercelPathCorrectionMiddleware:
+    """
+    WSGI Middleware to restore client request PATH_INFO on Vercel.
+    When Vercel processes a rewrite rule (e.g. source /(.*) -> destination /api/index),
+    Vercel sets PATH_INFO to '/api/index' and passes the user's actual browser path in
+    headers such as 'x-matched-path' or 'x-forwarded-uri'.
+    This middleware restores PATH_INFO so Flask routes match correctly.
+    """
+    def __init__(self, wsgi_app):
+        self.wsgi_app = wsgi_app
+
+    def __call__(self, environ, start_response):
+        matched_path = (
+            environ.get("HTTP_X_MATCHED_PATH")
+            or environ.get("HTTP_X_FORWARDED_URI")
+            or environ.get("HTTP_X_VERCEL_FORWARDED_URI")
+        )
+        if not matched_path:
+            raw_uri = environ.get("RAW_URI", "")
+            if raw_uri and raw_uri not in ("/api/index", "/api/index.py", "/api", "/api/"):
+                matched_path = raw_uri
+
+        current_path = environ.get("PATH_INFO", "")
+
+        if current_path in ("/api/index", "/api/index.py", "/api", "/api/"):
+            if matched_path and matched_path not in ("/api/index", "/api/index.py", "/api", "/api/"):
+                clean_path = matched_path.split("?")[0]
+                environ["PATH_INFO"] = clean_path
+                if "?" in matched_path and not environ.get("QUERY_STRING"):
+                    environ["QUERY_STRING"] = matched_path.split("?", 1)[1]
+            else:
+                environ["PATH_INFO"] = "/"
+        elif matched_path and current_path.startswith("/api/index"):
+            clean_path = matched_path.split("?")[0]
+            environ["PATH_INFO"] = clean_path
+
+        environ["SCRIPT_NAME"] = ""
+        return self.wsgi_app(environ, start_response)
+
+
 def create_app(config_name=None):
     if config_name is None:
         if os.getenv("VERCEL"):
@@ -28,6 +68,9 @@ def create_app(config_name=None):
     # Apply ProxyFix middleware for reverse proxies (Vercel, Nginx, cloud load balancers)
     from werkzeug.middleware.proxy_fix import ProxyFix
     app.wsgi_app = ProxyFix(app.wsgi_app, x_for=1, x_proto=1, x_host=1, x_prefix=1)
+
+    # Apply Vercel path correction middleware for Vercel serverless rewrites
+    app.wsgi_app = VercelPathCorrectionMiddleware(app.wsgi_app)
 
     # Ensure engine options only apply to PostgreSQL
     if "postgresql" not in app.config.get("SQLALCHEMY_DATABASE_URI", ""):

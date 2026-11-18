@@ -60,3 +60,33 @@ def test_vercel_client_routes(client):
     # Resume Route
     resp = client.get("/Resume.pdf")
     assert resp.status_code == 200
+
+
+def test_vercel_rewrite_path_correction(client):
+    """
+    Test that VercelPathCorrectionMiddleware restores PATH_INFO correctly
+    when Vercel forwards requests to /api/index with x-matched-path header.
+    """
+    # 1. Root / homepage via Vercel rewrite
+    r_home = client.get("/api/index", headers={"x-matched-path": "/"})
+    assert r_home.status_code == 200
+    assert b"Dax Prajapati" in r_home.data
+
+    # 2. About page via Vercel rewrite
+    r_about = client.get("/api/index", headers={"x-matched-path": "/about"})
+    assert r_about.status_code == 200
+    assert b"About" in r_about.data
+
+    # 3. Design Showcase via Vercel rewrite
+    r_showcase = client.get("/api/index", headers={"x-matched-path": "/design-showcase"})
+    assert r_showcase.status_code == 200
+
+    # 4. Admin login page via Vercel rewrite
+    r_admin = client.get("/api/index", headers={"x-matched-path": "/admin/login/version/101"})
+    assert r_admin.status_code == 200
+    assert b"Sign In" in r_admin.data or b"Admin" in r_admin.data
+
+    # 5. Direct naked call to /api/index without header falls back to homepage
+    r_naked = client.get("/api/index")
+    assert r_naked.status_code == 200
+    assert b"Dax Prajapati" in r_naked.data
